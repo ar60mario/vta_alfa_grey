@@ -604,7 +604,7 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                 Comprobante compro = ap.getComprobante();
                 if (compro.getOriginal()) {
                     Abono ab = ap.getAbono();
-//99
+
 //                    Abono ab = null;
                     Integer tipoFact = ab.getTipoFacturacion();
                     if (tipoFact.equals(2)) { // 1 Factura por Mes
