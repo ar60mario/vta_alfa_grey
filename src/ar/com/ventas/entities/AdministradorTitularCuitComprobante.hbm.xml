@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.AdministradorTitularCuitComprobante" schema="ventas_tprl" table="administrador_titular_cuit_comprobante">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="administrador"
+                    class="ar.com.ventas.entities.Administrador"
+                     lazy="false">
+                     <column name="ID_ADMINISTRADOR" not-null="false"/>
+        </many-to-one>
+        <many-to-one name="titular"
+                    class="ar.com.ventas.entities.TitularCuit"
+                     lazy="false">
+                     <column name="ID_TITULAR_CUIT" not-null="false"/>
+        </many-to-one>
+        <many-to-one name="comprobante"
+                    class="ar.com.ventas.entities.Comprobante"
+                     lazy="false">
+                     <column name="ID_COMPROBANTE" not-null="false"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

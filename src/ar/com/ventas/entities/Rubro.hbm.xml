@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.Rubro" schema="ventas_tprl" table="rubro">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="codigo" type="integer" column="CODIGO"/>
+        <property name="detalle" type="string" column="DETALE"/>
+        <property name="importe" type="double" column="IMPORTE"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <property name="esAbono" type="boolean" column="ES_ABONO"/>
+        <property name="textoEnFactura" type="string" column="TEXTO_EN_FACTURA"/>
+        <many-to-one name="estructura"
+                    class="ar.com.ventas.entities.Estructura"
+                     lazy="false">
+                     <column name="ID_ESTRUCTURA" not-null="false"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

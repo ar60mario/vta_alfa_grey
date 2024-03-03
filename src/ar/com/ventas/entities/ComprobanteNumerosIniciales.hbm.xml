@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.ComprobanteNumerosIniciales" schema="ventas_tprl" table="comprobante_numeros_iniciales">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="nroCpbte" type="integer" column="NUMERO_COMPROBANTE"/>
+        <many-to-one name="titular"
+                    class="ar.com.ventas.entities.TitularCuit"
+                     lazy="false">
+                     <column name="ID_TITULAR_CUIT" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

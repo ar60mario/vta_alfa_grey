@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.Trabajo" schema="ventas_tprl" table="trabajo">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="fecha" type="date" column="FECHA"/>
+        <property name="cuota" type="integer" column="CUOTA"/>
+        <property name="textoEnFactura" type="string" column="TEXTO_EN_FACTURA"/>
+        <property name="facturaEmitida" type="boolean" column="FACTURA_EMITIDA"/>
+        <property name="reciboEmitido" type="boolean" column="RECIBO_EMITIDO"/>
+        <property name="pdfGenerado" type="boolean" column="PDF_GENERADO"/>
+        <property name="renovado" type="boolean" column="RENOVADO"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <many-to-one name="servicio"
+                    class="ar.com.ventas.entities.Servicio"
+                     lazy="false">
+                     <column name="ID_SERVICIO" not-null="false"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

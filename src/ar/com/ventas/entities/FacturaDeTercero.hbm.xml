@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.FacturaDeTercero" schema="ventas_tprl" table="factura_de_tercero">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="fecha" type="date" column="FECHA"/>
+        <property name="numero" type="integer" column="NUMERO"/>
+        <property name="proveedor" type="string" column="PROVEEDOR"/>
+        <property name="total" type="double" column="TOTAL"/>
+        <property name="importeCobrado" type="double" column="IMPORTE_COBRADO"/>
+        <property name="cobrada" type="boolean" column="COBRADA"/>
+        <property name="entregada" type="boolean" column="ENTREGADA"/>
+        <many-to-one name="consorcio"
+                    class="ar.com.ventas.entities.Consorcio"
+                     lazy="false">
+                     <column name="ID_CONSORCIO" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

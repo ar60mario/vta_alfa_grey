@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.RenglonTrabajo" schema="ventas_tprl" table="renglon_trabajo">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="fecha" type="date" column="FECHA"/>
+        <property name="codigoCampo" type="integer" column="CODIGO_CAMPO"/>
+        <property name="orden" type="integer" column="ORDEN"/>
+        <property name="campo" type="string" column="CAMPO"/>
+        <property name="contenido" type="string" column="CONTENIDO"/>
+        <property name="visible" type="boolean" column="VISIBLE"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <many-to-one name="trabajo"
+                    class="ar.com.ventas.entities.Trabajo"
+                     lazy="false">
+                     <column name="ID_TRABAJO" not-null="false"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

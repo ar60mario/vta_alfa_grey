@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.RcCo" schema="ventas_tprl" table="rc_co">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="totalRecibo" type="double" column="TOTAL_RECIBO"/>
+        <property name="totalComprobante" type="double" column="TOTAL_COMPROBANTE"/>
+        <many-to-one name="comprobante"
+                    class="ar.com.ventas.entities.Comprobante"
+                     lazy="false">
+                     <column name="ID_COMPROBANTE" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="recibo"
+                    class="ar.com.ventas.entities.Recibo"
+                     lazy="false">
+                     <column name="ID_RECIBO" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.TextoPeriodoReparacion" schema="ventas_tprl" table="texto_periodo_reparacion">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="llevaTextoPeriodo" type="boolean" column="LLEVA_TEXTO_PERIODO"/>
+        <property name="periodoMesActual" type="integer" column="PERIODO_MES_ACTUAL"/>
+        <many-to-one name="consorcio"
+                    class="ar.com.ventas.entities.Consorcio"
+                     lazy="false">
+                     <column name="ID_CONSORCIO" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="rubro"
+                    class="ar.com.ventas.entities.Rubro"
+                     lazy="false">
+                     <column name="ID_RUBRO" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

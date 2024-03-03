@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.FondoRecibo" schema="ventas_tprl" table="fondo_recibo">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="codigo" type="integer" column="CODIGO"/>
+        <property name="ubicacion" type="string" column="UBICACION"/>
+        <property name="empresa" type="string" column="EMPRESA"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <many-to-one name="titular"
+                    class="ar.com.ventas.entities.TitularCuit"
+                     lazy="false">
+                     <column name="ID_TITULAR_CUIT" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

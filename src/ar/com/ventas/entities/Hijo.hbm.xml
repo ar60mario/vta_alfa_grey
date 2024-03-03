@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.Hijo" schema="ventas_tprl" table="hijo">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="apellidoNombre" type="string" column="APELLIDO_NOMBRE"/>
+        <property name="nacimiento" type="date" column="NACIMIENTO"/>
+        <property name="dni" type="string" column="DNI"/>
+        <property name="cuil" type="string" column="CUIL"/>
+        <property name="otroPadre" type="string" column="OTRO_PADRE"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <many-to-one name="padre"
+                    class="ar.com.ventas.entities.Persona"
+                     lazy="false">
+                     <column name="ID_PADRE" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

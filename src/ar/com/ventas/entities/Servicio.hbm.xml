@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.Servicio" schema="ventas_tprl" table="servicio">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="fecha" type="date" column="FECHA"/>
+        <property name="ultimoTrabajo" type="date" column="FECHA_ULTIMO_TRABAJO"/>
+        <property name="cantidadCuotas" type="integer" column="CANTIDAD_CUOTAS"/>
+        <property name="periodicidad" type="integer" column="PERIODICIDAD"/>
+        <property name="caracteristicas" type="string" column="CARACTERISTICAS"/>
+        <property name="importe" type="double" column="IMPORTE"/>
+        <property name="fisicoQuimico" type="boolean" column="FISICO_QUIMICO"/>
+        <property name="bacteriologico" type="boolean" column="BACTERIOLOGICO"/>
+        <property name="trabajoCreado" type="boolean" column="TRABAJO_CREADO"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <many-to-one name="consorcio"
+                    class="ar.com.ventas.entities.Consorcio"
+                     lazy="false">
+                     <column name="ID_CONSORCIO" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="rubro"
+                    class="ar.com.ventas.entities.Rubro"
+                     lazy="false">
+                     <column name="ID_RUBRO" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="importe1"
+                    class="ar.com.ventas.entities.Importe"
+                     lazy="false">
+                     <column name="ID_IMPORTE_1" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="importe2"
+                    class="ar.com.ventas.entities.Importe"
+                     lazy="false">
+                     <column name="ID_IMPORTE_2" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

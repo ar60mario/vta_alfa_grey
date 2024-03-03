@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.Consorcio" schema="ventas_tprl" table="consorcio">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="codigo" type="integer" column="CODIGO"/>
+        <property name="nombre" type="string" column="NOMBRE"/>
+        <property name="documentoTipo" type="string" column="DOCUMENTO_TIPO"/>
+        <property name="cuit" type="string" column="CUIT"/>
+        <property name="tipoInscripcion" type="integer" column="TIPO_INSCRIPCION"/>
+        <property name="encargado" type="string" column="ENCARGADO"/>
+        <property name="horarioEncargado" type="string" column="HORARIO_ENCARGADO"/>
+        <property name="telefonoEncargado" type="string" column="TELEFONO_ENCARGADO"/>
+        <property name="encargado1" type="string" column="ENCARGADO_1"/>
+        <property name="horarioEncargado1" type="string" column="HORARIO_ENCARGADO_1"/>
+        <property name="telefonoEncargado1" type="string" column="TELEFONO_ENCARGADO_1"/>
+        <property name="telefonoPorteria" type="string" column="TELEFONO_PORTERIA"/>
+        <property name="telefonoConsejo" type="string" column="TELEFONO_CONSEJO"/>
+        <property name="cantidadDepartamentos" type="integer" column="CANTIDAD_DEPARTAMENTOS"/>
+        <property name="cantidadPisos" type="integer" column="CANTIDAD_PISOS"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <property name="observaciones" type="string" column="OBSERVACIONES"/>
+        <property name="saldo" type="double" column="SALDO"/>
+        <many-to-one name="domicilio"
+                    class="ar.com.ventas.entities.Domicilio"
+                     lazy="false">
+                     <column name="ID_DOMICILIO" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="administrador"
+                    class="ar.com.ventas.entities.Administrador"
+                     lazy="false">
+                     <column name="ID_ADMINISTRADOR" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

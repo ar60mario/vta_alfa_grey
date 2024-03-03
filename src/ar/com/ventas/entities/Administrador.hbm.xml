@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.Administrador" schema="ventas_tprl" table="administrador">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="codigo" type="integer" column="CODIGO"/>
+        <property name="cuit" type="string" column="CUIT"/>
+        <property name="razonSocial" type="string" column="RAZON_SOCIAL"/>
+        <property name="nombreAdministrador" type="string" column="NOMBRE_ADMINISTRADOR"/>
+        <property name="telefonoAdministracion" type="string" column="TELEFONO_ADMINISTRACION"/>
+        <property name="contacto" type="string" column="CONTACTO"/>
+        <property name="telefono" type="string" column="TELEFONO"/>
+        <property name="contacto1" type="string" column="CONTACTO_1"/>
+        <property name="telefono1" type="string" column="TELEFONO_1"/>
+        <property name="telefono2" type="string" column="TELEFONO_2"/>
+        <property name="contacto2" type="string" column="CONTACTO_2"/>
+        <property name="mail" type="string" column="MAIL"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <property name="pagaMesCorriente" type="boolean" column="PAGA_MES_CORRIENTE"/>
+        <property name="observaciones" type="string" column="OBSERVACIONES"/>
+        <many-to-one name="domicilio"
+                    class="ar.com.ventas.entities.Domicilio"
+                     lazy="false">
+                     <column name="ID_DOMICILIO" not-null="false"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

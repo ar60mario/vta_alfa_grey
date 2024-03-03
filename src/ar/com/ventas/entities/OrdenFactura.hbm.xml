@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.OrdenFactura" schema="ventas_tprl" table="orden_factura">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="importe" type="double" column="IMPORTE"/>
+        <property name="cantidadCuotas" type="integer" column="CANTIDAD_CUOTAS"/>
+        <property name="cobranzaPorRecibo" type="boolean" column="COBRANZA_POR_RECIBO"/>
+        <property name="textoFactura" type="string" column="TEXTO_FACTURA"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <many-to-one name="trabajo"
+                    class="ar.com.ventas.entities.Trabajo"
+                     lazy="false">
+                     <column name="ID_TRABAJO" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

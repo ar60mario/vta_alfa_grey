@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.ComprobanteRenglones" schema="ventas_tprl" table="comprobante_renglones">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="detalle" type="string" column="DETALLE"/>
+        <property name="importe" type="double" column="IMPORTE"/>
+        
+        <many-to-one name="comprobante"
+                    class="ar.com.ventas.entities.Comprobante"
+                     lazy="false">
+                     <column name="ID_COMPROBANTE" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

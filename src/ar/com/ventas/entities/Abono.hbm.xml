@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.Abono" schema="ventas_tprl" table="abono">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="codigo" type="integer" column="CODIGO"/>
+        <property name="fechaInicio" type="date" column="FECHA_INICIO"/>
+        <property name="fechaPeriodo" type="date" column="FECHA_PERIODO"/>
+        <property name="cuotaFacturada" type="integer" column="CUOTA_FACTURADA"/>
+        <property name="renovado" type="boolean" column="RENOVADO"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <property name="pendiente" type="boolean" column="PENDIENTE"/>
+        <property name="importe" type="double" column="IMPORTE"/>
+        <property name="cuotas" type="integer" column="CUOTAS"/>
+        <property name="frecuencia" type="integer" column="FRECUENCIA"/>
+        <property name="tipoFacturacion" type="integer" column="TIPO_FACTURACION"/>
+        <property name="textoPeriodo" type="integer" column="TEXTO_PERIODO"/>
+        <property name="original" type="integer" column="ORIGINAL"/>
+        <many-to-one name="consorcio"
+                     class="ar.com.ventas.entities.Consorcio"
+                     lazy="false">
+            <column name="ID_CONSORCIO" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="rubro"
+                     class="ar.com.ventas.entities.Rubro"
+                     lazy="false">
+            <column name="ID_RUBRO" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="titular"
+                     class="ar.com.ventas.entities.TitularCuit"
+                     lazy="false">
+            <column name="ID_TITULAR_CUIT" not-null="false"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

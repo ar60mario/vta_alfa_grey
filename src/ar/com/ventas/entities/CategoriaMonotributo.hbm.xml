@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.CategoriaMonotributo" schema="ventas_tprl" table="categoria_monotributo">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="categoria" type="string" column="CATEGORIA"/>
+        <property name="fechaActualizacion" type="date" column="FECHA_ACTUALIZACION"/>
+        <property name="ingresosBrutos" type="double" column="INGRESOS_BRUTOS"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+    </class>
+</hibernate-mapping>

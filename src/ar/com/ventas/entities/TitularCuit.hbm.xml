@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.TitularCuit" schema="ventas_tprl" table="titular_cuit">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="nombreFantasia" type="string" column="NOMBRE_FANTASIA"/>
+        <property name="fechaInicioActividades" type="date" column="FECHA_INICIO_ACTIVIDADES"/>
+        <property name="cuit" type="string" column="CUIT"/>
+        <property name="iibb" type="string" column="IIBB"/>
+        <property name="telefono" type="string" column="TELEFONO"/>
+        <property name="mail" type="string" column="MAIL"/>
+        <property name="tipoInscipcion" type="integer" column="TIPO_INSCRIPCION"/>
+        <property name="sucursal" type="integer" column="SUCURSAL"/>
+        <property name="ultimoNroFcA" type="integer" column="ULTIMO_NRO_FC_A"/>
+        <property name="ultimoNroFcB" type="integer" column="ULTIMO_NRO_FC_B"/>
+        <property name="ultimoNroFcC" type="integer" column="ULTIMO_NRO_FC_C"/>
+        <property name="ultimoNroNcA" type="integer" column="ULTIMO_NRO_NC_A"/>
+        <property name="ultimoNroNcB" type="integer" column="ULTIMO_NRO_NC_B"/>
+        <property name="ultimoNroNcC" type="integer" column="ULTIMO_NRO_NC_C"/>
+        <property name="ultimoNroRc" type="integer" column="ULTIMO_NRO_RC"/>
+        <property name="ultimoNroPp" type="integer" column="ULTIMO_NRO_Pp"/>
+        <property name="observaciones" type="string" column="OBSERVACIONES"/>
+        <property name="logo" type="string" column="LOGO"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <property name="categoria" type="string" column="CATEGORIA"/>
+        <property name="limiteFacturar" type="double" column="LIMITE_FACTURAR"/>
+        <many-to-one name="persona"
+                    class="ar.com.ventas.entities.Persona"
+                     lazy="false">
+                     <column name="ID_PERSONA" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="domicilio"
+                    class="ar.com.ventas.entities.Domicilio"
+                     lazy="false">
+                     <column name="ID_DOMICILIO" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

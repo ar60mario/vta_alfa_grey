@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.Persona" schema="ventas_tprl" table="persona">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="codigo" type="integer" column="CODIGO"/>
+        <property name="apellidoNombre" type="string" column="APELLIDO_NOMBRE"/>
+        <property name="dni" type="string" column="DNI"/>
+        <property name="esTitularCuit" type="boolean" column="ES_TITULAR_CUIT"/>
+        <property name="esEmpleado" type="boolean" column="ES_EMPLEADO"/>
+        <property name="fechaNacimiento" type="date" column="FECHA_NACIMIENTO"/>
+        <property name="fechaIngreso" type="date" column="FECHA_INGRESO"/>
+        <property name="fechaBaja" type="date" column="FECHA_BAJA"/>
+        <property name="cuil" type="string" column="CUIL"/>
+        <property name="estadoCivil" type="integer" column="ESTADO_CIVIL"/>
+        <property name="apellidoNombrePareja" type="string" column="APELLIDO_NOMBRE_PAREJA"/>
+        <property name="dniPareja" type="string" column="DNI_PAREJA"/>
+        <property name="claveFiscal" type="string" column="CLAVE_FISCAL"/>
+        <property name="fechaNacimientoPareja" type="date" column="FECHA_NACIMIENTO_PAREJA"/>
+        <property name="telefono" type="string" column="TELEFONO"/>
+        <property name="mail" type="string" column="MAIL"/>
+        <property name="observaciones" type="string" column="OBSERVACIONES"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+        <many-to-one name="domicilio"
+                    class="ar.com.ventas.entities.Domicilio"
+                     lazy="false">
+                     <column name="ID_DOMICILIO" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

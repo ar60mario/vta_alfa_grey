@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.Configuracion" schema="ventas_tprl" table="configuracion">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="nroRecibo" type="integer" column="NRO_RECIBO"/>
+        <property name="nroCertificado" type="integer" column="NRO_CERTIFICADO"/>
+        <property name="nroRenovaciones" type="integer" column="NRO_RENOVACIONES"/>
+        <property name="nroLaboratorio" type="integer" column="NRO_LABORATORIO"/>
+        <property name="nroPersonas" type="integer" column="NRO_PERSONAS"/>
+        <property name="nroFc" type="integer" column="NRO_FACTURA"/>
+        <property name="nroRx" type="integer" column="NRO_RECIBO_X"/>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.Estructura" schema="ventas_tprl" table="estructura">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="nombre" type="string" column="NOMBRE"/>
+        <property name="textoFactura" type="string" column="TEXTO_FACTURA"/>
+        <property name="observaciones" type="string" column="OBSERVACIONES"/>
+        <property name="activo" type="boolean" column="ACTIVO"/>
+    </class>
+</hibernate-mapping>

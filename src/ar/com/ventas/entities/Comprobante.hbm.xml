@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.Comprobante" schema="ventas_tprl" table="comprobante">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="cuitTitular" type="string" column="CUIT_TITULAR"/>
+        <property name="razonSocialTitular" type="string" column="RAZON_SOCIAL_TITULAR"/>
+        <property name="iibb" type="string" column="IIBB"/>
+        <property name="fechaInicioActividades" type="date" column="FECHA_INICIO_ACTIVIDADES"/>
+        <property name="domicilioTitular" type="string" column="DOMICILIO_TITULAR"/>
+        <property name="codigoPostalAndLocalidadTitular" type="string" column="CODIGO_POSTAL_AND_LOCALIDAD_TITULAR"/>
+        <property name="provinciaTitular" type="string" column="PROVINCIA_TITULAR"/>
+        <property name="codigoComprobante" type="integer" column="CODIGO_COMPROBANTE"/>
+        <property name="fecha" type="date" column="FECHA"/>
+        <property name="fechaPeriodoDesde" type="date" column="FECHA_PERIODO_DESDE"/>
+        <property name="fechaPeriodoHasta" type="date" column="FECHA_PERIODO_HASTA"/>
+        <property name="fechaVencimientoPago" type="date" column="FECHA_VENCIMIENTO_PAGO"/>
+        <property name="letra" type="string" column="LETRA"/>
+        <property name="periodo" type="string" column="PERIODO"/>
+        <property name="pdfGenerado" type="boolean" column="PDF_GENERADO"/>
+        <property name="sucursal" type="integer" column="SUCURSAL"/>
+        <property name="numero" type="integer" column="NUMERO"/>
+        <property name="razonSocialCliente" type="string" column="RAZON_SOCIAL_CLIENTE"/>
+        <property name="calleNroPisoDtoCliente" type="string" column="CALLE_NRO_PISO_DTO_CLIENTE"/>
+        <property name="codigoPostalAndLocalidadCliente" type="string" column="CODIGO_POSTAL_AND_LOCALIDAD_CLIENTE"/>
+        <property name="provinciaCliente" type="string" column="PROVINCIA_CLIENTE"/>
+        <property name="tipoDocumento" type="string" column="TIPO_DOCUMENTO"/>
+        <property name="cuitCliente" type="string" column="CUIT_CLIENTE"/>
+        <property name="codigoCliente" type="integer" column="CODIGO_CLIENTE"/>
+        <property name="tipoInscripcion" type="string" column="TIPO_INSCRIPCION"/>
+        <property name="gravado" type="double" column="GRAVADO"/>
+        <property name="iva" type="double" column="IVA"/>
+        <property name="total" type="double" column="TOTAL"/>
+        <property name="pagado" type="double" column="PAGADO"/>
+        <property name="cantidadCuotas" type="integer" column="CANTIDAD_CUOTAS"/>
+        <property name="cuotasPagadas" type="integer" column="CUOTAS_PAGADAS"/>
+        <property name="cae" type="long" column="CAE"/>
+        <property name="fechaVencimientoCae" type="date" column="FECHA_VENCIMIENTO_CAE"/>
+        <property name="tipoComprobanteAsociado" type="integer" column="TIPO_COMPROBANTE_ASOCIADO"/>
+        <property name="letraComprobanteAsociado" type="string" column="LETRA_COMPROBANTE_ASOCIADO"/>
+        <property name="sucursalComprobanteAsociado" type="integer" column="SUCURSAL_COMPROBANTE_ASOCIADO"/>
+        <property name="numeroComprobanteAsociado" type="integer" column="NUMERO_COMPROBANTE_ASOCIADO"/>
+        <property name="tipoEmision" type="integer" column="TIPO_EMISION"/>
+        <property name="texto1" type="string" column="TEXTO_1"/>
+        <property name="texto2" type="string" column="TEXTO_2"/>
+        <property name="productoServicio" type="integer" column="PRODUCTO_SERVICIO"/>
+        <property name="id_original" type="long" column="ID_ORIGINAL"/>
+        <property name="original" type="boolean" column="ORIGINAL"/>
+        <property name="id_administrador" type="long" column="ID_ADMINISTRADOR"/>
+        <property name="cuotaSiguienteFacturada" type="boolean" column="CUOTA_SIGUIENTE_FACTURADA"/>
+        <property name="periodoHabilitado" type="boolean" column="PERIODO_HABILITADO"/>
+        <many-to-one name="rubro"
+                    class="ar.com.ventas.entities.Rubro"
+                     lazy="false">
+                     <column name="ID_RUBRO" not-null="false"/>
+        </many-to-one>
+        <many-to-one name="fondo"
+                    class="ar.com.ventas.entities.FondoRecibo"
+                     lazy="false">
+                     <column name="ID_FONDO_RECIBO" not-null="false"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

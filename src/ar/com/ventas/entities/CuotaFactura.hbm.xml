@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ar.com.ventas.entities.CuotaFactura" schema="ventas_tprl" table="cuota_factura">
+        <id name="id" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="fechaDeVencimiento" type="date" column="FECHA_VENCIMIENTO"/>
+        <property name="importeCuota" type="double" column="IMPORTE_CUOTA"/>
+        <property name="importePagado" type="double" column="IMPORTE_PAGADO"/>
+        <property name="cancelada" type="boolean" column="CANCELADA"/>
+        <many-to-one name="comprobante"
+                    class="ar.com.ventas.entities.Comprobante"
+                     lazy="false">
+                     <column name="ID_COMPROBANTE" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>
