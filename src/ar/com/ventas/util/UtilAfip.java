@@ -81,7 +81,7 @@ public class UtilAfip {
     private final String qr_tipoCodAutoriz = "E";
     private static String qr_codigoAutoriz;
     private static final Integer tst = 0; // si esta en 1 es test
-    private static int xxx = 0; // 0 esta en test
+    private static int xxx = 1; // 1 esta en test
     private static ActiveXComponent wsaa = new ActiveXComponent("WSAA");
 
     private static TicketTime generarTicket(String certif, String llave) {

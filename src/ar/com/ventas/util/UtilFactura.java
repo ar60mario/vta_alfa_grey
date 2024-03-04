@@ -125,29 +125,29 @@ public class UtilFactura {
 //            letra = "C";
 //        }
         Integer tipoComprobante = 11;
-            if(tc.getTipoInscipcion().equals(6)){
-                tipoComprobante = 11;
-                letra = "C";
+        if (tc.getTipoInscipcion().equals(6)) {
+            tipoComprobante = 11;
+            letra = "C";
+        }
+        if (tc.getTipoInscipcion().equals(1)) {
+            Integer inscrCons = cliente.getTipoInscripcion();
+            if (inscrCons.equals(1)) {
+                tipoComprobante = 1;
+                letra = "A";
             }
-            if(tc.getTipoInscipcion().equals(1)){
-                Integer inscrCons = cliente.getTipoInscripcion();
-                if(inscrCons.equals(1)){
-                    tipoComprobante = 1;
-                    letra = "A";
-                }
-                if(inscrCons.equals(6)){
-                    tipoComprobante = 1;
-                    letra = "A";
-                }
-                if(inscrCons.equals(4)){
-                    tipoComprobante = 6;
-                    letra = "B";
-                }
-                if(inscrCons.equals(5)){
-                    tipoComprobante = 6;
-                    letra = "B";
-                }
+            if (inscrCons.equals(6)) {
+                tipoComprobante = 1;
+                letra = "A";
             }
+            if (inscrCons.equals(4)) {
+                tipoComprobante = 6;
+                letra = "B";
+            }
+            if (inscrCons.equals(5)) {
+                tipoComprobante = 6;
+                letra = "B";
+            }
+        }
         String resultado = "N";
         if (letra.equals("C")) {
             NuevoCae nuevoCae = UtilAfip.getNuevoCaeFcC(cliente, tc, abono, da1, da2, da3, da4, ps);
@@ -279,13 +279,18 @@ public class UtilFactura {
                         Logger.getLogger(UtilFactura.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+            } else {
+                Domicilio dm = cliente.getDomicilio();
+                String calle = dm.getCalle() + " " + dm.getNumero();
+                JOptionPane.showMessageDialog(null, "NO SE GENERO CAE NUEVO " + calle);
+                resultado = "N";
             }
         } else {
-            if(letra.equals("A")){
-                
+            if (letra.equals("A")) {
+
             } else {
                 // letra es B
-                
+
             }
         }
         return resultado;
@@ -603,6 +608,7 @@ public class UtilFactura {
 //        System.exit(0);
 
         String cuitTc1 = ultFcConsQueSeFactura.getCuitTitular();
+
         Comprobante ultFcConsVinculado;
         try {
             ultFcConsVinculado = new ComprobanteService().getComprobantesByConsorcioAndRubro(consorcioVinculado, rubro);
@@ -618,6 +624,12 @@ public class UtilFactura {
         String cuitTc2 = ultFcConsVinculado.getCuitTitular();
         Double importe;
         if (cuitTc1.equals(cuitTc2)) { // titulares iguales OK
+            if (!verificarTitularActivo(cuitTc1)) {
+                JOptionPane.showMessageDialog(null, "EL TITULAR ESTA INACTIVO "
+                        + ultFcConsQueSeFactura.getCalleNroPisoDtoCliente());
+                return "N";
+            }
+
 //            importe = ultFcConsVinculado.getTotal();
             //ultFcConsQueSeFactura
             importe = ultFcConsQueSeFactura.getTotal();
@@ -956,5 +968,9 @@ public class UtilFactura {
         }
 
         return resultado;
+    }
+
+    private static boolean verificarTitularActivo(String cuitTc1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

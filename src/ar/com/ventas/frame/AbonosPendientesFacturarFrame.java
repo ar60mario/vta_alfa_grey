@@ -391,7 +391,7 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                     abonos = new AbonoService().getAbonosActivosPendientesOrdenadoByRubro(r);
                     break;
                 case 3: // 
-                    
+
                 case 4: // FUMIGACION
                     abonos = new AbonoService().getAbonosActivosPendientesOrdenadoByRubro4(r);
                     break;
@@ -469,20 +469,20 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                         Long mst = comprobante.getId_original();
                         comprobanteMaster = null;
                         consorcioVinculado = null;
-                        Integer codi=0;
+                        Integer codi = 0;
                         try {
                             comprobanteMaster = new ComprobanteService().getComprobanteById(mst);
-                            
+
                         } catch (Exception ex) {
                             Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
-                            System.out.println("ID MASTER"+mst);
+                            System.out.println("ID MASTER" + mst);
                             JOptionPane.showMessageDialog(this, "VERIFIQUE 2 ");
                             //System.out.println(codi);
                             return;
                         }
                         try {
-                        codi = comprobanteMaster.getCodigoCliente();
-                        } catch (Exception ex){
+                            codi = comprobanteMaster.getCodigoCliente();
+                        } catch (Exception ex) {
                             System.out.println(mst);
 //                            System.out.println(comprobanteMaster.getId());
 //                            JOptionPane.showMessageDialog(this, "VERIFIQUE CODI ");
@@ -493,7 +493,7 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                             consorcioVinculado = new ConsorcioService().getConsorcioByCodigo(codi);
                         } catch (Exception ex) {
                             Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
-                            System.out.println("codigo "+codi);
+                            System.out.println("codigo " + codi);
                             System.out.println(comprobanteMaster.getCalleNroPisoDtoCliente());
                             JOptionPane.showMessageDialog(this, "VERIFIQUE 3 ");
                             //System.out.println(codi);
@@ -624,12 +624,19 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                     Consorcio consorcio = ab.getConsorcio();
                     if (ap.getTitular() != null) {
                         TitularCuit titular = ap.getTitular();
-                        if(titular.getActivo()){
-                        ab.setPendiente(false);
-                        String resultado = UtilFactura.saveFactura(consorcio, titular,
-                                ab, ra, fecha, fecha_periodo_dde, fecha_periodo_hta, fecha_vencim, ps);
+                        if (titular.getActivo()) {
+                            ab.setPendiente(false);
+                            String resultado = UtilFactura.saveFactura(consorcio, titular,
+                                    ab, ra, fecha, fecha_periodo_dde, fecha_periodo_hta, fecha_vencim, ps);
+                            if (resultado.equals("N")) {
+                                JOptionPane.showMessageDialog(this, "ERROR FACTURACION ORIGINAL");
+                                return;
+                            }
                         } else {
-                            
+                            Domicilio dm = consorcio.getDomicilio();
+                            String calle = dm.getCalle() + " " + dm.getNumero();
+                            JOptionPane.showMessageDialog(this, "TITULAR QUE FACTURA ESTA INACTIVO" + calle);
+                            return;
                         }
                     }
                 }
@@ -654,11 +661,19 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                     }
                     Consorcio consorcioOriginal = ap.getConsorcioVinculado();
                     Consorcio consorcio = ab.getConsorcio();
+                    
                     ab.setPendiente(false);
                     String resultado = UtilFactura.saveFacturaVinculada(consorcioOriginal, consorcio,
                             ab, ra);
                     if (resultado.equals("4")) {
-                        JOptionPane.showMessageDialog(this, "AJUSTE EL ABONO PARA QUE COINCIDA CON LA FACTURA ASIGNADA");
+                        JOptionPane.showMessageDialog(this, "AJUSTE EL ABONO PARA QUE COINCIDA CON LA FACTURA ASIGNADA ");
+                        return;
+                    }
+                    if(!resultado.equals("A")){
+                        Consorcio cns = ab.getConsorcio();
+                        Domicilio dm = cns.getDomicilio();
+                        String calle = dm.getCalle() + " " + dm.getNumero();
+                        JOptionPane.showMessageDialog(this, "ERROR VINCULANDO " + resultado + " " + calle);
                         return;
                     }
                     System.out.println(resultado);

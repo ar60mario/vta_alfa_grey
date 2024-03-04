@@ -14,6 +14,7 @@ import ar.com.ventas.entities.RenglonAbono;
 import ar.com.ventas.entities.TicketTime;
 import ar.com.ventas.entities.TitularCuit;
 import ar.com.ventas.estructuras.Constantes;
+import ar.com.ventas.estructuras.MenuTest;
 import ar.com.ventas.estructuras.Mes;
 import ar.com.ventas.frame.AbmAbonosFrame;
 import ar.com.ventas.frame.TrabajosPendientesFrame;
@@ -145,6 +146,8 @@ public class MainFrame extends javax.swing.JFrame {
         sinRenglonesBtn.setVisible(true);
         recibosAlFinDeAnioBtn.setVisible(false);
         tstBtn.setVisible(false);
+//        String fromDb = "abmAbonos";
+//        MenuTest.A.
     }
 
     /**
@@ -1237,7 +1240,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void sinRenglonesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinRenglonesBtnActionPerformed
         buscarSinRenglones();
-        
+
     }//GEN-LAST:event_sinRenglonesBtnActionPerformed
 
     private void recibosAbonosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recibosAbonosBtnActionPerformed
@@ -1763,7 +1766,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (abonos != null && !abonos.isEmpty()) {
             for (Comprobante ab : abonos) {
                 List<ComprobanteRenglones> renglones = null;
-                Double tt1=0.0;
+                Double tt1 = 0.0;
                 try {
                     renglones = new ComprobanteRenglonesService().getRenglonesPorComprobante(ab);
                 } catch (Exception ex) {
