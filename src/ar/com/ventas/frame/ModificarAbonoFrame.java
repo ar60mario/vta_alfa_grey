@@ -768,14 +768,7 @@ public class ModificarAbonoFrame extends javax.swing.JFrame {
             pendienteChk.setSelected(false);
         }
         int rowCu = abono.getCuotas();
-        int rowPe;
-        if (abono.getTextoPeriodo() != null) {
-            rowPe = abono.getTextoPeriodo();
-            rowPe += 1;
-        } else {
-            rowPe = 0;
-        }
-        comboPe.setSelectedIndex(rowPe);
+
         comboCu.setSelectedIndex(rowCu);
         importeTxt.setText(df.format(abono.getImporte()));
         valorCuotaTxt.setText(df.format(abono.getImporte() / abono.getCuotas()));
@@ -861,6 +854,14 @@ public class ModificarAbonoFrame extends javax.swing.JFrame {
         } else {
             fechaPeriodoTxt.setText(sdf.format(new Date()));
         }
+        int rowPe;
+        if (abono.getTextoPeriodo() != null) {
+            rowPe = abono.getTextoPeriodo();
+            rowPe += 1;
+        } else {
+            rowPe = 0;
+        }
+        comboPe.setSelectedIndex(rowPe);
     }
 
     private void cargarTexto(int i) {

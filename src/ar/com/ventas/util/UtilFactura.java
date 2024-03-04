@@ -971,6 +971,13 @@ public class UtilFactura {
     }
 
     private static boolean verificarTitularActivo(String cuitTc1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TitularCuit titularCuit = null;
+        try {
+            titularCuit = new TitularCuitService().getTitularByCuit(cuitTc1);
+        } catch (Exception ex) {
+            Logger.getLogger(UtilFactura.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return titularCuit.getActivo();
     }
 }
