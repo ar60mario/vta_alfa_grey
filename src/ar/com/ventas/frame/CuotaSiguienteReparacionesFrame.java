@@ -68,7 +68,8 @@ public class CuotaSiguienteReparacionesFrame extends javax.swing.JFrame {
         sacarBtn = new javax.swing.JButton();
         volverBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("GENERAR CUOTAS SIGUIENTE EN REPARACIONES");
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

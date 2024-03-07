@@ -86,6 +86,8 @@ public class ConsorcioDAO extends GenericDAO {
         criteria.add(Restrictions.eq("activo", true));
         Criteria criteria1 = criteria.createCriteria("domicilio");
         criteria1.add(Restrictions.like("calle", "%" + filtro + "%"));
+        criteria1.addOrder(Order.asc("calle"));
+        criteria1.addOrder(Order.asc("numero"));
         return (List<Consorcio>) criteria.list();
     }
 

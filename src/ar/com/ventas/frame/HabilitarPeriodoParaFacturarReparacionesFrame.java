@@ -24,10 +24,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class HabilitarPeriodoParaFacturarReparacionesFrame extends javax.swing.JFrame {
 
-    private DecimalFormat df = new DecimalFormat();
-    private SimpleDateFormat sdf = new SimpleDateFormat();
+    private DecimalFormat df = new DecimalFormat("#0.00");
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     List<Comprobante> comprobantes;
-    
+
     /**
      * Creates new form HabilitarPeriodoParaFacturarReparacionesFrame
      */
@@ -77,11 +77,11 @@ public class HabilitarPeriodoParaFacturarReparacionesFrame extends javax.swing.J
 
             },
             new String [] {
-                "CONSORCIO", "FECHA", "LETRA", "NUMERO", "CUOTA", "CUOTAS", "IMPORTE"
+                "CONSORCIO", "FECHA", "LETRA", "NUMERO", "CUOTA", "CUOTAS", "IMPORTE", "RUBRO"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -89,6 +89,16 @@ public class HabilitarPeriodoParaFacturarReparacionesFrame extends javax.swing.J
             }
         });
         jScrollPane1.setViewportView(tabla);
+        if (tabla.getColumnModel().getColumnCount() > 0) {
+            tabla.getColumnModel().getColumn(0).setPreferredWidth(200);
+            tabla.getColumnModel().getColumn(1).setPreferredWidth(60);
+            tabla.getColumnModel().getColumn(2).setPreferredWidth(20);
+            tabla.getColumnModel().getColumn(3).setPreferredWidth(30);
+            tabla.getColumnModel().getColumn(4).setPreferredWidth(20);
+            tabla.getColumnModel().getColumn(5).setPreferredWidth(20);
+            tabla.getColumnModel().getColumn(6).setPreferredWidth(60);
+            tabla.getColumnModel().getColumn(7).setPreferredWidth(150);
+        }
 
         sacarBtn.setText("SACAR");
         sacarBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -185,19 +195,20 @@ public class HabilitarPeriodoParaFacturarReparacionesFrame extends javax.swing.J
     // End of variables declaration//GEN-END:variables
 
     private void llenarTabla() {
-        
+
         UtilFrame.limpiarTabla(tabla);
-        if(comprobantes != null && !comprobantes.isEmpty()){
+        if (comprobantes != null && !comprobantes.isEmpty()) {
             DefaultTableModel tbl = (DefaultTableModel) tabla.getModel();
-            for(Comprobante co:comprobantes){
-                Object o[] = new Object[7];
-                o[0]=co.getCalleNroPisoDtoCliente();
-                o[1]=sdf.format(co.getFecha());
-                o[2]=co.getLetra();
-                o[3]=co.getNumero();
-                o[4]=co.getCuotasPagadas();
-                o[5]=co.getCantidadCuotas();
-                o[6]=df.format(co.getTotal());
+            for (Comprobante co : comprobantes) {
+                Object o[] = new Object[8];
+                o[0] = co.getCalleNroPisoDtoCliente();
+                o[1] = sdf.format(co.getFecha());
+                o[2] = co.getLetra();
+                o[3] = co.getNumero();
+                o[4] = co.getCuotasPagadas();
+                o[5] = co.getCantidadCuotas();
+                o[6] = df.format(co.getTotal());
+                o[7] = co.getRubro().getDetalle();
                 tbl.addRow(o);
             }
             tabla.setModel(tbl);
@@ -211,8 +222,8 @@ public class HabilitarPeriodoParaFacturarReparacionesFrame extends javax.swing.J
     }
 
     private void habilitar() {
-        if(comprobantes != null && !comprobantes.isEmpty()){
-            for(Comprobante com:comprobantes){
+        if (comprobantes != null && !comprobantes.isEmpty()) {
+            for (Comprobante com : comprobantes) {
                 com.setPeriodoHabilitado(true);
                 try {
                     new ComprobanteService().updateComprobante(com);

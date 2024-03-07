@@ -110,13 +110,25 @@ public class ComprobanteDAO extends GenericDAO {
         return (List<Comprobante>) criteria.list();
     }
 
-    public List<Comprobante> getComprobantesActivosReparacionParaRenovar2() {
+    public List<Comprobante> getComprobantesActivosReparacionParaRenovar21() {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Comprobante.class);
         criteria.add(Restrictions.eq("tipoEmision", 4));
         criteria.add(Restrictions.eqOrIsNull("periodoHabilitado", false));
         criteria.add(Restrictions.eqOrIsNull("cuotaSiguienteFacturada", false));
         criteria.add(Restrictions.neProperty("cuotasPagadas", "cantidadCuotas"));
+        criteria.addOrder(Order.asc("calleNroPisoDtoCliente"));
+        criteria.addOrder(Order.asc("fecha"));
+        return (List<Comprobante>) criteria.list();
+    }
+
+    public List<Comprobante> getComprobantesActivosReparacionParaRenovar2() {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Criteria criteria = session.createCriteria(Comprobante.class);
+        criteria.add(Restrictions.and(Restrictions.eq("tipoEmision", 4),
+                (Restrictions.eq("periodoHabilitado", false)),
+                (Restrictions.eq("cuotaSiguienteFacturada", false)),
+                Restrictions.neProperty("cuotasPagadas", "cantidadCuotas")));
         criteria.addOrder(Order.asc("calleNroPisoDtoCliente"));
         criteria.addOrder(Order.asc("fecha"));
         return (List<Comprobante>) criteria.list();
@@ -129,8 +141,8 @@ public class ComprobanteDAO extends GenericDAO {
         criteria.add(Restrictions.eq("cuotaSiguienteFacturada", false));
         criteria.add(Restrictions.gt("cantidadCuotas", 1));
         criteria.add(Restrictions.neProperty("cuotasPagadas", "cantidadCuotas"));
-        criteria.add(Restrictions.eqOrIsNull("periodoHabilitado", true));
-        criteria.addOrder(Order.asc("id"));
+        criteria.add(Restrictions.eq("periodoHabilitado", true));
+        criteria.addOrder(Order.asc("calleNroPisoDtoCliente"));
         return (List<Comprobante>) criteria.list();
     }
 
@@ -345,9 +357,9 @@ public class ComprobanteDAO extends GenericDAO {
         facturas = (List<Comprobante>) session.createCriteria(Comprobante.class)
                 .add(Restrictions.or(
                         Restrictions.eq("id_original", id),
-                         Restrictions.eq("id", id))
+                        Restrictions.eq("id", id))
                 )
-                        .list();
+                .list();
         return facturas;
     }
 

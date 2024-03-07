@@ -22,7 +22,7 @@ public class VersionFrame extends javax.swing.JFrame {
         getContentPane().setBackground(new java.awt.Color(Constantes.getR(), Constantes.getG(), Constantes.getB()));
 //        setExtendedState(this.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
-        String ver = "MARZO 4 de 2024-g";
+        String ver = "MARZO 8 de 2024-a";
         versionTxt.setText(ver);
         volverBtn.requestFocus();
     }
