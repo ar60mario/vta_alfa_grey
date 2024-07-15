@@ -1,20 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.main;
 
-import ar.com.ventas.entities.Comprobante;
-import ar.com.ventas.entities.ComprobanteRenglones;
 import ar.com.ventas.entities.Consorcio;
 import ar.com.ventas.entities.Domicilio;
-import ar.com.ventas.entities.NuevoCae;
-import ar.com.ventas.entities.RenglonAbono;
-import ar.com.ventas.entities.TicketTime;
-import ar.com.ventas.entities.TitularCuit;
 import ar.com.ventas.estructuras.Constantes;
-import ar.com.ventas.estructuras.MenuTest;
 import ar.com.ventas.estructuras.Mes;
 import ar.com.ventas.frame.AbmAbonosFrame;
 import ar.com.ventas.frame.TrabajosPendientesFrame;
@@ -28,7 +16,9 @@ import ar.com.ventas.frame.AbmPersonaFrame;
 import ar.com.ventas.frame.AbmPreciosFrame;
 import ar.com.ventas.frame.AbmRubrosFrame;
 import ar.com.ventas.frame.AbmTextoPredefinidoFrame;
+import ar.com.ventas.frame.AbonosNoConsecutivosFrame;
 import ar.com.ventas.frame.AbonosPendienteFacturarFrame;
+import ar.com.ventas.frame.AbonosSinRenglonesFrame;
 import ar.com.ventas.frame.AsignadasAndOriginalesFrame;
 import ar.com.ventas.frame.AsignadosPorRubroFrame;
 import ar.com.ventas.frame.AsignarFacturaFrame;
@@ -42,18 +32,21 @@ import ar.com.ventas.frame.CuentaCorrienteClienteFrame;
 import ar.com.ventas.frame.CuentaCorrienteClienteFrame1;
 import ar.com.ventas.frame.CuotaAbonoFrame;
 import ar.com.ventas.frame.CuotaSiguienteReparacionesFrame;
+import ar.com.ventas.frame.CuotaSiguienteReparacionesMismoTitularFrame;
+import ar.com.ventas.frame.CuotasDeReparacionesFrame;
 import ar.com.ventas.frame.CuotasFrame;
 import ar.com.ventas.frame.DefinirCamposEstructuraFrame;
-import ar.com.ventas.frame.FacturaReparacion2Frame;
+import ar.com.ventas.frame.FacturaReparacionSeleccionFrame;
 import ar.com.ventas.frame.FacturarAbonos2Frame;
-import ar.com.ventas.frame.FacturarAbonosFrame;
 import ar.com.ventas.frame.FacturasByConsorcioEntreFechasFrame;
+import ar.com.ventas.frame.FacturasEntreFechas2Frame;
 import ar.com.ventas.frame.FacturasEntreFechasFrame;
 import ar.com.ventas.frame.FacturasTerceroFrame;
 import ar.com.ventas.frame.GenerarCertificadosFrame;
 import ar.com.ventas.frame.HabilitarPeriodoParaFacturarFrame;
 import ar.com.ventas.frame.HabilitarPeriodoParaFacturarReparacionesFrame;
 import ar.com.ventas.frame.ListadoParaCobranzaFrame;
+import ar.com.ventas.frame.ModificacionTextoFacturaFrame;
 import ar.com.ventas.frame.ModificarServiciosFrame;
 import ar.com.ventas.frame.NewJFrame;
 import ar.com.ventas.frame.NotaCreditoFrame;
@@ -140,12 +133,13 @@ public class MainFrame extends javax.swing.JFrame {
         nombreBtn.setVisible(false);
         co_ti_adBtn.setVisible(false);
         go2Btn.setVisible(false);
-        renglonesAbonosBtn.setVisible(false);
+        renglonesAbonosBtn.setVisible(true);
         abonoFacturaBtn.setVisible(false);
         testImporteAbonoMnu.setVisible(false);
         sinRenglonesBtn.setVisible(true);
         recibosAlFinDeAnioBtn.setVisible(false);
-        tstBtn.setVisible(false);
+        tstBtn.setVisible(true);
+        cuotaSiguienteReparacionMnu.setVisible(false);
 //        String fromDb = "abmAbonos";
 //        MenuTest.A.
     }
@@ -221,6 +215,8 @@ public class MainFrame extends javax.swing.JFrame {
         ajustarPeriodoEnFcMnu = new javax.swing.JMenuItem();
         cuotaSiguienteReparacionMnu = new javax.swing.JMenuItem();
         testImporteAbonoMnu = new javax.swing.JMenuItem();
+        seguimientoCuotasMnu = new javax.swing.JMenuItem();
+        modificacionTextoFacturaMnu = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         trabajosPendientesMnu = new javax.swing.JMenuItem();
         certificadosMnu = new javax.swing.JMenuItem();
@@ -236,6 +232,7 @@ public class MainFrame extends javax.swing.JFrame {
         listadoParaCobranzaMnu = new javax.swing.JMenuItem();
         comprobantesPorTitularMnu = new javax.swing.JMenuItem();
         asignadasAndOriginalesMnu = new javax.swing.JMenuItem();
+        abonosNoConsecutivosMnu = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         versionMnu = new javax.swing.JMenuItem();
 
@@ -411,7 +408,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        reciboReparacionBtn.setText("Recibos Reparac");
+        reciboReparacionBtn.setText("Recibos Repa/Mataf");
         reciboReparacionBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reciboReparacionBtnActionPerformed(evt);
@@ -432,7 +429,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        recibosAlFinDeAnioBtn.setText("RECIBOS AL 31.12.2023");
+        recibosAlFinDeAnioBtn.setText("GENERAR RECIBOS");
         recibosAlFinDeAnioBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 recibosAlFinDeAnioBtnActionPerformed(evt);
@@ -660,7 +657,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu3.add(ajustarPeriodoEnFcMnu);
 
-        cuotaSiguienteReparacionMnu.setText("Cuota Siguiente en Reparaciones");
+        cuotaSiguienteReparacionMnu.setText("Cuota Siguiente en Reparaciones Mismo Titular");
         cuotaSiguienteReparacionMnu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cuotaSiguienteReparacionMnuActionPerformed(evt);
@@ -675,6 +672,22 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(testImporteAbonoMnu);
+
+        seguimientoCuotasMnu.setText("SEGUIMIENTO CUOTAS");
+        seguimientoCuotasMnu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seguimientoCuotasMnuActionPerformed(evt);
+            }
+        });
+        jMenu3.add(seguimientoCuotasMnu);
+
+        modificacionTextoFacturaMnu.setText("MODIFICACION TEXTO FACTURA");
+        modificacionTextoFacturaMnu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificacionTextoFacturaMnuActionPerformed(evt);
+            }
+        });
+        jMenu3.add(modificacionTextoFacturaMnu);
 
         jMenuBar1.add(jMenu3);
 
@@ -792,6 +805,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu4.add(asignadasAndOriginalesMnu);
 
+        abonosNoConsecutivosMnu.setText("ABONOS NO CONSECUTIVOS");
+        abonosNoConsecutivosMnu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abonosNoConsecutivosMnuActionPerformed(evt);
+            }
+        });
+        jMenu4.add(abonosNoConsecutivosMnu);
+
         jMenuBar1.add(jMenu4);
 
         jMenu2.setText("?");
@@ -888,7 +909,7 @@ public class MainFrame extends javax.swing.JFrame {
                                         .addComponent(recibosAlFinDeAnioBtn)
                                         .addGap(18, 18, 18)
                                         .addComponent(tstBtn)))))
-                        .addContainerGap(388, Short.MAX_VALUE))
+                        .addContainerGap(372, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(salirBtn)
@@ -1211,7 +1232,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_asignadosPorRubroBtnActionPerformed
 
     private void renglonesAbonosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_renglonesAbonosBtnActionPerformed
-//        renglones();
+        renglones();
     }//GEN-LAST:event_renglonesAbonosBtnActionPerformed
 
     private void reciboReparacionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reciboReparacionBtnActionPerformed
@@ -1240,7 +1261,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void sinRenglonesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinRenglonesBtnActionPerformed
         buscarSinRenglones();
-
     }//GEN-LAST:event_sinRenglonesBtnActionPerformed
 
     private void recibosAbonosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recibosAbonosBtnActionPerformed
@@ -1262,6 +1282,18 @@ public class MainFrame extends javax.swing.JFrame {
     private void asignadasAndOriginalesMnuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignadasAndOriginalesMnuActionPerformed
         asignadasAndOriginales();
     }//GEN-LAST:event_asignadasAndOriginalesMnuActionPerformed
+
+    private void seguimientoCuotasMnuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seguimientoCuotasMnuActionPerformed
+        seguimientoCuotas();
+    }//GEN-LAST:event_seguimientoCuotasMnuActionPerformed
+
+    private void abonosNoConsecutivosMnuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abonosNoConsecutivosMnuActionPerformed
+        abonosNoConsecutivos();
+    }//GEN-LAST:event_abonosNoConsecutivosMnuActionPerformed
+
+    private void modificacionTextoFacturaMnuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificacionTextoFacturaMnuActionPerformed
+        modificacionTextoFactura();
+    }//GEN-LAST:event_modificacionTextoFacturaMnuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1309,6 +1341,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem abmPreciosMnu;
     private javax.swing.JMenuItem abmServicioMnu;
     private javax.swing.JButton abonoFacturaBtn;
+    private javax.swing.JMenuItem abonosNoConsecutivosMnu;
     private javax.swing.JMenuItem abonosPendientesFacturarMnu;
     private javax.swing.JMenuItem ajustarPeriodoEnFcMnu;
     private javax.swing.JButton altaServiciosBtn;
@@ -1348,6 +1381,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton mesBtn;
     private javax.swing.JButton mesLetraBtn;
     private javax.swing.JTextField mesTxt;
+    private javax.swing.JMenuItem modificacionTextoFacturaMnu;
     private javax.swing.JMenuItem modificarServiciosMnu;
     private javax.swing.JMenuItem modificarTrabajosMnu;
     private javax.swing.JButton ncBtn;
@@ -1363,6 +1397,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton renovacionesBtn;
     private javax.swing.JMenuItem renovarAbonosMnu;
     private javax.swing.JButton salirBtn;
+    private javax.swing.JMenuItem seguimientoCuotasMnu;
     private javax.swing.JButton serviciosBtn;
     private javax.swing.JMenuItem serviciosPorAdministracionAndConsorcioMnu;
     private javax.swing.JMenuItem serviciosPorConsorcioMnu;
@@ -1571,6 +1606,7 @@ public class MainFrame extends javax.swing.JFrame {
             CuentaCorrienteClienteFrame1 cccf = new CuentaCorrienteClienteFrame1();
             cccf.setVisible(true);
         } else {
+            // DESDE ESTE MENU VA EL >>  1  <<
             CuentaCorrienteClienteFrame cccf = new CuentaCorrienteClienteFrame(null, null, null);
             cccf.setVisible(true);
             // ESTÁ ESTA OPCION - 1
@@ -1591,7 +1627,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void facturaReparacion() {
-        FacturaReparacion2Frame fr = new FacturaReparacion2Frame();
+        FacturaReparacionSeleccionFrame fr = new FacturaReparacionSeleccionFrame();
         fr.setVisible(true);
         this.dispose();
     }
@@ -1756,34 +1792,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void renglones() {
-        List<Comprobante> abonos = null;
-        List<Comprobante> abonosSinRengl = new ArrayList<>();
-        try {
-            abonos = new ComprobanteService().getComprobantesActivos();
-        } catch (Exception ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (abonos != null && !abonos.isEmpty()) {
-            for (Comprobante ab : abonos) {
-                List<ComprobanteRenglones> renglones = null;
-                Double tt1 = 0.0;
-                try {
-                    renglones = new ComprobanteRenglonesService().getRenglonesPorComprobante(ab);
-                } catch (Exception ex) {
-                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if (renglones == null || renglones.isEmpty()) {
-                    abonosSinRengl.add(ab);
-                } else {
-//                    for(RenglonAbono r1:renglones){
-//                        
-//                    }
-                }
-            }
-            for (Comprobante abo : abonosSinRengl) {
-                System.out.println(abo.getId());
-            }
-        }
+        AbonosSinRenglonesFrame asrf = new AbonosSinRenglonesFrame();
+        asrf.setVisible(true);
+        this.dispose();
     }
 
     private void reciboReparacion() {
@@ -1805,9 +1816,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void cuotaSiguienteReparacion() {
-        CuotaSiguienteReparacionesFrame csrf = new CuotaSiguienteReparacionesFrame();
-        csrf.setVisible(true);
-        this.dispose();
+//        CuotaSiguienteReparacionesMismoTitularFrame csrf = new CuotaSiguienteReparacionesMismoTitularFrame();
+//        csrf.setVisible(true);
+//        this.dispose();
     }
 
     private void testImporteAbono() {
@@ -1855,6 +1866,24 @@ public class MainFrame extends javax.swing.JFrame {
     private void asignadasAndOriginales() {
         AsignadasAndOriginalesFrame aof = new AsignadasAndOriginalesFrame();
         aof.setVisible(true);
+        this.dispose();
+    }
+
+    private void seguimientoCuotas() {
+        FacturasEntreFechas2Frame fef2 = new FacturasEntreFechas2Frame();
+        fef2.setVisible(true);
+        this.dispose();
+    }
+
+    private void abonosNoConsecutivos() {
+        AbonosNoConsecutivosFrame ancf = new AbonosNoConsecutivosFrame();
+        ancf.setVisible(true);
+        this.dispose();
+    }
+
+    private void modificacionTextoFactura() {
+        ModificacionTextoFacturaFrame mtff = new ModificacionTextoFacturaFrame();
+        mtff.setVisible(true);
         this.dispose();
     }
 }

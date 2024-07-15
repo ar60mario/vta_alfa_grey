@@ -24,7 +24,7 @@ public class RcCoService {
         }
         return recibo;
     }
-    
+
     public void deleteRecibo(RcCo recibo) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -36,7 +36,7 @@ public class RcCoService {
             throw new Exception(ex);
         }
     }
-    
+
     public RcCo getRecibosByReciboAndComprobante(Recibo re, Comprobante co) throws Exception {
         RcCo rc = null;
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
@@ -50,7 +50,21 @@ public class RcCoService {
         }
         return rc;
     }
-    
+
+    public RcCo getReciboByRecibo(Recibo re) throws Exception {
+        RcCo rc = null;
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            rc = new RcCoBO().getReciboByRecibo(re);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+        return rc;
+    }
+
 //    public Rubro updateRubro(Rubro rubro) throws Exception {
 //        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 //        Transaction tx = session.beginTransaction();
@@ -63,7 +77,6 @@ public class RcCoService {
 //        }
 //        return rubro;
 //    }
-
 //    public List<Recibo> getRecibosEntreFechas(Date de, Date al) throws Exception {
 //        List<Recibo> recibos = null;
 //        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
@@ -77,7 +90,6 @@ public class RcCoService {
 //        }
 //        return recibos;
 //    }
-    
 //    public List<Rubro> getAllRubrosInactivos() throws Exception {
 //        List<Rubro> rubros = null;
 //        Session session = HibernateUtils.getSessionFactory().getCurrentSession();

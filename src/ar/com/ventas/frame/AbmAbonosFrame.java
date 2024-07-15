@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.frame;
 
 import ar.com.ventas.entities.Abono;
@@ -71,6 +66,7 @@ public class AbmAbonosFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         comboA = new javax.swing.JComboBox<>();
         excelBtn = new javax.swing.JButton();
+        noRenovarBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("ABM ABONOS DE CONSORCIOS");
@@ -153,6 +149,13 @@ public class AbmAbonosFrame extends javax.swing.JFrame {
             }
         });
 
+        noRenovarBtn.setText("No Renovar");
+        noRenovarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                noRenovarBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -171,6 +174,8 @@ public class AbmAbonosFrame extends javax.swing.JFrame {
                         .addComponent(abonosCanceladosBtn)
                         .addGap(18, 18, 18)
                         .addComponent(excelBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(noRenovarBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(volvarBtn))
                     .addGroup(layout.createSequentialGroup()
@@ -202,7 +207,8 @@ public class AbmAbonosFrame extends javax.swing.JFrame {
                     .addComponent(modifcarBtn)
                     .addComponent(cancelarBtn)
                     .addComponent(abonosCanceladosBtn)
-                    .addComponent(excelBtn))
+                    .addComponent(excelBtn)
+                    .addComponent(noRenovarBtn))
                 .addGap(14, 14, 14))
         );
 
@@ -254,6 +260,36 @@ public class AbmAbonosFrame extends javax.swing.JFrame {
         excel();
     }//GEN-LAST:event_excelBtnActionPerformed
 
+    private void noRenovarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noRenovarBtnActionPerformed
+        int row = tabla.getSelectedRow();
+        int rows = tabla.getSelectedRowCount();
+        if (rows > 1) {
+            JOptionPane.showMessageDialog(this, "SELECCIONE SOLO UNO");
+            return;
+        }
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "DEBE SELECCIONAR UN CONSORCIO");
+            return;
+        }
+        Abono ab = abonos.get(row);
+        ab.setPendiente(false);
+        int a = JOptionPane.showConfirmDialog(this, "CONFIRMA MODIFICAR RENOVACION?", "Atención",
+                JOptionPane.YES_NO_OPTION);
+        if (a == 0) {
+            try {
+                new AbonoService().updateAbono(ab);
+            } catch (Exception ex) {
+                Logger.getLogger(AbmAbonosFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        int rowR = comboR.getSelectedIndex();
+        if (rowR > 0) {
+            Rubro ru = rubros.get(rowR - 1);
+            generaLista(ru);
+        }
+    }//GEN-LAST:event_noRenovarBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -299,6 +335,7 @@ public class AbmAbonosFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton modifcarBtn;
+    private javax.swing.JButton noRenovarBtn;
     private javax.swing.JButton nuevoBtn;
     private javax.swing.JTable tabla;
     private javax.swing.JButton volvarBtn;
@@ -380,7 +417,7 @@ public class AbmAbonosFrame extends javax.swing.JFrame {
                 abonos = new AbonoService().getAllAbonosActivosOrdenadoByRubro(ru);
             }
         } catch (Exception ex) {
-            Logger.getLogger(AbmAbonosFrame.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(AbmAbonosFrame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "ERROR LEYENDO ADMINISTR");
             return;
         }
@@ -483,12 +520,12 @@ public class AbmAbonosFrame extends javax.swing.JFrame {
                 cta = ab.getCuotaFacturada();
             }
             String cuando;
-            if(r.getId().equals(4L)){
-            if(ab.getTextoPeriodo().equals(0)){
-                cuando = "ANTE";
-            } else {
-                cuando = "ACTU";
-            }
+            if (r.getId().equals(4L)) {
+                if (ab.getTextoPeriodo().equals(0)) {
+                    cuando = "ANTE";
+                } else {
+                    cuando = "ACTU";
+                }
             } else {
                 cuando = "N/A";
             }

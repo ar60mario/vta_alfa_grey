@@ -1,6 +1,3 @@
-/*
- * Aqui va toda la lógica de validaciones respecto a los Administradores.
- */
 package ar.com.ventas.BO;
 
 import ar.com.ventas.DAO.ComprobanteDAO;
@@ -10,6 +7,7 @@ import ar.com.ventas.entities.Consorcio;
 import ar.com.ventas.entities.Rubro;
 import ar.com.ventas.entities.TitularCuit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -23,8 +21,7 @@ public class ComprobanteBO {
 
     private final ComprobanteDAO dao = new ComprobanteDAO();
 
-    private static final Logger logger = Logger.getLogger("ComprobanteBO");
-
+//    private static final Logger logger = Logger.getLogger("ComprobanteBO");
     public List<Comprobante> getComprobantesEntrFechas(Date de, Date al) throws Exception {
         List<Comprobante> comprobantes = null;
         try {
@@ -85,6 +82,30 @@ public class ComprobanteBO {
         return comprobantes;
     }
 
+    public List<Comprobante> getComprobantesByConsorcioAndRubroAndMes(Consorcio consorcio, Rubro rubro, Integer mes) throws Exception {
+        List<Comprobante> comprobantes = null;
+        try {
+            comprobantes = dao.getComprobantesByConsorcioAndRubroAndMes(consorcio, rubro);
+        } catch (HibernateException ex) {
+            throw new Exception(ex);
+        }
+        mes -=1;
+        List<Comprobante> comprob = new ArrayList<>();
+        if (comprobantes != null && !comprobantes.isEmpty()) {
+            for (Comprobante c : comprobantes) {
+                Date fecha = c.getFecha();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(fecha);
+                Integer mesFc = cal.get(Calendar.MONTH);
+                if (mesFc.equals(mes)) {
+                    comprob.add(c);
+                }
+            }
+            return comprob;
+        }
+        return null;
+    }
+
     public List<Comprobante> getComprobantesActivosReparacionParaRenovar() throws Exception {
         List<Comprobante> comprobantes = null;
         try {
@@ -99,6 +120,16 @@ public class ComprobanteBO {
         List<Comprobante> comprobantes = null;
         try {
             comprobantes = dao.getComprobantesActivosReparacionCuotaSiguiente();
+        } catch (HibernateException ex) {
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+
+    public List<Comprobante> getComprobantesActivosReparacionCuotaSiguiente2() throws Exception {
+        List<Comprobante> comprobantes = null;
+        try {
+            comprobantes = dao.getComprobantesActivosReparacionCuotaSiguiente2();
         } catch (HibernateException ex) {
             throw new Exception(ex);
         }
@@ -130,6 +161,16 @@ public class ComprobanteBO {
         List<Comprobante> comprobantes = null;
         try {
             comprobantes = dao.getComprobantesEntrFechasOrdenConso(de, al);
+        } catch (HibernateException ex) {
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+
+    public List<Comprobante> getComprobantesEntrFechasOrdenConsoAndRubro(Date de, Date al, Rubro rubro) throws Exception {
+        List<Comprobante> comprobantes = null;
+        try {
+            comprobantes = dao.getComprobantesEntrFechasOrdenConsoAndRubro(de, al, rubro);
         } catch (HibernateException ex) {
             throw new Exception(ex);
         }

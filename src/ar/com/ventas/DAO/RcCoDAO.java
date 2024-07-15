@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.DAO;
 
 import ar.com.ventas.entities.Comprobante;
@@ -34,6 +29,14 @@ public class RcCoDAO extends GenericDAO {
         Criteria criteria = session.createCriteria(RcCo.class);
         criteria.add(Restrictions.eq("recibo", re));
         criteria.add(Restrictions.eq("comprobante", co));
+        criteria.addOrder(Order.asc("id"));
+        return (RcCo) criteria.uniqueResult();
+    }
+    
+    public RcCo getReciboByRecibo(Recibo re) {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Criteria criteria = session.createCriteria(RcCo.class);
+        criteria.add(Restrictions.eq("recibo", re));
         criteria.addOrder(Order.asc("id"));
         return (RcCo) criteria.uniqueResult();
     }

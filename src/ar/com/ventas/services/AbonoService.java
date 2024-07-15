@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.services;
 
 import ar.com.ventas.BO.AbonoBO;
@@ -51,7 +46,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAbonosActivosVencidosByFecha(Date fechaConsulta) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -65,7 +60,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAllAbonosActivosOrdenadoByRubro(Rubro rubro) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -79,7 +74,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAllAbonosInactivosOrdenadoByRubro(Rubro rubro) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -93,7 +88,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesOrdenadoByRubro(Rubro rubro) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -107,7 +102,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesOrdenadoByRubro10(Rubro rubro) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -121,7 +116,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesByRubroTipoFc3(Rubro rubro) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -135,7 +130,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesOrdenadoByRubro4(Rubro rubro) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -149,7 +144,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesOrdenadoByRubro7(Rubro rubro) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -163,7 +158,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesOrdenadoByRubro8(Rubro rubro) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -177,7 +172,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAbonosActivosOrdenadosVencidosByRubro(Rubro rubro) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -191,7 +186,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAbonosActivosNoFacturados() throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -205,7 +200,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public Abono getUltimoAbonoByConsorcioAndRubro(Consorcio co, Rubro rubro) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -219,7 +214,7 @@ public class AbonoService {
         }
         return abono;
     }
-    
+
     public List<Abono> getAllAbonosActivosOrdenadoByRubroAndAdministrador(Rubro rubro, Administrador admin) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -233,7 +228,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAllAbonosInactivosOrdenadoByRubroAndAdministrador(Rubro rubro, Administrador admin) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -247,7 +242,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAllAbonosActivosOrdenadoByRubroPendientesFacturar(Rubro rubro, Administrador admin) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -261,13 +256,41 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
+    public List<Abono> getAllAbonosActivosOrdenadoByRubroPendientesDeHacerReciboX(Rubro rubro, Administrador admin) throws Exception {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        List<Abono> abonos = null;
+        try {
+            abonos = new AbonoBO().getAllAbonosActivosOrdenadoByRubroPendientesDeHacerReciboX(rubro, admin);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+        return abonos;
+    }
+
     public List<Abono> getAllAbonosActivos() throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         List<Abono> abonos = null;
         try {
             abonos = new AbonoBO().getAllAbonosActivos();
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+        return abonos;
+    }
+
+    public List<Abono> getAbonosNoConsecutivos() throws Exception {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        List<Abono> abonos = null;
+        try {
+            abonos = new AbonoBO().getAbonosNoConsecutivos();
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
@@ -289,7 +312,7 @@ public class AbonoService {
         }
         return abonos;
     }
-    
+
     public Abono getAbonoById(Long id) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -303,17 +326,18 @@ public class AbonoService {
         }
         return abono;
     }
-    
-    public void saveAbono(Abono abono) throws Exception {
+
+    public Abono saveAbono(Abono abono) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         try {
-            new AbonoBO().saveAbono(abono);
+            abono = new AbonoBO().saveAbono(abono);
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
             throw new Exception(ex);
         }
+        return abono;
     }
 
     public void saveAbonoCompleto(Abono abono, List<RenglonAbono> renglones) throws Exception {
@@ -336,16 +360,17 @@ public class AbonoService {
         }
     }
 
-    public void updateAbono(Abono abono) throws Exception {
+    public Abono updateAbono(Abono abono) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         try {
-            new AbonoBO().updateAbono(abono);
+            abono = new AbonoBO().updateAbono(abono);
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
             throw new Exception(ex);
         }
+        return abono;
     }
 
     public void updateListaAbonosHabilitados(List<Abono> abonos) throws Exception {
@@ -359,7 +384,7 @@ public class AbonoService {
             throw new Exception(ex);
         }
     }
-    
+
     public void updateAbonoCompleto(Abono abono, List<RenglonAbono> renglones, List<RenglonAbono> renglones2) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();

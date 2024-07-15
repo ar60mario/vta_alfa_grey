@@ -534,22 +534,22 @@ public class RenovarAbonoVencidoFrame extends javax.swing.JFrame {
                 titular = tc;
             }
             Integer tipoComprobante = 11;
-            if(titular.getTipoInscipcion().equals(6)){
-                tipoComprobante = 11;
-            }
-            if(titular.getTipoInscipcion().equals(1)){
+//            if(titular.getTipoInscipcion().equals(6)){
+//                tipoComprobante = 11;
+//            }
+            if (titular.getTipoInscipcion().equals(1)) {
                 Consorcio cons = abono.getConsorcio();
                 Integer inscrCons = cons.getTipoInscripcion();
-                if(inscrCons.equals(1)){
+                if (inscrCons.equals(1)) {
                     tipoComprobante = 1;
                 }
-                if(inscrCons.equals(6)){
+                if (inscrCons.equals(6)) {
                     tipoComprobante = 1;
                 }
-                if(inscrCons.equals(4)){
+                if (inscrCons.equals(4)) {
                     tipoComprobante = 6;
                 }
-                if(inscrCons.equals(5)){
+                if (inscrCons.equals(5)) {
                     tipoComprobante = 6;
                 }
             }
@@ -627,7 +627,7 @@ public class RenovarAbonoVencidoFrame extends javax.swing.JFrame {
                 try {
                     ra2 = new RenglonAbonoService().getRenglonAbonosByAbono(abono);
                 } catch (Exception ex) {
-                    Logger.getLogger(RenovarAbonoVencidoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "ERROR nro.628 - SIN RENGLONES");
                     return;
                 }
                 int lin = 0;
@@ -650,24 +650,32 @@ public class RenovarAbonoVencidoFrame extends javax.swing.JFrame {
                 abono.setActivo(false);
                 abono.setRenovado(true);
                 try {
-                    new AbonoService().updateAbono(abono);
+                    abono = new AbonoService().updateAbono(abono);
+                    // no actualiza el renglon anterior solo el abono viejo
+//                    for (RenglonAbono raf : ra) {
+//                        new RenglonAbonoService().updateRenglonAbono(raf);
+//                    }
                 } catch (Exception ex) {
-                    Logger.getLogger(RenovarAbonoVencidoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "ERROR 655 - GRABANDO R_ABONO VENCIDO");
+                    return;
                 }
                 try {
-                    new AbonoService().saveAbono(abonoNuevo);
-                    for (RenglonAbono raf : ra) {
-                        raf.setAbono(abonoNuevo);
-                        raf = new RenglonAbonoService().saveRenglonAbono(raf);
+                    // aqui graba el nuevo abono y sus renglones nuevos con importe nuevo
+                    abonoNuevo = new AbonoService().saveAbono(abonoNuevo);
+                    for (RenglonAbono raf_2 : ra) {
+                        raf_2.setAbono(abonoNuevo);
+                        raf_2 = new RenglonAbonoService().saveRenglonAbono(raf_2);
                     }
                 } catch (Exception ex) {
-                    Logger.getLogger(RenovarAbonoVencidoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "ERROR nro.661 - renglon Abono");
+                    return;
                 }
-//                try {
-//                    ra = new RenglonAbonoService().getRenglonAbonosByAbono(abonoNuevo);
-//                } catch (Exception ex) {
-//                    Logger.getLogger(RenovarAbonoVencidoFrame.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                try {
+                    ra = new RenglonAbonoService().getRenglonAbonosByAbono(abonoNuevo);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "ERROR 672 - RECUPERANDO RENGLONES NUEVOS");
+                    return;
+                }
                 String resultado = UtilFactura.saveFactura(consorcio, titular,
                         abonoNuevo, ra, fecha, fecha_periodo_dde, fecha_periodo_hta, fecha_vencim, ps);
                 System.out.println(resultado);

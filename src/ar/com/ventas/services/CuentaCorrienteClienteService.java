@@ -42,7 +42,19 @@ public class CuentaCorrienteClienteService {
         }
         return cuenta;
     }
-    
+
+    public void deleteCuentaCorrienteCliente(CuentaCorrienteCliente cuenta) throws Exception {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            new CuentaCorrienteClienteBO().deleteCuentaCorrienteCliente(cuenta);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+    }
+
     public CuentaCorrienteCliente updateCuentaCorrienteCliente(CuentaCorrienteCliente cuenta) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -125,7 +137,7 @@ public class CuentaCorrienteClienteService {
         }
         return cuentaCorrienteCliente;
     }
-    
+
 //    public List<Administrador> getAllAdministradoresInactivos() throws Exception {
 //        List<Administrador> administradores = null;
 //        Session session = HibernateUtils.getSessionFactory().getCurrentSession();

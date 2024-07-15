@@ -1,6 +1,3 @@
-/*
- * Aqui va toda la lógica de validaciones respecto a los Administradores.
- */
 package ar.com.ventas.BO;
 
 import ar.com.ventas.DAO.CuentaCorrienteClienteDAO;
@@ -60,7 +57,7 @@ public class CuentaCorrienteClienteBO {
         }
         return cuentaCorrienteCliente;
     }
-    
+
 //    public Integer getCodigoSiguiente() throws Exception {
 //        Integer codigo;
 //        try {
@@ -79,7 +76,7 @@ public class CuentaCorrienteClienteBO {
         }
         return cuenta;
     }
-    
+
     public CuentaCorrienteCliente updateCuentaCorrienteCliente(CuentaCorrienteCliente cuenta) throws Exception {
         try {
             dao.update(cuenta);
@@ -88,7 +85,7 @@ public class CuentaCorrienteClienteBO {
         }
         return cuenta;
     }
-    
+
     public void deleteCuentaCorrienteCliente(CuentaCorrienteCliente cuenta) throws Exception {
         try {
             dao.delete(cuenta);

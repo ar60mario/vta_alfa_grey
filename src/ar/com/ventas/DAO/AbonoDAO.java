@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.DAO;
 
 import ar.com.ventas.entities.Abono;
@@ -10,7 +5,6 @@ import ar.com.ventas.entities.Administrador;
 import ar.com.ventas.entities.Consorcio;
 import ar.com.ventas.entities.Rubro;
 import ar.com.ventas.util.HibernateUtils;
-import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -121,6 +115,7 @@ public class AbonoDAO extends GenericDAO {
         Criteria criteria1 = criteria.createCriteria("consorcio");
         Criteria criteria3 = criteria1.createCriteria("domicilio");
         criteria1.add(Restrictions.eq("activo", true));
+        criteria.add(Restrictions.neProperty("cuotas", "cuotaFacturada"));
         criteria.add(Restrictions.eq("activo", true));
         criteria.add(Restrictions.eq("pendiente", true));
         criteria.add(Restrictions.eq("rubro", rubro));
@@ -129,7 +124,7 @@ public class AbonoDAO extends GenericDAO {
         List<Abono> abono = (List<Abono>) criteria.list();
         return abono;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesOrdenadoByRubro4(Rubro rubro) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Abono.class);
@@ -144,7 +139,7 @@ public class AbonoDAO extends GenericDAO {
         List<Abono> abono = (List<Abono>) criteria.list();
         return abono;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesOrdenadoByRubro7(Rubro rubro) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Abono.class);
@@ -159,7 +154,7 @@ public class AbonoDAO extends GenericDAO {
         List<Abono> abono = (List<Abono>) criteria.list();
         return abono;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesOrdenadoByRubro8(Rubro rubro) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Abono.class);
@@ -277,6 +272,25 @@ public class AbonoDAO extends GenericDAO {
         Criteria criteria3 = criteria1.createCriteria("domicilio");
         Criteria criteria2 = criteria.createCriteria("rubro");
         criteria.add(Restrictions.eq("pendiente", true));
+        criteria.add(Restrictions.eq("tipoFacturacion", 2));
+        criteria.add(Restrictions.eq("activo", true));
+        criteria.add(Restrictions.eq("rubro", rubro));
+        criteria1.add(Restrictions.eq("administrador", admin));
+        criteria3.addOrder(Order.asc("calle"));
+        criteria3.addOrder(Order.asc("numero"));
+        criteria2.addOrder(Order.asc("detalle"));
+        List<Abono> abono = (List<Abono>) criteria.list();
+        return abono;
+    }
+
+    public List<Abono> getAllAbonosActivosOrdenadoByRubroPendientesDeHacerReciboX(Rubro rubro, Administrador admin) {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Criteria criteria = session.createCriteria(Abono.class);
+        Criteria criteria1 = criteria.createCriteria("consorcio");
+        Criteria criteria3 = criteria1.createCriteria("domicilio");
+        Criteria criteria2 = criteria.createCriteria("rubro");
+        criteria.add(Restrictions.eq("pendiente", true));
+        criteria.add(Restrictions.eq("tipoFacturacion", 4));
         criteria.add(Restrictions.eq("activo", true));
         criteria.add(Restrictions.eq("rubro", rubro));
         criteria1.add(Restrictions.eq("administrador", admin));
@@ -308,6 +322,17 @@ public class AbonoDAO extends GenericDAO {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Abono.class);
         criteria.add(Restrictions.eq("activo", true));
+//        criteria.add(Restrictions.isNotNull("abono"));
+//        criteria.addOrder(Order.asc("detalle"));
+        List<Abono> abono = (List<Abono>) criteria.list();
+        return abono;
+    }
+
+    public List<Abono> getAbonosNoConsecutivos() {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Criteria criteria = session.createCriteria(Abono.class);
+//        criteria.add(Restrictions.eq("activo", true));
+        criteria.add(Restrictions.neProperty("cuotas", "frecuencia"));
 //        criteria.add(Restrictions.isNotNull("abono"));
 //        criteria.addOrder(Order.asc("detalle"));
         List<Abono> abono = (List<Abono>) criteria.list();

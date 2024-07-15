@@ -14,6 +14,7 @@ import ar.com.ventas.services.ComprobanteService;
 import ar.com.ventas.services.ConsorcioService;
 import ar.com.ventas.services.CuentaCorrienteClienteService;
 import ar.com.ventas.services.ReciboService;
+import ar.com.ventas.util.UtilFrame;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -45,6 +46,7 @@ public class NewJFrame extends javax.swing.JFrame {
         tstCtaBtn = new javax.swing.JButton();
         volverBtn = new javax.swing.JButton();
         recibosBtn = new javax.swing.JButton();
+        tstPeriodosBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,6 +78,13 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        tstPeriodosBtn.setText("TST_PERIODOS");
+        tstPeriodosBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tstPeriodosBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,7 +99,8 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tstBtn)
                             .addComponent(tstCtaBtn)
-                            .addComponent(recibosBtn))
+                            .addComponent(recibosBtn)
+                            .addComponent(tstPeriodosBtn))
                         .addGap(0, 247, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -103,7 +113,9 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addComponent(tstCtaBtn)
                 .addGap(18, 18, 18)
                 .addComponent(recibosBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(tstPeriodosBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
                 .addComponent(volverBtn)
                 .addContainerGap())
         );
@@ -126,6 +138,22 @@ public class NewJFrame extends javax.swing.JFrame {
     private void recibosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recibosBtnActionPerformed
         recibos();
     }//GEN-LAST:event_recibosBtnActionPerformed
+
+    private void tstPeriodosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tstPeriodosBtnActionPerformed
+        List<Comprobante> comprobantes = null;
+        try {
+            comprobantes = new ComprobanteService().getComprobantesActivos();
+        } catch (Exception ex) {
+            return;
+        }
+        for(Comprobante co:comprobantes){
+            String txt = UtilFrame.mesActualEnLetras(co.getFecha());
+            System.out.println(txt);
+            txt = UtilFrame.mesAnteriorEnLetras(co.getFecha());
+            System.out.println(txt);
+            System.out.println("-");
+        }
+    }//GEN-LAST:event_tstPeriodosBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,6 +194,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton recibosBtn;
     private javax.swing.JButton tstBtn;
     private javax.swing.JButton tstCtaBtn;
+    private javax.swing.JButton tstPeriodosBtn;
     private javax.swing.JButton volverBtn;
     // End of variables declaration//GEN-END:variables
 

@@ -695,8 +695,10 @@ public class NuevoAbonoFrame extends javax.swing.JFrame {
             try {
                 new AbonoService().saveAbonoCompleto(abono, renglones);
             } catch (Exception ex) {
-                Logger.getLogger(NuevoAbonoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "ERROR REGISTRANDO ABONO");
+                return;
             }
+            JOptionPane.showMessageDialog(this, "ABONO REGISTRADO CORRECTAMENTE");
             volver();
         }
     }

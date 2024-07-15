@@ -1416,110 +1416,112 @@ public class UtilAfip {
         try {
             certificado = new CertificadosAfipService().getCertificadoByTitular(titular);
         } catch (Exception ex) {
-            Logger.getLogger(UtilAfip.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "NO SE PUEDE OBTENER CERTIFICADOS AFIP");
             return nc;
         }
-        if (certificado != null) {
-            String certif = certificado.getCertificado();
-            String llave = certificado.getLlave();
-            TicketTime tt = UtilAfip.solicitarNuevoTicket(titular, certif, llave);
-            String tkn = tt.getToken();
-            String sgn = tt.getSign();
-            Integer cbte_nro = UtilAfip.getUltimaFcC(ptoVta, nro_doc_titular, tkn, sgn);
-            cbte_nro += 1;
-            int cbt_desde = cbte_nro, cbt_hasta = cbte_nro;
-            Double importeAbono = total;
-            String imp_total = df.format(importeAbono).replaceAll("\\,", "\\.");//"124.00";
-            String imp_tot_conc = "0.00";
-            String imp_neto = imp_total;
-            String imp_iva = "0.00";
-            String imp_trib = "0.00", imp_op_ex = "0";
-            String fecha_cbte = fechaWs.format(da1);
-            String fecha_venc_pago = fechaWs.format(da4);
-            String fecha_serv_desde = fechaWs.format(da2), fecha_serv_hasta = fechaWs.format(da3);
-            String moneda_id = "PES", moneda_ctz = "1.000";
-            int xxx = 1;
-            if (xxx != 0) {
-                Variant ok = Dispatch.call(wsfev1, "CrearFactura",
-                        new Variant(concepto), new Variant(tipo_doc),
-                        new Variant(nro_doc_cliente), new Variant(tipo_cbte),
-                        new Variant(ptoVta),
-                        new Variant(cbt_desde), new Variant(cbt_hasta),
-                        new Variant(imp_total), new Variant(imp_tot_conc),
-                        new Variant(imp_neto), new Variant(imp_iva),
-                        new Variant(imp_trib), new Variant(imp_op_ex),
-                        new Variant(fecha_cbte), new Variant(fecha_venc_pago),
-                        new Variant(fecha_serv_desde), new Variant(fecha_serv_hasta),
-                        new Variant(moneda_id), new Variant(moneda_ctz));
-                Dispatch.put(wsfev1, "Reprocesar", new Variant(true));
-                Variant cae = Dispatch.call(wsfev1, "CAESolicitar");
-                String requ = Dispatch.get(wsfev1, "XmlRequest").toString();
-                String resp = Dispatch.get(wsfev1, "XmlResponse").toString();
-                String excepcion = Dispatch.get(wsfev1, "Excepcion").toString();
-                String errmsg = Dispatch.get(wsfev1, "ErrMsg").toString();
-                String obs = Dispatch.get(wsfev1, "Obs").toString();
-                String vto = Dispatch.get(wsfev1, "Vencimiento").toString();
-                SimpleDateFormat sd = new SimpleDateFormat("yyyyMMdd");
-                Date caeVencim = new Date();
-                String resultado = Dispatch.get(wsfev1, "Resultado").toString();
-                if (!resultado.equals("A")) {
-                    JOptionPane.showMessageDialog(null, "Obs: " + obs + "\nError: " + errmsg);
-                    nc = null;
-                    return nc;
-                }
-                //99
-                if (vto != "" && vto != null) {
-                    try {
-                        caeVencim = sd.parse(vto);
-                        System.out.println("                >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>              99");
-                        System.out.println(vto);
-                        System.out.println("                _X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X              99");
-                    } catch (ParseException ex) {
-                        Logger.getLogger(UtilAfip.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-//                    String vencCae = vto.substring(6, 8) + "/" + vto.substring(4, 6) + "/" + vto.substring(0, 4);
-                }
-                Long caeLong = Long.valueOf(cae.toString());
-
-                nc = new NuevoCae();
-
-                nc.setCae(caeLong);
-                nc.setErrMsj(errmsg);
-                nc.setEstado(resultado);
-                nc.setExcepcion(excepcion);
-                nc.setFechaCae(caeVencim);
-                nc.setMotivo("");
-                nc.setNumero(cbte_nro);
-                nc.setObservaciones(obs);
-                nc.setSucursal(titular.getSucursal());
-
-                String ruta1 = "c:/alfa_sistema/cmp/" + tipo_cbte + cuiTit
-                        + "C" + ptoVta
-                        + cbt_desde + ".xm1";
-                String ruta2 = "c:/alfa_sistema/cmp/" + tipo_cbte + cuiTit
-                        + "C" + ptoVta
-                        + cbt_desde + ".xm2";
-                File archivo1 = new File(ruta1);
-                File archivo2 = new File(ruta2);
-                BufferedWriter bw1, bw2;
-                try {
-                    bw1 = new BufferedWriter(new FileWriter(archivo1));
-                    bw2 = new BufferedWriter(new FileWriter(archivo2));
-                    bw1.write(requ);
-                    bw2.write(resp);
-                    bw1.close();
-                    bw2.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(UtilAfip.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null, "ERROR GRABANDO ARCHIVOS XML");
-                    return nc;
-                }
+        System.out.println(certificado.getCertificado());
+//        System.exit(0);
+//        if (certificado != null) {
+        String certif = certificado.getCertificado();
+        String llave = certificado.getLlave();
+        TicketTime tt = UtilAfip.solicitarNuevoTicket(titular, certif, llave);
+        String tkn = tt.getToken();
+        String sgn = tt.getSign();
+        Integer cbte_nro = UtilAfip.getUltimaFcC(ptoVta, nro_doc_titular, tkn, sgn);
+        cbte_nro += 1;
+        int cbt_desde = cbte_nro, cbt_hasta = cbte_nro;
+        Double importeAbono = total;
+        String imp_total = df.format(importeAbono).replaceAll("\\,", "\\.");//"124.00";
+        String imp_tot_conc = "0.00";
+        String imp_neto = imp_total;
+        String imp_iva = "0.00";
+        String imp_trib = "0.00", imp_op_ex = "0";
+        String fecha_cbte = fechaWs.format(da1);
+        String fecha_venc_pago = fechaWs.format(da4);
+        String fecha_serv_desde = fechaWs.format(da2), fecha_serv_hasta = fechaWs.format(da3);
+        String moneda_id = "PES", moneda_ctz = "1.000";
+        int xxx = 1;
+        if (xxx != 0) {
+            Variant ok = Dispatch.call(wsfev1, "CrearFactura",
+                    new Variant(concepto), new Variant(tipo_doc),
+                    new Variant(nro_doc_cliente), new Variant(tipo_cbte),
+                    new Variant(ptoVta),
+                    new Variant(cbt_desde), new Variant(cbt_hasta),
+                    new Variant(imp_total), new Variant(imp_tot_conc),
+                    new Variant(imp_neto), new Variant(imp_iva),
+                    new Variant(imp_trib), new Variant(imp_op_ex),
+                    new Variant(fecha_cbte), new Variant(fecha_venc_pago),
+                    new Variant(fecha_serv_desde), new Variant(fecha_serv_hasta),
+                    new Variant(moneda_id), new Variant(moneda_ctz));
+            Dispatch.put(wsfev1, "Reprocesar", new Variant(true));
+            Variant cae = Dispatch.call(wsfev1, "CAESolicitar");
+            String requ = Dispatch.get(wsfev1, "XmlRequest").toString();
+            String resp = Dispatch.get(wsfev1, "XmlResponse").toString();
+            String excepcion = Dispatch.get(wsfev1, "Excepcion").toString();
+            String errmsg = Dispatch.get(wsfev1, "ErrMsg").toString();
+            String obs = Dispatch.get(wsfev1, "Obs").toString();
+            String vto = Dispatch.get(wsfev1, "Vencimiento").toString();
+            SimpleDateFormat sd = new SimpleDateFormat("yyyyMMdd");
+            Date caeVencim = new Date();
+            String resultado = Dispatch.get(wsfev1, "Resultado").toString();
+            if (!resultado.equals("A")) {
+                JOptionPane.showMessageDialog(null, "Obs: " + obs + "\nError: " + errmsg);
+                nc = null;
+                return nc;
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "ERRORR 94 - EN CERTIFICADOS");
-            return nc;
+            //99
+            if (vto != "" || vto != null) {
+                try {
+                    caeVencim = sd.parse(vto);
+                    System.out.println("                >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>              99");
+                    System.out.println(vto);
+                    System.out.println("                _X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X_X              99");
+                } catch (ParseException ex) {
+//                        Logger.getLogger(UtilAfip.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "ERROR EN FCHA CAE");
+                }
+//                    String vencCae = vto.substring(6, 8) + "/" + vto.substring(4, 6) + "/" + vto.substring(0, 4);
+            }
+            Long caeLong = Long.valueOf(cae.toString());
+
+            nc = new NuevoCae();
+
+            nc.setCae(caeLong);
+            nc.setErrMsj(errmsg);
+            nc.setEstado(resultado);
+            nc.setExcepcion(excepcion);
+            nc.setFechaCae(caeVencim);
+            nc.setMotivo("");
+            nc.setNumero(cbte_nro);
+            nc.setObservaciones(obs);
+            nc.setSucursal(titular.getSucursal());
+
+            String ruta1 = "c:/alfa_sistema/cmp/" + tipo_cbte + cuiTit
+                    + "C" + ptoVta
+                    + cbt_desde + ".xm1";
+            String ruta2 = "c:/alfa_sistema/cmp/" + tipo_cbte + cuiTit
+                    + "C" + ptoVta
+                    + cbt_desde + ".xm2";
+            File archivo1 = new File(ruta1);
+            File archivo2 = new File(ruta2);
+            BufferedWriter bw1, bw2;
+            try {
+                bw1 = new BufferedWriter(new FileWriter(archivo1));
+                bw2 = new BufferedWriter(new FileWriter(archivo2));
+                bw1.write(requ);
+                bw2.write(resp);
+                bw1.close();
+                bw2.close();
+            } catch (IOException ex) {
+                Logger.getLogger(UtilAfip.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "ERROR GRABANDO ARCHIVOS XML");
+                return nc;
+            }
         }
+//        } else {
+//            JOptionPane.showMessageDialog(null, "ERRORR 94 - EN CERTIFICADOS");
+//            return nc;
+//        }
         return nc;
     }
 

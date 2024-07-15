@@ -19,27 +19,21 @@ public class Rubro {
     private String textoEnFactura;
     private Boolean esAbono;
     private Boolean activo;
+    private Boolean textoEnPeriodo;
 
     public Rubro() {
     }
 
-    public Rubro(Long id, Integer codigo, String detalle, Double importe, Estructura estructura, String textoEnFactura, Boolean esAbono, Boolean activo) {
+    public Rubro(Long id, Integer codigo, String detalle, Double importe, Estructura estructura, String textoEnFactura, Boolean esAbono, Boolean activo, Boolean textoEnPeriodo) {
         this.id = id;
         this.codigo = codigo;
         this.detalle = detalle;
         this.importe = importe;
         this.estructura = estructura;
         this.textoEnFactura = textoEnFactura;
-        this.esAbono=esAbono;
+        this.esAbono = esAbono;
         this.activo = activo;
-    }
-
-    public String getTextoEnFactura() {
-        return textoEnFactura;
-    }
-
-    public void setTextoEnFactura(String textoEnFactura) {
-        this.textoEnFactura = textoEnFactura;
+        this.textoEnPeriodo = textoEnPeriodo;
     }
 
     public Long getId() {
@@ -82,6 +76,14 @@ public class Rubro {
         this.estructura = estructura;
     }
 
+    public String getTextoEnFactura() {
+        return textoEnFactura;
+    }
+
+    public void setTextoEnFactura(String textoEnFactura) {
+        this.textoEnFactura = textoEnFactura;
+    }
+
     public Boolean getEsAbono() {
         return esAbono;
     }
@@ -98,4 +100,12 @@ public class Rubro {
         this.activo = activo;
     }
 
+    public Boolean getTextoEnPeriodo() {
+        return textoEnPeriodo;
+    }
+
+    public void setTextoEnPeriodo(Boolean textoEnPeriodo) {
+        this.textoEnPeriodo = textoEnPeriodo;
+    }
+    
 }

@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.main;
 
 import ar.com.ventas.estructuras.Constantes;
-
 
 /**
  *
@@ -19,10 +13,11 @@ public class VersionFrame extends javax.swing.JFrame {
      */
     public VersionFrame() {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(Constantes.getR(), Constantes.getG(), Constantes.getB()));
+        getContentPane().setBackground(new java.awt.Color(Constantes.getR(), Constantes.getG(),
+                Constantes.getB()));
 //        setExtendedState(this.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
-        String ver = "MARZO 8 de 2024-a";
+        String ver = "JULIO 15 de 2024-b";
         versionTxt.setText(ver);
         volverBtn.requestFocus();
     }

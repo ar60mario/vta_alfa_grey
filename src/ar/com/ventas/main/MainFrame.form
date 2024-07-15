@@ -226,7 +226,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="cuotaSiguienteReparacionMnu">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cuota Siguiente en Reparaciones"/>
+                <Property name="text" type="java.lang.String" value="Cuota Siguiente en Reparaciones Mismo Titular"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cuotaSiguienteReparacionMnuActionPerformed"/>
@@ -238,6 +238,22 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="testImporteAbonoMnuActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="seguimientoCuotasMnu">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="SEGUIMIENTO CUOTAS"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="seguimientoCuotasMnuActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="modificacionTextoFacturaMnu">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="MODIFICACION TEXTO FACTURA"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificacionTextoFacturaMnuActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -357,6 +373,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="asignadasAndOriginalesMnuActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="abonosNoConsecutivosMnu">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="ABONOS NO CONSECUTIVOS"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="abonosNoConsecutivosMnuActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -500,7 +524,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="388" max="32767" attributes="0"/>
+                      <EmptySpace pref="372" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -773,7 +797,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="reciboReparacionBtn">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Recibos Reparac"/>
+        <Property name="text" type="java.lang.String" value="Recibos Repa/Mataf"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reciboReparacionBtnActionPerformed"/>
@@ -797,7 +821,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="recibosAlFinDeAnioBtn">
       <Properties>
-        <Property name="text" type="java.lang.String" value="RECIBOS AL 31.12.2023"/>
+        <Property name="text" type="java.lang.String" value="GENERAR RECIBOS"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="recibosAlFinDeAnioBtnActionPerformed"/>

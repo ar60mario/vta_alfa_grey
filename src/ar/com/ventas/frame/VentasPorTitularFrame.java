@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.frame;
 
 import ar.com.ventas.entities.Comprobante;
@@ -12,15 +7,20 @@ import ar.com.ventas.main.MainFrame;
 import ar.com.ventas.services.ComprobanteService;
 import ar.com.ventas.services.TitularCuitService;
 import ar.com.ventas.util.UtilFrame;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import jxl.Workbook;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 
 /**
  *
@@ -39,8 +39,8 @@ public class VentasPorTitularFrame extends javax.swing.JFrame {
     public VentasPorTitularFrame() {
         initComponents();
         getContentPane().setBackground(new java.awt.Color(Constantes.getR(), Constantes.getG(), Constantes.getB()));
-        this.setLocationRelativeTo(null);
-//        setExtendedState(this.MAXIMIZED_BOTH);
+//        this.setLocationRelativeTo(null);
+        setExtendedState(6);
         llenarCombo();
     }
 
@@ -85,14 +85,14 @@ public class VentasPorTitularFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID.CMPR", "FECHA", "NUMERO", "RUBRO", "IMPORTE", "ORIG", "ID.ORG"
+                "ID.CMPR", "FECHA", "NUMERO", "RUBRO", "IMPORTE", "ORIG", "ID.ORG", "CONSORCIO"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -335,7 +335,7 @@ public class VentasPorTitularFrame extends javax.swing.JFrame {
         try {
             titulares = new TitularCuitService().getAllTitularDeCuitActivos();
         } catch (Exception ex) {
-            Logger.getLogger(VentasPorTitularFrame.class.getName()).log(Level.SEVERE, null, ex);
+            return;
         }
         if (titulares != null && !titulares.isEmpty()) {
             for (TitularCuit tc : titulares) {
@@ -352,7 +352,6 @@ public class VentasPorTitularFrame extends javax.swing.JFrame {
             de = sdf.parse(deTxt.getText());
             al = sdf.parse(alTxt.getText());
         } catch (ParseException ex) {
-            Logger.getLogger(VentasPorTitularFrame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "DEBE INGRESAR UNA FECHA VALIDA");
             return;
         }
@@ -364,7 +363,7 @@ public class VentasPorTitularFrame extends javax.swing.JFrame {
                 comprobantes = new ComprobanteService().getComprobantesOriginalEntrFechasByTitular(titular, de, al);
             }
         } catch (Exception ex) {
-            Logger.getLogger(VentasPorTitularFrame.class.getName()).log(Level.SEVERE, null, ex);
+            return;
         }
         cargarTabla();
 
@@ -377,7 +376,63 @@ public class VentasPorTitularFrame extends javax.swing.JFrame {
     }
 
     private void excel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String ruta = "C:/alfa_sistema/data/excel/ventas_por_titular.xls";
+        File archivo = new File(ruta);
+        if (archivo.exists()) {
+            archivo.delete();
+        }
+        try {
+            archivo.createNewFile();
+        } catch (IOException ex) {
+            return;
+        }
+        WritableWorkbook libro = null;
+        try {
+            libro = Workbook.createWorkbook(archivo);
+        } catch (IOException ex) {
+            return;
+        }
+        WritableSheet hoja1 = libro.createSheet("VENTAS", 0);
+        try {
+            hoja1.addCell(new jxl.write.Label(0, 0, "ALFA SANEAMIENTOS"));
+            hoja1.addCell(new jxl.write.Label(0, 1, "ID COMPR"));
+            hoja1.addCell(new jxl.write.Label(1, 1, "FECHA"));
+            hoja1.addCell(new jxl.write.Label(2, 1, "NRO."));
+            hoja1.addCell(new jxl.write.Label(3, 1, "RUBRO"));
+            hoja1.addCell(new jxl.write.Label(4, 1, "IMPORTE"));
+            hoja1.addCell(new jxl.write.Label(5, 1, "ORIG"));
+            hoja1.addCell(new jxl.write.Label(6, 1, "ID ORIG"));
+            hoja1.addCell(new jxl.write.Label(7, 1, "CONSORCIO"));
+            DefaultTableModel tbl = (DefaultTableModel) tabla.getModel();
+            int y = 2;
+            int rows = tabla.getRowCount();
+            for (int i = 0; i < rows - 1; i++) {
+                hoja1.addCell(new jxl.write.Label(0, y, tbl.getValueAt(i, 0).toString()));
+                hoja1.addCell(new jxl.write.Label(1, y, tbl.getValueAt(i, 1).toString()));
+                hoja1.addCell(new jxl.write.Label(2, y, tbl.getValueAt(i, 2).toString()));
+                hoja1.addCell(new jxl.write.Label(3, y, tbl.getValueAt(i, 3).toString()));
+                hoja1.addCell(new jxl.write.Label(4, y, tbl.getValueAt(i, 4).toString()));
+                hoja1.addCell(new jxl.write.Label(5, y, tbl.getValueAt(i, 5).toString()));
+                if (tbl.getValueAt(i, 6) != null) {
+                    hoja1.addCell(new jxl.write.Label(6, y, tbl.getValueAt(i, 6).toString()));
+                } else {
+                    hoja1.addCell(new jxl.write.Label(6, y, "0"));
+                }
+                hoja1.addCell(new jxl.write.Label(7, y, tbl.getValueAt(i, 7).toString()));
+                y += 1;
+            }
+        } catch (WriteException ex) {
+            JOptionPane.showMessageDialog(this, "Error configurando Excel");
+        }
+        try {
+            libro.write();
+            libro.close();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error: 423");
+        } catch (WriteException ex) {
+            JOptionPane.showMessageDialog(this, "Error: 424");
+        }
+        JOptionPane.showMessageDialog(this, "Excel creado correctamente");
     }
 
     private void asignar(int row) {
@@ -388,7 +443,7 @@ public class VentasPorTitularFrame extends javax.swing.JFrame {
         try {
             new ComprobanteService().updateComprobante(co);
         } catch (Exception ex) {
-            Logger.getLogger(VentasPorTitularFrame.class.getName()).log(Level.SEVERE, null, ex);
+            return;
         }
         comprobantes.remove(row);
         cargarTabla();
@@ -400,10 +455,10 @@ public class VentasPorTitularFrame extends javax.swing.JFrame {
         if (comprobantes != null && !comprobantes.isEmpty()) {
             DefaultTableModel tbl = (DefaultTableModel) tabla.getModel();
             for (Comprobante co : comprobantes) {
-                Object o[] = new Object[7];
+                Object o[] = new Object[8];
                 o[0] = co.getId();
                 o[1] = sdf.format(co.getFecha());
-                o[2] = co.getNumero();
+                o[2] = co.getLetra() + " " + co.getNumero().toString();
                 o[3] = co.getRubro().getDetalle();
                 o[4] = df.format(co.getTotal());
                 String og;
@@ -422,6 +477,7 @@ public class VentasPorTitularFrame extends javax.swing.JFrame {
                 }
                 o[5] = og;
                 o[6] = lg;
+                o[7] = co.getCalleNroPisoDtoCliente();
                 totalTi += co.getTotal();
                 tbl.addRow(o);
             }

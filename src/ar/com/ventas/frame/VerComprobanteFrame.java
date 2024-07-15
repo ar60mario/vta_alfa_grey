@@ -82,6 +82,8 @@ public class VerComprobanteFrame extends javax.swing.JFrame {
         periodoTxt = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         numFacturaTxt = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        caeTxt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("COMPROBANTE");
@@ -168,6 +170,10 @@ public class VerComprobanteFrame extends javax.swing.JFrame {
         numFacturaTxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         numFacturaTxt.setText("NUM.FACTURA");
 
+        jLabel11.setText("CAE:");
+
+        caeTxt.setText("jTextField1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -206,9 +212,13 @@ public class VerComprobanteFrame extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(periodoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel11))
                                 .addGap(18, 18, 18)
-                                .addComponent(numFacturaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(numFacturaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(caeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
@@ -224,7 +234,9 @@ public class VerComprobanteFrame extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(fechaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fechaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(caeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -303,12 +315,14 @@ public class VerComprobanteFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField administradorTxt;
+    private javax.swing.JTextField caeTxt;
     private javax.swing.JTextField consorcioTxt;
     private javax.swing.JTextField cuotaTxt;
     private javax.swing.JTextField cuotasTxt;
     private javax.swing.JTextField fechaTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -351,9 +365,12 @@ public class VerComprobanteFrame extends javax.swing.JFrame {
         consorcioTxt.setText(calle);
         rubroTxt.setText(rubro);
         titularTxt.setText(titular);
+        caeTxt.setText(comprobante.getCae().toString());
         administradorTxt.setText(adm);
         totalTxt.setText(df.format(comprobante.getTotal()));
-        cuotaTxt.setText(comprobante.getCuotasPagadas().toString());
+        if (comprobante.getCuotasPagadas() != null) {
+            cuotaTxt.setText(comprobante.getCuotasPagadas().toString());
+        }
         cuotasTxt.setText(comprobante.getCantidadCuotas().toString());
         numFacturaTxt.setText(nf);
         if (renglones != null && !renglones.isEmpty()) {

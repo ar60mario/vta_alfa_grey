@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.BO;
 
 import ar.com.ventas.DAO.AbonoDAO;
@@ -96,7 +91,7 @@ public class AbonoBO {
         }
         return abonos2;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesByRubroTipoFc3(Rubro rubro) throws Exception {
         List<Abono> abonos = null;
         List<Abono> abonos2 = new ArrayList<>();
@@ -125,7 +120,7 @@ public class AbonoBO {
         }
         return abonos2;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesOrdenadoByRubro(Rubro rubro) throws Exception {
         List<Abono> abonos = null;
         List<Abono> abonos2 = new ArrayList<>();
@@ -146,7 +141,7 @@ public class AbonoBO {
                 } else {
 //                    System.out.println("T");
                     if (UtilAbonos.getEstaEnFrecuencia(fecha)) {
-                        
+
                     }
                     Date f2 = new Date();
                     Date f3 = a.getFechaPeriodo();
@@ -185,7 +180,7 @@ public class AbonoBO {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesOrdenadoByRubro7(Rubro rubro) throws Exception {
         List<Abono> abonos = null;
 //        List<Abono> abonos2 = new ArrayList<>();
@@ -196,7 +191,7 @@ public class AbonoBO {
         }
         return abonos;
     }
-    
+
     public List<Abono> getAbonosActivosPendientesOrdenadoByRubro8(Rubro rubro) throws Exception {
         List<Abono> abonos = null;
 //        List<Abono> abonos2 = new ArrayList<>();
@@ -282,9 +277,25 @@ public class AbonoBO {
         }
     }
 
+    public List<Abono> getAllAbonosActivosOrdenadoByRubroPendientesDeHacerReciboX(Rubro rubro, Administrador admin) throws Exception {
+        try {
+            return dao.getAllAbonosActivosOrdenadoByRubroPendientesDeHacerReciboX(rubro, admin);
+        } catch (HibernateException ex) {
+            throw new Exception(ex);
+        }
+    }
+
     public List<Abono> getAllAbonosActivos() throws Exception {
         try {
             return dao.getAllAbonosActivos();
+        } catch (HibernateException ex) {
+            throw new Exception(ex);
+        }
+    }
+
+    public List<Abono> getAbonosNoConsecutivos() throws Exception {
+        try {
+            return dao.getAbonosNoConsecutivos();
         } catch (HibernateException ex) {
             throw new Exception(ex);
         }
@@ -306,20 +317,22 @@ public class AbonoBO {
         }
     }
 
-    public void saveAbono(Abono abono) throws Exception {
+    public Abono saveAbono(Abono abono) throws Exception {
         try {
-            dao.save(abono);
+            abono = (Abono) dao.save(abono);
         } catch (HibernateException ex) {
             throw new Exception(ex);
         }
+        return abono;
     }
 
-    public void updateAbono(Abono abono) throws Exception {
+    public Abono updateAbono(Abono abono) throws Exception {
         try {
-            dao.update(abono);
+            abono = (Abono) dao.update(abono);
         } catch (HibernateException ex) {
             throw new Exception(ex);
         }
+        return abono;
     }
 
     public Integer getCodigoSiguiente() throws Exception {

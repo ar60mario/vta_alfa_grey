@@ -17,6 +17,7 @@ import ar.com.ventas.services.AbonoService;
 import ar.com.ventas.services.ComprobanteService;
 import ar.com.ventas.services.ConsorcioMasterService;
 import ar.com.ventas.services.ConsorcioService;
+import ar.com.ventas.services.RubroService;
 import ar.com.ventas.util.DesktopApi;
 import ar.com.ventas.util.PDFBuilder;
 import ar.com.ventas.util.UtilFrame;
@@ -42,7 +43,7 @@ import jxl.write.WriteException;
  *
  * @author Mario
  */
-public class FacturasEntreFechasFrame extends javax.swing.JFrame {
+public class FacturasEntreFechas2Frame extends javax.swing.JFrame {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private DecimalFormat df = new DecimalFormat("#0.00");
@@ -50,11 +51,12 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
     private DecimalFormat dfn = new DecimalFormat("00000000");
     private List<Comprobante> comprobantes;
     private List<Mes> meses;
+    private List<Rubro> rubros;
 
     /**
      * Creates new form FacturasEntreFechasFrame
      */
-    public FacturasEntreFechasFrame() {
+    public FacturasEntreFechas2Frame() {
         initComponents();
         getContentPane().setBackground(new java.awt.Color(Constantes.getR(), Constantes.getG(), Constantes.getB()));
 //        this.setLocationRelativeTo(null);
@@ -87,9 +89,11 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
         porNumeroRb = new javax.swing.JRadioButton();
         porTitularRb = new javax.swing.JRadioButton();
         excelBtn = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        comboR = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("GENERAR PDF DE FACTURAS");
+        setTitle("SEGUIMIENTO DE CUOTAS");
 
         jLabel1.setText("DESDE:");
 
@@ -130,11 +134,11 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "CONSORCIO", "RUBRO", "TITULAR", "FECHA", "CUOTA", "NUM.FC", "IMPORTE", "MASTER", "PDF"
+                "CONSORCIO", "RUBRO", "TITULAR", "FECHA", "PERIODO", "CUOTA", "CUOTAS", "NUM.FC", "IMPORTE", "MASTER", "PDF"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -185,6 +189,20 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("RUBRO:");
+
+        comboR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboRActionPerformed(evt);
+            }
+        });
+        comboR.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                comboRKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -217,10 +235,15 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
                             .addComponent(porNumeroRb))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mostrarGeneradasChk)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(21, 21, 21)
-                                .addComponent(porTitularRb)))
+                                .addComponent(porTitularRb))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(mostrarGeneradasChk)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(comboR, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -233,7 +256,9 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
                     .addComponent(deTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(alTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mostrarGeneradasChk))
+                    .addComponent(mostrarGeneradasChk)
+                    .addComponent(jLabel3)
+                    .addComponent(comboR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(porFechaRb)
@@ -275,7 +300,10 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
                 porConsorcioRb.setSelected(true);
                 porNumeroRb.setSelected(false);
                 porTitularRb.setSelected(false);
-                ordenConso();
+                comboR.addFocusListener(null);
+                comboR.showPopup();
+                comboR.requestFocus();
+//                ordenConso();
 //                llenarTabla();
 //                mostrarGeneradasChk.requestFocus();
             } else {
@@ -312,43 +340,35 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_generarBtnActionPerformed
 
     private void porFechaRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_porFechaRbActionPerformed
-        if (evt.getModifiers() == 16) {
-            porFechaRb.setSelected(true);
-            porConsorcioRb.setSelected(false);
-            porNumeroRb.setSelected(false);
-            porTitularRb.setSelected(false);
-            ordenFecha();
-        }
+        porFechaRb.setSelected(true);
+        porConsorcioRb.setSelected(false);
+        porNumeroRb.setSelected(false);
+        porTitularRb.setSelected(false);
+        ordenFecha();
     }//GEN-LAST:event_porFechaRbActionPerformed
 
     private void porConsorcioRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_porConsorcioRbActionPerformed
-        if (evt.getModifiers() == 16) {
-            porFechaRb.setSelected(false);
-            porConsorcioRb.setSelected(true);
-            porNumeroRb.setSelected(false);
-            porTitularRb.setSelected(false);
-            ordenConso();
-        }
+        porFechaRb.setSelected(false);
+        porConsorcioRb.setSelected(true);
+        porNumeroRb.setSelected(false);
+        porTitularRb.setSelected(false);
+        ordenConso();
     }//GEN-LAST:event_porConsorcioRbActionPerformed
 
     private void porNumeroRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_porNumeroRbActionPerformed
-        if (evt.getModifiers() == 16) {
-            porFechaRb.setSelected(false);
-            porConsorcioRb.setSelected(false);
-            porNumeroRb.setSelected(true);
-            porTitularRb.setSelected(false);
-            ordenNumero();
-        }
+        porFechaRb.setSelected(false);
+        porConsorcioRb.setSelected(false);
+        porNumeroRb.setSelected(true);
+        porTitularRb.setSelected(false);
+        ordenNumero();
     }//GEN-LAST:event_porNumeroRbActionPerformed
 
     private void porTitularRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_porTitularRbActionPerformed
-        if (evt.getModifiers() == 16) {
-            porFechaRb.setSelected(false);
-            porConsorcioRb.setSelected(false);
-            porNumeroRb.setSelected(false);
-            porTitularRb.setSelected(true);
-            ordenTitular();
-        }
+        porFechaRb.setSelected(false);
+        porConsorcioRb.setSelected(false);
+        porNumeroRb.setSelected(false);
+        porTitularRb.setSelected(true);
+        ordenTitular();
     }//GEN-LAST:event_porTitularRbActionPerformed
 
     private void excelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excelBtnActionPerformed
@@ -359,6 +379,24 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
         }
         excel();
     }//GEN-LAST:event_excelBtnActionPerformed
+
+    private void comboRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboRActionPerformed
+        if (evt.getModifiers() == 16) {
+            int row = comboR.getSelectedIndex();
+            if (row > 0) {
+                ordenConso();
+            }
+        }
+    }//GEN-LAST:event_comboRActionPerformed
+
+    private void comboRKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_comboRKeyPressed
+        if(evt.getKeyCode()==10){
+            int row = comboR.getSelectedIndex();
+            if(row > 0){
+                ordenConso();
+            }
+        }
+    }//GEN-LAST:event_comboRKeyPressed
 
     /**
      * @param args the command line arguments
@@ -377,31 +415,34 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FacturasEntreFechasFrame().setVisible(true);
+                new FacturasEntreFechas2Frame().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField alTxt;
+    private javax.swing.JComboBox<String> comboR;
     private javax.swing.JTextField deTxt;
     private javax.swing.JButton excelBtn;
     private javax.swing.JButton generarBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JCheckBox mostrarGeneradasChk;
     private javax.swing.JRadioButton porConsorcioRb;
@@ -426,7 +467,7 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
             de = sdf.parse(deTxt.getText());
             al = sdf.parse(alTxt.getText());
         } catch (ParseException ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "ERROR EN FECHAS");
             return;
         }
@@ -435,13 +476,13 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
             try {
                 comprobantes = new ComprobanteService().getComprobantesEntrFechas(de, al);
             } catch (Exception ex) {
-                Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             try {
                 comprobantes = new ComprobanteService().getComprobantesEntreFechasSinPdf(de, al);
             } catch (Exception ex) {
-                Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         llenarTabla();
@@ -455,7 +496,7 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
             de = sdf.parse(deTxt.getText());
             al = sdf.parse(alTxt.getText());
         } catch (ParseException ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "ERROR EN FECHAS");
             return;
         }
@@ -464,7 +505,7 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
         try {
             comprobantes = new ComprobanteService().getComprobantesEntrFechasOrdenNumero(de, al);
         } catch (Exception ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
 //        } else {
 //            try {
@@ -478,22 +519,29 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
 
     private void ordenConso() {
         UtilFrame.limpiarTabla(tabla);
+        int row = comboR.getSelectedIndex();
+        if (row < 1) {
+            return;
+        }
+        Rubro rubro = rubros.get(row - 1);
         Date de = new Date();
         Date al = new Date();
         try {
             de = sdf.parse(deTxt.getText());
             al = sdf.parse(alTxt.getText());
         } catch (ParseException ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "ERROR EN FECHAS");
             return;
         }
         comprobantes = null;
 //        if (mostrarGeneradasChk.isSelected()) {
         try {
-            comprobantes = new ComprobanteService().getComprobantesEntrFechasOrdenConso(de, al);
+            comprobantes = new ComprobanteService().getComprobantesEntrFechasOrdenConsoAndRubro(de, al, rubro);
         } catch (Exception ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "ERROR Nro. 509");
+            return;
         }
 //        } else {
 //            try {
@@ -511,14 +559,14 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
         if (comprobantes != null && !comprobantes.isEmpty()) {
             DefaultTableModel tbl = (DefaultTableModel) tabla.getModel();
             for (Comprobante co : comprobantes) {
-                Object o[] = new Object[9];
+                Object o[] = new Object[11];
                 String cli = co.getCalleNroPisoDtoCliente();
                 Integer codigoCliente = co.getCodigoCliente();
                 Consorcio conso = null;
                 try {
                     conso = new ConsorcioService().getConsorcioByCodigo(codigoCliente);
                 } catch (Exception ex) {
-                    Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 Rubro ru = co.getRubro();
                 o[0] = cli;
@@ -536,32 +584,35 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
                 }
                 cpbte += co.getLetra() + " " + dfs.format(co.getSucursal())
                         + "-" + dfn.format(co.getNumero());
-                o[5] = cpbte;
+                o[6] = co.getCantidadCuotas().toString();
+                o[7] = cpbte;
 
-                o[6] = df.format(co.getTotal());
+                o[8] = df.format(co.getTotal());
                 Abono ab = null;
                 try {
                     ab = new AbonoService().getUltimoAbonoByConsorcioAndRubro(conso, ru);
                 } catch (Exception ex) {
-                    Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                if (ab != null) {
-                    if (co.getRubro().getCodigo().equals(2)) {
-                        o[4] = co.getCuotasPagadas().toString();
-                    }
-                    if (co.getRubro().getCodigo().equals(3)) {
-                        o[4] = co.getPeriodo();
-                    }
-                    if (co.getRubro().getCodigo().equals(6)) {
-                        o[4] = co.getCuotasPagadas().toString();
-                    }
-                } else {
-                    if (co.getLetra().equals("X")) {
-                        o[4] = co.getCuotasPagadas().toString();
-                    } else {
-                        o[4] = "-";
-                    }
-                }
+                o[4] = co.getPeriodo();
+                o[5] = co.getCuotasPagadas().toString();
+//                if (ab != null) {
+//                    if (co.getRubro().getCodigo().equals(2)) {
+//                        
+//                    }
+//                    if (co.getRubro().getCodigo().equals(3)) {
+//                        
+//                    }
+//                    if (co.getRubro().getCodigo().equals(6)) {
+//                        o[4] = co.getCuotasPagadas().toString();
+//                    }
+//                } else {
+//                    if (co.getLetra().equals("X")) {
+//                        o[4] = co.getCuotasPagadas().toString();
+//                    } else {
+//                        o[4] = "-";
+//                    }
+//                }
                 ConsorcioMaster cm = null;
                 System.out.println(co.getRubro());
                 System.out.println(conso);
@@ -583,18 +634,18 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
                 if (co.getOriginal() != null) {
 //                    Integer ma = cm.getMaster();
                     if (co.getOriginal()) {
-                        o[7] = "M";
+                        o[9] = "M";
                     } else {
-                        o[7] = "A";
+                        o[9] = "A";
                     }
                 } else {
-                    o[7] = "M";
+                    o[9] = "M";
                 }
                 //o[6]=co.get;
                 if (co.getPdfGenerado()) {
-                    o[8] = "SI";
+                    o[10] = "SI";
                 } else {
-                    o[8] = "NO";
+                    o[10] = "NO";
                 }
                 tbl.addRow(o);
             }
@@ -608,9 +659,12 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
         mostrarGeneradasChk.setSelected(true);
         mostrarGeneradasChk.setVisible(false);
         porFechaRb.setSelected(false);
+        porFechaRb.setVisible(false);
         porConsorcioRb.setSelected(true);
         porNumeroRb.setSelected(false);
+        porNumeroRb.setVisible(false);
         porTitularRb.setSelected(false);
+        porTitularRb.setVisible(false);
     }
 
     private void pdf(Comprobante comprobante) {
@@ -620,7 +674,7 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
                 UtilFrame.generarQR(data, comprobante.getNumero());
             }
         } catch (Exception ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "ERROR EN QR");
             return;
         }
@@ -634,9 +688,9 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
             //comprobante //
             //DesktopApi.open(pdf);
         } catch (DocumentException ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -655,7 +709,7 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
             de = sdf.parse(deTxt.getText());
             al = sdf.parse(alTxt.getText());
         } catch (ParseException ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "ERROR EN FECHAS");
             return;
         }
@@ -664,7 +718,7 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
         try {
             comprobantes = new ComprobanteService().getComprobantesEntrFechasOrdenTitular(de, al);
         } catch (Exception ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
 //        } else {
 //            try {
@@ -681,6 +735,17 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
         for (Mes m : Mes.values()) {
             meses.add(m);
         }
+        rubros = null;
+        try {
+            rubros = new RubroService().getAllRubrosActivos();
+        } catch (Exception ex) {
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        comboR.removeAllItems();
+        comboR.addItem("");
+        for (Rubro ru : rubros) {
+            comboR.addItem(ru.getDetalle());
+        }
     }
 
     private void excel() {
@@ -692,13 +757,13 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
         try {
             archivo.createNewFile();
         } catch (IOException ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
         WritableWorkbook libro = null;
         try {
             libro = Workbook.createWorkbook(archivo);
         } catch (IOException ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
         WritableSheet hoja1 = libro.createSheet("FACTURAS", 0);
 
@@ -740,17 +805,17 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
             }
 
         } catch (WriteException ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Error configurando Excel");
         }
         try {
             libro.write();
             libro.close();
         } catch (IOException ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Error: 528");
         } catch (WriteException ex) {
-            Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturasEntreFechas2Frame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Error: 529");
         }
         JOptionPane.showMessageDialog(this, "Excel creado correctamente");

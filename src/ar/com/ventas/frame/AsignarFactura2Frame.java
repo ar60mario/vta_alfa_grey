@@ -412,7 +412,7 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
         try {
             nroAbono = new AbonoService().getCodigoSiguiente();
         } catch (Exception ex) {
-            Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
         nroAbono += 1;
@@ -430,7 +430,7 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
         try {
             titular = new TitularCuitService().getTitularActivoByCuit(factura.getCuitTitular());
         } catch (Exception ex) {
-            Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "ERROR EN TITULAR");
             return;
         }
@@ -442,7 +442,7 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "ERROR EXISTE ADMINISTRACION");
             return;
         }
-        int cuotaFacturada = abono.getCuotaFacturada();
+//        int cuotaFacturada = abono.getCuotaFacturada();
         Comprobante cmpNuevo = new Comprobante();
 //        System.out.println(consorcio.getDomicilio().getCalle() + consorcio.getDomicilio().getNumero());
         Domicilio dmN = consoNuevo.getDomicilio();
@@ -522,18 +522,26 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
         try {
             rengA = new RenglonAbonoService().getRenglonAbonosByAbono(abono);
         } catch (Exception ex) {
-            Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "ERROR Nro.523 - renglones asignada");
+            return;
         }
         List<RenglonAbono> rengA2 = new ArrayList<>();
         for (RenglonAbono rea : rengA) {
             RenglonAbono ran2 = new RenglonAbono();
-            
-            volver();
+            ran2.setAbono(abono2);
+            ran2.setImporte(rea.getImporte());
+            ran2.setOrden(rea.getOrden());
+            ran2.setTexto(rea.getTexto());
+            rengA2.add(ran2);
+//            limpiarCampos();
         }
         try {
             renglones = new ComprobanteRenglonesService().getRenglonesPorComprobante(factura);
         } catch (Exception ex) {
-            Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "ERROR Nro. 540 - RENGLONES");
+            return;
         }
         List<ComprobanteRenglones> renglonesNuevo = new ArrayList<>();
         if (renglones != null && !renglones.isEmpty()) {
@@ -579,6 +587,10 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
             }
             new AbonoService().updateAbono(abono);
             new AbonoService().saveAbono(abono2);
+            for (RenglonAbono reng_abono : rengA2) {
+                reng_abono.setAbono(abono2);
+                new RenglonAbonoService().saveRenglonAbono(reng_abono);
+            }
             new AbonoFacturaService().saveAbonoFactura(af);
         } catch (Exception ex) {
             Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
@@ -587,6 +599,7 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
         }
         JOptionPane.showMessageDialog(this, "ASIGNACION COMPLETADA CORRECTAMENTE");
 //        volver();
+        limpiarCampos();
     }
 
     private Boolean verificar(Administrador admin, Comprobante factura) {

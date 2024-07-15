@@ -603,10 +603,10 @@ public class NotaCreditoFrame extends javax.swing.JFrame {
             }
             String numCae = cae.toString();
             String ruta1 = "c:/alfa_sistema/cmp/" + tipoComprob
-                    + "C_3_"
+                    + "C_13_"
                     + numeroFacturaPapel + ".xm1";
             String ruta2 = "c:/alfa_sistema/cmp/" + tipoComprob
-                    + "C_3_"
+                    + "C_13_"
                     + numeroFacturaPapel + ".xm2";
             File archivo1 = new File(ruta1);
             File archivo2 = new File(ruta2);

@@ -227,7 +227,7 @@ public class RenovarAbonosVencidosFrame extends javax.swing.JFrame {
         try {
             com = new ComprobanteService().getUltimoComprobanteByConsorcio(con);
         } catch (Exception ex) {
-            Logger.getLogger(RenovarAbonosVencidosFrame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "ERROR nro. 228");
             return;
         }
         if (com.getOriginal() != null) {
@@ -248,16 +248,18 @@ public class RenovarAbonosVencidosFrame extends javax.swing.JFrame {
         TitularCuit tc = null;
         try {
             tc = new TitularCuitService().getTitularActivoByCuit(cuitTit);
+            if (tc == null) {
+                JOptionPane.showMessageDialog(this, "NO EXISTE TITULAR DEBE ASIGNAR UNO - FC.MANUAL");
+                return;
+            }
         } catch (Exception ex) {
-            Logger.getLogger(RenovarAbonosVencidosFrame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "NO EXISTE TITULAR DEBE ASIGNAR UNO - FC.MANUAL");
             return;
         }
         if (master.equals("M")) {
             RenovarAbonoVencidoFrame ravf = new RenovarAbonoVencidoFrame(abono, tc);
             ravf.setVisible(true);
             this.dispose();
-        } else {
-
         }
     }//GEN-LAST:event_renovarBtnActionPerformed
 

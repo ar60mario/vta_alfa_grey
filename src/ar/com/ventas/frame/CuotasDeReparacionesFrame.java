@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.frame;
 
 import ar.com.ventas.entities.Comprobante;
@@ -260,7 +255,6 @@ public class CuotasDeReparacionesFrame extends javax.swing.JFrame {
                     de_1 = sdf.parse(de_0);
                     al_1 = sdf.parse(al_0);
                 } catch (ParseException ex) {
-                    Logger.getLogger(CuotasDeReparacionesFrame.class.getName()).log(Level.SEVERE, null, ex);
                     de_1 = new Date();
                     al_1 = new Date();
                 }
@@ -269,7 +263,6 @@ public class CuotasDeReparacionesFrame extends javax.swing.JFrame {
                 try {
                     cfg = new ConfiguracionService().getConfiguracion(1L);
                 } catch (Exception ex) {
-                    Logger.getLogger(CuotasDeReparacionesFrame.class.getName()).log(Level.SEVERE, null, ex);
                     nroRcX = 1;
                 }
                 nroRcX = cfg.getNroRx() + 1;
@@ -280,7 +273,6 @@ public class CuotasDeReparacionesFrame extends javax.swing.JFrame {
                 try {
                     cons = new ConsorcioService().getConsorcioByCodigo(codCons);
                 } catch (Exception ex) {
-                    Logger.getLogger(CuotasDeReparacionesFrame.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(this, "ERROR LEYENDO CONSORCIO CODIGO = " + codCons);
                     return;
                 }
@@ -295,7 +287,8 @@ public class CuotasDeReparacionesFrame extends javax.swing.JFrame {
                 try {
                     tpr = new TextoPeriodoReparacionService().getTextoPeriodoByConsorcioAndRubro(cons, rubro);
                 } catch (Exception ex) {
-                    Logger.getLogger(CuotasDeReparacionesFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "ERROR EN TEXTO PERIODO");
+                    return;
                 }
                 if (tpr != null) {
                     if (tpr.getLlevaTextoPeriodo()) {

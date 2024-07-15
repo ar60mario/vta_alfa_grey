@@ -7,6 +7,7 @@ package ar.com.ventas.frame;
 
 import ar.com.ventas.entities.Abono;
 import ar.com.ventas.entities.AbonoPendiente;
+import ar.com.ventas.entities.Administrador;
 import ar.com.ventas.entities.Comprobante;
 import ar.com.ventas.entities.Consorcio;
 import ar.com.ventas.entities.ConsorcioMaster;
@@ -92,21 +93,21 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
         chkBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("ABONOS PENDIENTES DE FACTURAR -a");
+        setTitle("FACTURAR ABONOS AUTOMATICO");
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "CODIGO", "CONSORCIO", "CTA FCTRD", "IMPORTE", "CONS ORG", "FCH ULT AB", "ULT CTA FCTRD", "IMPORTE", "NR FC", "FECHA FC", "IMP.FC", "TITULAR", "ID_ORG", "ID_MST"
+                "CODIGO", "CONSORCIO", "CTA FCTRD", "IMPORTE", "CONS ORG", "FCH ULT AB", "ULT CTA FCTRD", "IMPORTE", "NR FC", "FECHA FC", "IMP.FC", "TITULAR", "ID_ORG", "ID_MST", "ADMIN"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -390,24 +391,14 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                 case 2: // LIMPIEZA DE TANQUES
                     abonos = new AbonoService().getAbonosActivosPendientesOrdenadoByRubro(r);
                     break;
-                case 3: // 
-
                 case 4: // FUMIGACION
                     abonos = new AbonoService().getAbonosActivosPendientesOrdenadoByRubro4(r);
                     break;
-                case 5: // PUESTA A TIERRA
-
-                case 6: // RECARGA MATAFUEGOS
-
                 case 7: // CERCO ELECTRICO
                     abonos = new AbonoService().getAbonosActivosPendientesOrdenadoByRubro7(r);
                     break;
                 case 8: // CAMARAS SEGURIDAD
                     abonos = new AbonoService().getAbonosActivosPendientesOrdenadoByRubro8(r);
-                    break;
-                case 9: // REPARACIONES
-                case 10: // RED HIDRANTE
-                    abonos = new AbonoService().getAbonosActivosPendientesOrdenadoByRubro10(r);
                     break;
                 default: // si hay nuevos
 
@@ -504,7 +495,7 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                     try {
                         titular = new TitularCuitService().getTitularActivoByCuit(cuit);
                     } catch (Exception ex) {
-                        Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
 //                        System.out.println(titular);
 //                        System.exit(0);
                     }
@@ -573,7 +564,6 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
             Date fecha_periodo_dde;
             Date fecha_periodo_hta;
             Date fecha_vencim;
-
             try {
                 fecha_periodo_dde = sdf.parse(fpd);
                 fecha_periodo_hta = sdf.parse(fph);
@@ -584,32 +574,13 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                 return;
             }
             int ps = 3;
-
-//            for (AbonoPendiente ap : abonosPendientes) {
-//                System.out.println(ap.getAbono().getConsorcio().getDomicilio().getCalle());
-//                System.out.println(ap.getAbono().getConsorcio().getDomicilio().getNumero());
-//                System.out.println(ap.getComprobante().getCodigoCliente());
-//                System.out.println(ap.getComprobante().getFecha());
-//                if (!ap.getComprobante().getOriginal()) {
-//                    System.out.println(ap.getComprobanteMaster().getCodigoCliente());
-//                    System.out.println(ap.getComprobanteMaster().getFecha()); // es del mes pasado no es la nueva
-//                    System.out.println(ap.getConsorcioVinculado().getCodigo());
-//                }
-//                System.out.println(ap.getTitular());
-//                System.out.println("------");
-//            }
-//            System.exit(0);
 //    COMPROBANTES ORIGINALES PRIMERO
             for (AbonoPendiente ap : abonosPendientes) {
                 Comprobante compro = ap.getComprobante();
                 if (compro.getOriginal()) {
                     Abono ab = ap.getAbono();
-
-//                    Abono ab = null;
                     Integer tipoFact = ab.getTipoFacturacion();
-                    if (tipoFact.equals(2)) { // 1 Factura por Mes
-                        ps = 3; // 3 es producto y servicio
-                    }
+                    ps = 3; // 3 es producto y servicio
                     List<RenglonAbono> ra;
                     try {
                         ra = new RenglonAbonoService().getRenglonAbonosByAbono(ab);
@@ -638,6 +609,11 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "TITULAR QUE FACTURA ESTA INACTIVO" + calle);
                             return;
                         }
+                    } else {
+                        Domicilio dm = consorcio.getDomicilio();
+                        String calle = dm.getCalle() + " " + dm.getNumero();
+                        JOptionPane.showMessageDialog(this, "ERROR - TITULAR QUE FACTURA " + calle);
+                        return;
                     }
                 }
             }
@@ -661,7 +637,7 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                     }
                     Consorcio consorcioOriginal = ap.getConsorcioVinculado();
                     Consorcio consorcio = ab.getConsorcio();
-                    
+
                     ab.setPendiente(false);
                     String resultado = UtilFactura.saveFacturaVinculada(consorcioOriginal, consorcio,
                             ab, ra);
@@ -669,7 +645,7 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "AJUSTE EL ABONO PARA QUE COINCIDA CON LA FACTURA ASIGNADA ");
                         return;
                     }
-                    if(!resultado.equals("A")){
+                    if (!resultado.equals("A")) {
                         Consorcio cns = ab.getConsorcio();
                         Domicilio dm = cns.getDomicilio();
                         String calle = dm.getCalle() + " " + dm.getNumero();
@@ -690,7 +666,7 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
         if (abonosP != null && !abonosP.isEmpty()) {
             DefaultTableModel tbl = (DefaultTableModel) tabla.getModel();
             for (AbonoPendiente ap : abonosP) {
-                Object o[] = new Object[14];
+                Object o[] = new Object[15];
                 Comprobante compro = ap.getComprobante();
                 if (compro != null) {
                     o[12] = compro.getId();
@@ -701,6 +677,8 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                 Rubro ru = ap.getAbono().getRubro();
                 Consorcio con = ap.getAbono().getConsorcio();
                 Domicilio dm = con.getDomicilio();
+                Administrador adm = con.getAdministrador();
+                o[14] = adm.getNombreAdministrador();
                 String calle = dm.getCalle() + " " + dm.getNumero();
                 String cuota = ap.getAbono().getCuotaFacturada().toString();
                 if (ru.getCodigo().equals(3)) {
@@ -721,7 +699,7 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                             cmp = new ComprobanteService().getComprobanteById(id_orig);
                             a = 1;
                         } catch (Exception ex) {
-                            Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                            Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
                             JOptionPane.showMessageDialog(this, "VERIFIQUE " + id_orig);
                             return;
                         }
@@ -791,10 +769,17 @@ public class AbonosPendientesFacturarFrame extends javax.swing.JFrame {
                 }
                 
                  */
+                String titular;
+                if (ap.getTitular() != null) {
+                    titular = ap.getTitular().getPersona().getApellidoNombre();
+                } else {
+                    titular = "";
+                }
                 o[0] = con.getCodigo().toString();
                 o[1] = calle;
                 o[2] = cuota;
                 o[3] = df.format(importe);
+                o[11] = titular;
                 tbl.addRow(o);
             }
             tabla.setModel(tbl);

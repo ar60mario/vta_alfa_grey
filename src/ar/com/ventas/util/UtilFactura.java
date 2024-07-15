@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.util;
 
 import ar.com.ventas.entities.Abono;
@@ -108,15 +103,15 @@ public class UtilFactura {
             List<RenglonAbono> renglones, Date da1, Date da2, Date da3, Date da4, Integer ps) {
 //        String codigoCategoria = tc.getCategoria();
         Rubro rubro = abono.getRubro();
-        System.out.println(cliente.getDomicilio().getCalle());
-        System.out.println(tc);
-        System.out.println(abono);
-        System.out.println(renglones);
-        System.out.println(da1);
-        System.out.println(da2);
-        System.out.println(da3);
-        System.out.println(da4);
-        System.out.println(ps);
+//        System.out.println(cliente.getDomicilio().getCalle());
+//        System.out.println(tc);
+//        System.out.println(abono);
+//        System.out.println(renglones);
+//        System.out.println(da1);
+//        System.out.println(da2);
+//        System.out.println(da3);
+//        System.out.println(da4);
+//        System.out.println(ps);
         Administrador adm = cliente.getAdministrador();
         Long id_admin = adm.getId();
         String letra = "C";
@@ -124,180 +119,159 @@ public class UtilFactura {
 //        if (tipo_inscripcion.equals(6)) {
 //            letra = "C";
 //        }
-        Integer tipoComprobante = 11;
+//        Integer tipoComprobante;
         if (tc.getTipoInscipcion().equals(6)) {
-            tipoComprobante = 11;
+//            tipoComprobante = 11;
             letra = "C";
         }
         if (tc.getTipoInscipcion().equals(1)) {
             Integer inscrCons = cliente.getTipoInscripcion();
             if (inscrCons.equals(1)) {
-                tipoComprobante = 1;
+//                tipoComprobante = 1;
                 letra = "A";
+                JOptionPane.showMessageDialog(null, "VERIFIQUE TIPO INSCRIPCION TITULAR CUIT");
+                return "N";
             }
             if (inscrCons.equals(6)) {
-                tipoComprobante = 1;
+//                tipoComprobante = 1;
                 letra = "A";
             }
             if (inscrCons.equals(4)) {
-                tipoComprobante = 6;
+//                tipoComprobante = 6;
                 letra = "B";
             }
             if (inscrCons.equals(5)) {
-                tipoComprobante = 6;
+//                tipoComprobante = 6;
                 letra = "B";
             }
         }
         String resultado = "N";
-        if (letra.equals("C")) {
-            NuevoCae nuevoCae = UtilAfip.getNuevoCaeFcC(cliente, tc, abono, da1, da2, da3, da4, ps);
-//        TicketTime tt = UtilAfip.solicitarNuevoTicket(titu, certif, llave);
-//        int ufc = UtilAfip.getUltimaFcC(ptoVta, cui1, tt.getToken(), tt.getSign());
-//        int unc = UtilAfip.getUltimaNcC(ptoVta, cui1, tt.getToken(), tt.getSign());
-//            NuevoCae nuevoCae = new NuevoCae();
-//            nuevoCae.setCae(123L);
-//            nuevoCae.setErrMsj("");
-//            nuevoCae.setEstado("A");
-//            nuevoCae.setExcepcion("");
-//            nuevoCae.setFechaCae(new Date());
-//            nuevoCae.setFechaPeriodoDesde(da2);
-//            nuevoCae.setFechaPeriodoHasta(da3);
-//            nuevoCae.setFechaVencimiento(da4);
-//            nuevoCae.setFechaVencimientoPago(da4);
-//            nuevoCae.setMotivo("");
-//            nuevoCae.setNumero(15000);
-//            nuevoCae.setObservaciones("");
-//            nuevoCae.setSucursal(99);
-
-            DecimalFormat df = new DecimalFormat("#0.00");
-            Double calculoCuota = abono.getImporte() / abono.getCuotas();
-            String calculoString = df.format(calculoCuota).replace(",", ".");
-            Double totalFacturaAfip = Double.valueOf(calculoString);
-            if (nuevoCae != null) {
-                String aceptado = nuevoCae.getEstado();
-                if (aceptado.equals("A")) {
-                    Comprobante fc = new Comprobante();
-                    Domicilio dmC = cliente.getDomicilio();
-                    Domicilio dmT = tc.getDomicilio();
-                    fc.setCae(nuevoCae.getCae());
-                    fc.setCalleNroPisoDtoCliente(dmC.getCalle() + " " + dmC.getNumero());
-                    fc.setCantidadCuotas(abono.getCuotas());
-                    fc.setCodigoCliente(cliente.getCodigo());
-                    fc.setCodigoComprobante(11);
-                    fc.setCodigoPostalAndLocalidadCliente(dmC.getCodigoPostal() + " " + dmC.getLocalidad());
-                    fc.setCodigoPostalAndLocalidadTitular(dmT.getCodigoPostal() + " " + dmT.getLocalidad());
-                    fc.setCuitCliente(cliente.getCuit());
-                    fc.setCuitTitular(tc.getCuit());
-                    fc.setCuotasPagadas(abono.getCuotaFacturada() + 1);
-                    fc.setDomicilioTitular(dmT.getCalle() + " " + dmT.getNumero());
-                    fc.setFecha(da1);
-                    String textoP = "";
-                    if (abono.getRubro().getCodigo().equals(3)) {
-                        if (abono.getTextoPeriodo().equals(0)) {
-                            textoP = UtilFrame.mesAnteriorEnLetras(new Date());
-                        } else {
-                            textoP = UtilFrame.mesActualEnLetras(new Date());
-                        }
+//        if (letra.equals("C")) {
+        NuevoCae nuevoCae = UtilAfip.getNuevoCaeFcC(cliente, tc, abono, da1, da2, da3, da4, ps);
+        DecimalFormat df = new DecimalFormat("#0.00");
+        Double calculoCuota = abono.getImporte() / abono.getCuotas();
+        String calculoString = df.format(calculoCuota).replace(",", ".");
+        Double totalFacturaAfip = Double.valueOf(calculoString);
+        if (nuevoCae != null) {
+            String aceptado = nuevoCae.getEstado();
+            if (aceptado.equals("A")) {
+                Comprobante fc = new Comprobante();
+                Domicilio dmC = cliente.getDomicilio();
+                Domicilio dmT = tc.getDomicilio();
+                Integer cuota_facturada = abono.getCuotaFacturada() + 1;
+                fc.setCae(nuevoCae.getCae());
+                fc.setCalleNroPisoDtoCliente(dmC.getCalle() + " " + dmC.getNumero());
+                fc.setCantidadCuotas(abono.getCuotas());
+                fc.setCodigoCliente(cliente.getCodigo());
+                fc.setCodigoComprobante(11);
+                fc.setCodigoPostalAndLocalidadCliente(dmC.getCodigoPostal() + " " + dmC.getLocalidad());
+                fc.setCodigoPostalAndLocalidadTitular(dmT.getCodigoPostal() + " " + dmT.getLocalidad());
+                fc.setCuitCliente(cliente.getCuit());
+                fc.setCuitTitular(tc.getCuit());
+                fc.setCuotasPagadas(cuota_facturada);
+                fc.setDomicilioTitular(dmT.getCalle() + " " + dmT.getNumero());
+                fc.setFecha(da1);
+                String textoP = "";
+                if (abono.getRubro().getTextoEnPeriodo()) { // rubro matafuegos
+                    if (abono.getTextoPeriodo().equals(0)) {
+                        textoP = UtilFrame.mesAnteriorEnLetras(new Date());
                     } else {
-                        textoP = "";
+                        textoP = UtilFrame.mesActualEnLetras(new Date());
                     }
-                    fc.setId_administrador(id_admin);
-                    fc.setPeriodo(textoP);
-                    fc.setFechaInicioActividades(tc.getFechaInicioActividades());
-                    fc.setFechaPeriodoDesde(da2);
-                    fc.setFechaPeriodoHasta(da3);
-                    fc.setFechaVencimientoCae(nuevoCae.getFechaCae());
-                    fc.setFechaVencimientoPago(da4);
-                    fc.setGravado(calculoCuota);
-                    fc.setId_original(0L);
-                    fc.setIibb(tc.getIibb());
-                    fc.setIva(0.0);
-                    fc.setLetra(letra);
-                    fc.setLetraComprobanteAsociado(letra);
-                    fc.setNumero(nuevoCae.getNumero());
-                    fc.setNumeroComprobanteAsociado(0);
-                    fc.setOriginal(true);
-                    fc.setPagado(0.0);
-                    fc.setPdfGenerado(false);
-                    fc.setProductoServicio(ps);
-                    fc.setProvinciaCliente(dmC.getProvincia());
-                    fc.setProvinciaTitular(dmT.getProvincia());
-                    fc.setRazonSocialCliente(cliente.getNombre());
-                    fc.setRazonSocialTitular(tc.getPersona().getApellidoNombre());
-                    fc.setRubro(rubro);
-                    fc.setSucursal(tc.getSucursal());
-                    fc.setSucursalComprobanteAsociado(0);
-                    fc.setTexto1("");
-                    fc.setTexto2("");
-
-                    fc.setTipoComprobanteAsociado(0);
-                    fc.setTipoDocumento(cliente.getDocumentoTipo());
-                    fc.setTipoEmision(abono.getTipoFacturacion());
-                    fc.setTipoInscripcion(cliente.getTipoInscripcion().toString());
-                    fc.setTotal(totalFacturaAfip);
-                    CuentaCorrienteCliente ccc = new CuentaCorrienteCliente();
-                    ccc.setComprobante(fc);
-                    ccc.setConsorcio(cliente);
-                    ccc.setDebe(calculoCuota);
-                    ccc.setFecha(da1);
-                    ccc.setHaber(0.0);
-                    ccc.setRecibo(null);
-                    ccc.setTipoComprobante(11);
-                    Double sal = cliente.getSaldo();
-                    sal += calculoCuota;
-                    cliente.setSaldo(sal);
-                    ccc.setSaldo(sal);
-                    List<ComprobanteRenglones> renglonesFc = new ArrayList<>();
-                    for (RenglonAbono ra : renglones) {
-                        ComprobanteRenglones rf = new ComprobanteRenglones();
-                        rf.setComprobante(fc);
-                        rf.setImporte(ra.getImporte());
-//                        rf.setOrden(ra.getOrden());
-                        rf.setDetalle(ra.getTexto());
-                        renglonesFc.add(rf);
-                    }
-                    if (abono.getCuotaFacturada() != null) {
-                        int cta = abono.getCuotaFacturada() + 1;
-                        abono.setCuotaFacturada(cta);
-                    } else {
-                        abono.setCuotaFacturada(1);
-                    }
-                    abono.setPendiente(false);
-                    try {
-                        fc = new ComprobanteService().saveComprobante(fc);
-                        for (ComprobanteRenglones ra : renglonesFc) {
-                            ra.setComprobante(fc);
-                            ra = new ComprobanteRenglonesService().saveRenglon(ra);
-                        }
-                        new AbonoService().updateAbono(abono);
-                        new ConsorcioService().updateConsorcio(cliente);
-                        ccc.setComprobante(fc);
-                        new CuentaCorrienteClienteService().saveCuentaCorrienteCliente(ccc);
-
-                        resultado = "A";
-                    } catch (Exception ex) {
-                        Logger.getLogger(UtilFactura.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                } else {
+                    textoP = "";
                 }
-            } else {
-                Domicilio dm = cliente.getDomicilio();
-                String calle = dm.getCalle() + " " + dm.getNumero();
-                JOptionPane.showMessageDialog(null, "NO SE GENERO CAE NUEVO " + calle);
-                resultado = "N";
+                fc.setId_administrador(id_admin);
+                fc.setPeriodo(textoP);
+                fc.setFechaInicioActividades(tc.getFechaInicioActividades());
+                fc.setFechaPeriodoDesde(da2);
+                fc.setFechaPeriodoHasta(da3);
+                fc.setFechaVencimientoCae(nuevoCae.getFechaCae());
+                fc.setFechaVencimientoPago(da4);
+                fc.setGravado(calculoCuota);
+                fc.setId_original(0L);
+                fc.setIibb(tc.getIibb());
+                fc.setIva(0.0);
+                fc.setLetra(letra);
+                fc.setLetraComprobanteAsociado(letra);
+                fc.setNumero(nuevoCae.getNumero());
+                fc.setNumeroComprobanteAsociado(0);
+                fc.setOriginal(true);
+                fc.setPagado(0.0);
+                fc.setPdfGenerado(false);
+                fc.setProductoServicio(ps);
+                fc.setProvinciaCliente(dmC.getProvincia());
+                fc.setProvinciaTitular(dmT.getProvincia());
+                fc.setRazonSocialCliente(cliente.getNombre());
+                fc.setRazonSocialTitular(tc.getPersona().getApellidoNombre());
+                fc.setRubro(rubro);
+                fc.setSucursal(tc.getSucursal());
+                fc.setSucursalComprobanteAsociado(0);
+                fc.setTexto1("");
+                fc.setTexto2("");
+
+                fc.setTipoComprobanteAsociado(0);
+                fc.setTipoDocumento(cliente.getDocumentoTipo());
+                fc.setTipoEmision(abono.getTipoFacturacion());
+                fc.setTipoInscripcion(cliente.getTipoInscripcion().toString());
+                fc.setTotal(totalFacturaAfip);
+                CuentaCorrienteCliente ccc = new CuentaCorrienteCliente();
+                ccc.setComprobante(fc);
+                ccc.setConsorcio(cliente);
+                ccc.setDebe(calculoCuota);
+                ccc.setFecha(da1);
+                ccc.setHaber(0.0);
+                ccc.setRecibo(null);
+                ccc.setTipoComprobante(11);
+                Double sal = cliente.getSaldo();
+                sal += calculoCuota;
+                cliente.setSaldo(sal);
+                ccc.setSaldo(sal);
+                List<ComprobanteRenglones> renglonesFc = new ArrayList<>();
+                for (RenglonAbono ra : renglones) {
+                    ComprobanteRenglones rf = new ComprobanteRenglones();
+                    rf.setComprobante(fc);
+                    rf.setImporte(ra.getImporte());
+//                        rf.setOrden(ra.getOrden());
+                    rf.setDetalle(ra.getTexto());
+                    renglonesFc.add(rf);
+                }
+                if (abono.getCuotaFacturada() != null) {
+                    int cta = abono.getCuotaFacturada() + 1;
+                    abono.setCuotaFacturada(cta);
+                } else {
+                    abono.setCuotaFacturada(1);
+                }
+                abono.setPendiente(false);
+                try {
+                    fc = new ComprobanteService().saveComprobante(fc);
+                    for (ComprobanteRenglones ra : renglonesFc) {
+                        ra.setComprobante(fc);
+                        ra = new ComprobanteRenglonesService().saveRenglon(ra);
+                    }
+                    new AbonoService().updateAbono(abono);
+                    new ConsorcioService().updateConsorcio(cliente);
+                    ccc.setComprobante(fc);
+                    new CuentaCorrienteClienteService().saveCuentaCorrienteCliente(ccc);
+
+                    resultado = "A";
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "ERROR 267-277");
+                    resultado = "N";
+                }
             }
         } else {
-            if (letra.equals("A")) {
-
-            } else {
-                // letra es B
-
-            }
+            Domicilio dm = cliente.getDomicilio();
+            String calle = dm.getCalle() + " " + dm.getNumero();
+            JOptionPane.showMessageDialog(null, "NO SE GENERO CAE NUEVO " + calle);
+            resultado = "N";
         }
         return resultado;
     }
 
     public static String saveFacturaReparacion(Consorcio cliente, TitularCuit tc,
-            List<ComprobanteRenglones> renglones, Double total, Rubro rubro, Date da1, Date da4, Integer ps, Integer cuotas) {
+            List<ComprobanteRenglones> renglones, Double total, Rubro rubro, Date da1,
+            Date da4, Integer ps, Integer cuotas, Integer n_cuota) {
 //        Rubro rubro = abono.getRubro();
         Date da2 = da1;
         Date da3 = da1;
@@ -358,7 +332,7 @@ public class UtilFactura {
                     fc.setCodigoPostalAndLocalidadTitular(dmT.getCodigoPostal() + " " + dmT.getLocalidad());
                     fc.setCuitCliente(cliente.getCuit());
                     fc.setCuitTitular(tc.getCuit());
-                    fc.setCuotasPagadas(1);
+                    fc.setCuotasPagadas(n_cuota);
                     fc.setDomicilioTitular(dmT.getCalle() + " " + dmT.getNumero());
                     fc.setFecha(da1);
                     fc.setOriginal(true);
@@ -402,7 +376,7 @@ public class UtilFactura {
 
                     fc.setTipoComprobanteAsociado(0);
                     fc.setTipoDocumento(cliente.getDocumentoTipo());
-                    fc.setTipoEmision(4);
+                    fc.setTipoEmision(2);
                     fc.setTipoInscripcion(cliente.getTipoInscripcion().toString());
                     fc.setTotal(totalFacturaAfip);
                     fc.setPeriodoHabilitado(false);
@@ -460,8 +434,79 @@ public class UtilFactura {
         return resultado;
     }
 
+    public static String saveFacturaReparacion2(Consorcio cliente, TitularCuit tc,
+            List<ComprobanteRenglones> renglones, Double total, Rubro rubro, Date da1,
+            Date da4, Integer ps, Integer cuotas, Integer n_cuota,
+            Comprobante fc, Comprobante anterior, CuentaCorrienteCliente ccc) {
+//        Rubro rubro = abono.getRubro();
+        Date da2 = da1;
+        Date da3 = da1;
+//        Abono abono = null;
+        System.out.println(cliente.getDomicilio().getCalle());
+        System.out.println(tc.getPersona().getApellidoNombre());
+//        System.out.println(abono);
+        System.out.println(renglones);
+        System.out.println(da1);
+        System.out.println(da2);
+        System.out.println(da3);
+        System.out.println(da4);
+        System.out.println(ps);
+        String letra = "C";
+        Integer tipo_inscripcion = tc.getTipoInscipcion(); // 6-Monotributo
+        if (tipo_inscripcion.equals(6)) {
+            letra = "C";
+        }
+        String resultado = "N";
+        if (letra.equals("C")) {
+            System.out.println(cliente.getDomicilio().getCalle());
+            System.out.println(tc.getPersona().getApellidoNombre());
+            System.out.println(total);
+            System.out.println(da1);
+            System.out.println(da2);
+            System.out.println(da3);
+            System.out.println(da4);
+            System.out.println(ps);
+//            System.exit(0);
+            NuevoCae nuevoCae = UtilAfip.getNuevoCaeFcCReparacion(cliente, tc,
+                    total, da1, da2, da4, da4, ps);
+
+            if (nuevoCae != null) {
+                String aceptado = nuevoCae.getEstado();
+                if (aceptado.equals("A")) {
+                    fc.setCae(nuevoCae.getCae());
+                    fc.setCodigoComprobante(11);
+                    fc.setFecha(da1);
+                    fc.setFechaVencimientoCae(nuevoCae.getFechaCae());
+                    fc.setFechaVencimientoPago(da4);
+                    fc.setNumero(nuevoCae.getNumero());
+                    fc.setNumeroComprobanteAsociado(0);
+                    try {
+                        fc = new ComprobanteService().saveComprobante(fc);
+                        for (ComprobanteRenglones ra : renglones) {
+                            ra.setComprobante(fc);
+                            ra = new ComprobanteRenglonesService().saveRenglon(ra);
+                        }
+                        new ComprobanteService().updateComprobante(anterior);
+                        cliente = new ConsorcioService().updateConsorcio(cliente);
+                        ccc.setConsorcio(cliente);
+                        ccc.setComprobante(fc);
+                        new CuentaCorrienteClienteService().saveCuentaCorrienteCliente(ccc);
+
+                        resultado = "A";
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "ERROR REGISTRANDO COMPROBANTE"
+                                + fc.getCalleNroPisoDtoCliente());
+                        resultado = "N";
+                    }
+                }
+            }
+        }
+        return resultado;
+    }
+
     public static String saveReciboReparacion(Consorcio cliente, FondoRecibo fr,
-            List<ComprobanteRenglones> renglones, Double total, Rubro rubro, Date da1, Date da4, Integer ps, Integer cuotas) {
+            List<ComprobanteRenglones> renglones, Double total, Rubro rubro, Date da1,
+            Date da4, Integer ps, Integer cuotas) {
         Date da2 = da1;
         Date da3 = da1;
         String letra = "X";
@@ -471,7 +516,7 @@ public class UtilFactura {
             cnfg = new ConfiguracionService().getConfiguracion(1L);
         } catch (Exception ex) {
             Logger.getLogger(UtilFactura.class.getName()).log(Level.SEVERE, null, ex);
-            return "";
+            return "X";
         }
         num = cnfg.getNroRx();
         num += 1;
@@ -573,7 +618,6 @@ public class UtilFactura {
             new ConfiguracionService().updateConfiguracion(cnfg);
             resultado = "A";
         } catch (Exception ex) {
-            Logger.getLogger(UtilFactura.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "ERROR 510");
             resultado = "N";
         }

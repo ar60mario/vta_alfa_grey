@@ -202,9 +202,11 @@ public class SinRenglonesFrame extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date de = new Date();
         Date al = new Date();
+        String del = deTxt.getText();
+        String has = alTxt.getText();
         try {
-            de = sdf.parse("01/01/2024");
-            al = sdf.parse("31/01/2024");
+            de = sdf.parse(del);
+            al = sdf.parse(has);
         } catch (ParseException ex) {
             Logger.getLogger(SinRenglonesFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

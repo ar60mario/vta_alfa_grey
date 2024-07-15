@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.frame;
 
 import ar.com.ventas.entities.Comprobante;
@@ -218,13 +213,17 @@ public class RecibosFinDeAnioFrame extends javax.swing.JFrame {
             try {
                 archivo.createNewFile();
             } catch (IOException ex) {
-                Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "ERROR 219");
+                return;
             }
             WritableWorkbook libro = null;
             try {
                 libro = Workbook.createWorkbook(archivo);
             } catch (IOException ex) {
-                Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "ERROR 225");
+                return;
             }
             WritableSheet hoja1 = libro.createSheet("RECIBOS AL 31.12.2023", 0);
             int y = 2;
@@ -240,8 +239,9 @@ public class RecibosFinDeAnioFrame extends javax.swing.JFrame {
 //                hoja1.addCell(new jxl.write.Label(7, 1, "HABER"));
 //                hoja1.addCell(new jxl.write.Label(8, 1, "SALDO"));
             } catch (WriteException ex) {
-                Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, "Error configurando Excel");
+                return;
             }
             for (int i = 0; i < rows; i++) {
                 String con = "";
@@ -285,19 +285,20 @@ public class RecibosFinDeAnioFrame extends javax.swing.JFrame {
 
                     y += 1;
                 } catch (WriteException ex) {
-                    Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(this, "Error configurando Excel");
+                    return;
                 }
             }
             try {
                 libro.write();
                 libro.close();
             } catch (IOException ex) {
-                Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, "Error: 365");
                 return;
             } catch (WriteException ex) {
-                Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(AbonosPendientesFacturarFrame.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, "Error: 366");
                 return;
             }
@@ -311,17 +312,20 @@ public class RecibosFinDeAnioFrame extends javax.swing.JFrame {
         try {
             consorcios = new ConsorcioService().getAllConsorciosActivos();
         } catch (Exception ex) {
-            Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "ERROR 312");
+            return;
         }
         if (consorcios != null && !consorcios.isEmpty()) {
-            Date de = new Date();
+            Date de;
             Date al = new Date();
             Date hoy = new Date();
+            Date fecha_recibo = new Date();
             try {
-                de = sdf.parse("01/01/2023");
-                al = sdf.parse("31/12/2023");
+                de = sdf.parse("01/01/2020");
+                al = sdf.parse("29/02/2024");
             } catch (ParseException ex) {
-                Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "ERROR EN FECHAS");
+                return;
             }
             DefaultTableModel tbl = (DefaultTableModel) tabla.getModel();
             Integer nro;
@@ -334,9 +338,10 @@ public class RecibosFinDeAnioFrame extends javax.swing.JFrame {
             for (Consorcio co : consorcios) {
                 List<CuentaCorrienteCliente> ccc;
                 try {
-                    ccc = new CuentaCorrienteClienteService().getCuentaCorrienteClienteByClienteEntreFechas(co, de, al);
+                    ccc = new CuentaCorrienteClienteService()
+                            .getCuentaCorrienteClienteByClienteEntreFechas(co, de, al);
                 } catch (Exception ex) {
-                    Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
                     continue;
                 }
                 if (!ccc.isEmpty()) {
@@ -349,30 +354,34 @@ public class RecibosFinDeAnioFrame extends javax.swing.JFrame {
                         try {
                             new CuentaCorrienteClienteService().updateCuentaCorrienteCliente(cc);
                         } catch (Exception ex) {
-                            Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(this, "ERROR 352");
+                            return;
                         }
                         Comprobante comp = null;
                         if (cc.getTipoComprobante().equals(11)) {
                             comp = cc.getComprobante();
                             comp.setPagado(comp.getTotal());
                             Double impo = comp.getTotal();
+                            fecha_recibo = cc.getFecha();
                             try {
                                 new ComprobanteService().updateComprobante(comp);
                             } catch (Exception ex) {
-                                Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                JOptionPane.showMessageDialog(this, "ERROR 362");
+                                return;
                             }
                             Recibo rc = new Recibo();
                             rc.setConsorcio(co);
-                            rc.setFecha(al);
+                            rc.setFecha(fecha_recibo);
                             rc.setImporte(impo);
-                            rc.setReferencia("CIERRE DE AÑO 2023 - FC: " + dfn.format(comp.getNumero()));
+                            rc.setReferencia("COBRANZA - FC: " + dfn.format(comp.getNumero()));
                             rc.setAplicado(impo);
                             nro += 1;
                             rc.setNumero(nro);
                             try {
                                 rc = new ReciboService().saveRecibo(rc);
                             } catch (Exception ex) {
-                                Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                JOptionPane.showMessageDialog(this, "ERROR 375");
+                                return;
                             }
                             RcCo rc_co = new RcCo();
                             rc_co.setRecibo(rc);
@@ -382,13 +391,14 @@ public class RecibosFinDeAnioFrame extends javax.swing.JFrame {
                             try {
                                 new RcCoService().saveRecibo(rc_co);
                             } catch (Exception ex) {
-                                Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                JOptionPane.showMessageDialog(this, "ERROR 385");
+                                return;
                             }
                             CuentaCorrienteCliente cc2 = new CuentaCorrienteCliente();
                             cc2.setComprobante(null);
                             cc2.setConsorcio(co);
                             cc2.setDebe(0.00);
-                            cc2.setFecha(al);
+                            cc2.setFecha(fecha_recibo);
                             cc2.setHaber(impo);
                             cc2.setRecibo(rc);
                             cc2.setSaldo(0.00);
@@ -396,13 +406,15 @@ public class RecibosFinDeAnioFrame extends javax.swing.JFrame {
                             try {
                                 new CuentaCorrienteClienteService().saveCuentaCorrienteCliente(cc2);
                             } catch (Exception ex) {
-                                Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                JOptionPane.showMessageDialog(this, "ERROR 399");
+                                return;
                             }
                             co.setSaldo(0.00);
                             try {
                                 new ConsorcioService().updateConsorcio(co);
                             } catch (Exception ex) {
-                                Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                JOptionPane.showMessageDialog(this, "ERROR 405");
+                                return;
                             }
                             Domicilio dm = co.getDomicilio();
                             Object o[] = new Object[4];
@@ -410,7 +422,7 @@ public class RecibosFinDeAnioFrame extends javax.swing.JFrame {
                             o[1] = dm.getNumero();
                             o[3] = df.format(0);
                             tbl.addRow(o);
-                        }
+                        } 
                     }
                 }
             }
@@ -420,7 +432,7 @@ public class RecibosFinDeAnioFrame extends javax.swing.JFrame {
                 try {
                     ccc = new CuentaCorrienteClienteService().getCuentaCorrienteClienteByClienteEntreFechas(co, de, hoy);
                 } catch (Exception ex) {
-                    Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
                     continue;
                 }
                 if (!ccc.isEmpty()) {
@@ -434,14 +446,16 @@ public class RecibosFinDeAnioFrame extends javax.swing.JFrame {
                         try {
                             new CuentaCorrienteClienteService().updateCuentaCorrienteCliente(cc);
                         } catch (Exception ex) {
-                            Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(this, "ERROR 455");
+                            return;
                         }
                     }
                     co.setSaldo(dbl1);
                     try {
                         new ConsorcioService().updateConsorcio(co);
                     } catch (Exception ex) {
-                        Logger.getLogger(RecibosFinDeAnioFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(this, "ERROR 462");
+                        return;
                     }
                 }
             }

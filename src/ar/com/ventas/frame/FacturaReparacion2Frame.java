@@ -722,7 +722,7 @@ public class FacturaReparacion2Frame extends javax.swing.JFrame {
             List<ComprobanteRenglones> renglones = new ArrayList<>();
             int rows = tabla.getRowCount();
             int row4 = comboR.getSelectedIndex();
-            int ord = 0;
+//            int ord = 0;
             Double total = 0.0;
             Date fecha;
             Date fechaVencim;
@@ -730,7 +730,7 @@ public class FacturaReparacion2Frame extends javax.swing.JFrame {
                 fecha = sdf.parse(fechaTxt.getText());
                 fechaVencim = sdf.parse(fechaVencimTxt.getText());
             } catch (ParseException ex) {
-                Logger.getLogger(FacturaReparacion2Frame.class.getName()).log(Level.SEVERE, null, ex);
+                
                 JOptionPane.showMessageDialog(this, "ERROR EN FECHA");
                 return;
             }
@@ -752,7 +752,7 @@ public class FacturaReparacion2Frame extends javax.swing.JFrame {
             int ps = 3;
             Integer cuots = Integer.valueOf(cuotasTxt.getText());
             String resultado = UtilFactura.saveFacturaReparacion(consorcio, titular,
-                    renglones, total, rubros.get(row4 - 1), fecha, fechaVencim, ps, cuots);
+                    renglones, total, rubros.get(row4 - 1), fecha, fechaVencim, ps, cuots, 1);
             if (resultado.equals("A")) {
                 JOptionPane.showMessageDialog(this, "COMPROBANTE REGISTRADO CORRECTAMENTE");
             } else {

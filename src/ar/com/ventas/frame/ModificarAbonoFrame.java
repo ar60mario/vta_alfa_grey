@@ -854,14 +854,14 @@ public class ModificarAbonoFrame extends javax.swing.JFrame {
         } else {
             fechaPeriodoTxt.setText(sdf.format(new Date()));
         }
-        int rowPe;
-        if (abono.getTextoPeriodo() != null) {
-            rowPe = abono.getTextoPeriodo();
-            rowPe += 1;
-        } else {
-            rowPe = 0;
-        }
-        comboPe.setSelectedIndex(rowPe);
+//        int rowPe;
+//        if (abono.getTextoPeriodo() != null) {
+//            rowPe = abono.getTextoPeriodo();
+//            rowPe += 1;
+//        } else {
+//            rowPe = 0;
+//        }
+//        comboPe.setSelectedIndex(rowPe);
     }
 
     private void cargarTexto(int i) {

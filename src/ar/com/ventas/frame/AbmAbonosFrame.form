@@ -38,6 +38,8 @@
                       <Component id="abonosCanceladosBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="excelBtn" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="noRenovarBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="volvarBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -76,6 +78,7 @@
                   <Component id="cancelarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="abonosCanceladosBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="excelBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="noRenovarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
           </Group>
@@ -253,6 +256,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="excelBtnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="noRenovarBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="No Renovar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="noRenovarBtnActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

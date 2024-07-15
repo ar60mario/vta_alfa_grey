@@ -12,6 +12,7 @@
         <property name="importe" type="double" column="IMPORTE"/>
         <property name="activo" type="boolean" column="ACTIVO"/>
         <property name="esAbono" type="boolean" column="ES_ABONO"/>
+        <property name="textoEnPeriodo" type="boolean" column="TEXTO_EN_PERIODO"/>
         <property name="textoEnFactura" type="string" column="TEXTO_EN_FACTURA"/>
         <many-to-one name="estructura"
                     class="ar.com.ventas.entities.Estructura"

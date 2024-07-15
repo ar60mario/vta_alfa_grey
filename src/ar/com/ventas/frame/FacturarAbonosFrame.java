@@ -702,11 +702,11 @@ public class FacturarAbonosFrame extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(FacturarAbonosFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-            for (Abono ab : abonos) {
-                System.out.println(ab.getConsorcio().getDomicilio().getCalle() + " "
-                        + ab.getConsorcio().getDomicilio().getNumero());
-                System.out.println(ab.getTipoFacturacion());
-            }
+//            for (Abono ab : abonos) {
+//                System.out.println(ab.getConsorcio().getDomicilio().getCalle() + " "
+//                        + ab.getConsorcio().getDomicilio().getNumero());
+//                System.out.println(ab.getTipoFacturacion());
+//            }
 //            System.exit(0);
             llenarTabla(abonos);
         }
@@ -781,9 +781,9 @@ public class FacturarAbonosFrame extends javax.swing.JFrame {
                 System.out.println(importe_abono);
                 saldo_cliente += importe_abono;
 //                Long n_cae = 1L;
-                if (tipoFact.equals(1)) { // 1 Factura varios Recibos
-
-                }
+//                if (tipoFact.equals(1)) { // 1 Factura varios Recibos
+//
+//                }
                 if (tipoFact.equals(2)) { // 1 Factura por Mes
                     int ps = 3; // 3 es producto y servicio
                     ab.setPendiente(false);
@@ -800,6 +800,7 @@ public class FacturarAbonosFrame extends javax.swing.JFrame {
 
                     System.out.println(resultado);
                 }
+                
                 if (tipoFact.equals(3)) { // 1 Recibo por Mes
                     cni.setNroCpbte(x_comprobante);
                     Comprobante com = new Comprobante();

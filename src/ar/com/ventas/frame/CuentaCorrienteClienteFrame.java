@@ -1,20 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.frame;
 
 import ar.com.ventas.entities.Comprobante;
 import ar.com.ventas.entities.Consorcio;
 import ar.com.ventas.entities.CuentaCorrienteCliente;
 import ar.com.ventas.entities.Domicilio;
+import ar.com.ventas.entities.RcCo;
 import ar.com.ventas.entities.Recibo;
 import ar.com.ventas.entities.Rubro;
 import ar.com.ventas.estructuras.Constantes;
 import ar.com.ventas.main.MainFrame;
 import ar.com.ventas.services.ConsorcioService;
 import ar.com.ventas.services.CuentaCorrienteClienteService;
+import ar.com.ventas.services.RcCoService;
+import ar.com.ventas.services.ReciboService;
 import ar.com.ventas.util.UtilFrame;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -88,6 +86,7 @@ public class CuentaCorrienteClienteFrame extends javax.swing.JFrame {
         volverBtn = new javax.swing.JButton();
         excelBtn = new javax.swing.JButton();
         verCpbteBtn = new javax.swing.JButton();
+        eliminarReciboBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("CUENTA CORRIENTE POR CONSORCIO");
@@ -179,6 +178,13 @@ public class CuentaCorrienteClienteFrame extends javax.swing.JFrame {
             }
         });
 
+        eliminarReciboBtn.setText("ELIMINAR RECIBO");
+        eliminarReciboBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarReciboBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -215,6 +221,8 @@ public class CuentaCorrienteClienteFrame extends javax.swing.JFrame {
                         .addComponent(excelBtn)
                         .addGap(18, 18, 18)
                         .addComponent(verCpbteBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(eliminarReciboBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(volverBtn)))
                 .addContainerGap())
@@ -244,7 +252,8 @@ public class CuentaCorrienteClienteFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(volverBtn)
                     .addComponent(excelBtn)
-                    .addComponent(verCpbteBtn))
+                    .addComponent(verCpbteBtn)
+                    .addComponent(eliminarReciboBtn))
                 .addContainerGap())
         );
 
@@ -314,6 +323,10 @@ public class CuentaCorrienteClienteFrame extends javax.swing.JFrame {
         verCpbte();
     }//GEN-LAST:event_verCpbteBtnActionPerformed
 
+    private void eliminarReciboBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarReciboBtnActionPerformed
+        eliminarRecibo();
+    }//GEN-LAST:event_eliminarReciboBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -353,6 +366,7 @@ public class CuentaCorrienteClienteFrame extends javax.swing.JFrame {
     private javax.swing.JTextField alTxt;
     private javax.swing.JComboBox<String> combo;
     private javax.swing.JTextField deTxt;
+    private javax.swing.JButton eliminarReciboBtn;
     private javax.swing.JButton excelBtn;
     private javax.swing.JTextField filtroTxt;
     private javax.swing.JLabel jLabel1;
@@ -464,10 +478,10 @@ public class CuentaCorrienteClienteFrame extends javax.swing.JFrame {
                             o[6] = ru.getDetalle();
                         }
                     }
-                    if(tipo == 14){
+                    if (tipo == 14) {
                         cpbte += cc.getRecibo().getReferencia();
                     }
-                    if(tipo == 13){
+                    if (tipo == 13) {
                         cpbte += cc.getComprobante().getLetra() + " "
                                 + dfs.format(cc.getComprobante().getSucursal()) + "-"
                                 + dfn.format(cc.getComprobante().getNumero());
@@ -550,7 +564,7 @@ public class CuentaCorrienteClienteFrame extends javax.swing.JFrame {
             vcf.setVisible(true);
             this.dispose();
         }
-        if (tipo.equals(14)){
+        if (tipo.equals(14)) {
             Recibo r = cc.getRecibo();
             VerComprobante2Frame vcf = new VerComprobante2Frame(r, co, de, al);
             vcf.setVisible(true);
@@ -588,6 +602,70 @@ public class CuentaCorrienteClienteFrame extends javax.swing.JFrame {
             combo.setSelectedIndex(pos);
             llenarTabla();
             filtroTxt.requestFocus();
+        }
+    }
+
+    private void eliminarRecibo() {
+        int row = tabla.getSelectedRow();
+        int rows = tabla.getSelectedRowCount();
+        if (rows > 1) {
+            JOptionPane.showMessageDialog(this, "SELECCIONE SOLO UN RECIBO");
+            return;
+        }
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "SELECCIONE UN RECIBO PARA ELIMINAR");
+            return;
+        }
+        int a = JOptionPane.showConfirmDialog(this, "CONFIRMA ELIMINAR RECIBO?", "Atención CONFIRME OPERACIÓN!", JOptionPane.YES_NO_OPTION);
+        if (a == 0) {
+            CuentaCorrienteCliente cc = ccc.get(row);
+            if (cc.getTipoComprobante().equals(14)) {
+                Consorcio cons = cc.getConsorcio();
+                Recibo re = cc.getRecibo();
+                RcCo rc_co = null;
+                try {
+                    rc_co = new RcCoService().getReciboByRecibo(re);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "ERROR NRO.629 COMPROBANTE NO REGISTRADO");
+                    return;
+                }
+                Double saldo = cons.getSaldo();
+                Double importe = re.getImporte();
+                saldo += importe;
+                cons.setSaldo(saldo);
+                try {
+                    new ConsorcioService().updateConsorcio(cons);
+                    new RcCoService().deleteRecibo(rc_co);
+                    new CuentaCorrienteClienteService().deleteCuentaCorrienteCliente(cc);
+                    new ReciboService().deleteRecibo(re);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "ERROR REGISTRANDO MOVIMIENTO");
+                    return;
+                }
+                List<CuentaCorrienteCliente> cuenta = null;
+                try {
+                    cuenta = new CuentaCorrienteClienteService().getCuentaCorrienteClienteByCliente(cons);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "ERROR NRO. 645");
+                    return;
+                }
+                saldo = 0.0;
+                if (cuenta != null && !cuenta.isEmpty()) {
+                    for (CuentaCorrienteCliente cue : cuenta) {
+                        Double resu = cue.getDebe() - cue.getHaber();
+                        saldo += resu;
+                        cue.setSaldo(saldo);
+                        try {
+                            new CuentaCorrienteClienteService().updateCuentaCorrienteCliente(cue);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(this, "ERROR 657");
+                            return;
+                        }
+                    }
+                }
+                JOptionPane.showMessageDialog(this, "ELIMINADO");
+                volver();
+            }
         }
     }
 }

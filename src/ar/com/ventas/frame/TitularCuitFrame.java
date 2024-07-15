@@ -798,6 +798,9 @@ public class TitularCuitFrame extends javax.swing.JFrame {
             titular.setUltimoNroNcC(0);
             titular.setUltimoNroPp(0);
             titular.setUltimoNroRc(0);
+//            System.out.println(o);
+//            System.out.println(activo);
+//            System.exit(0);
             try {
                 if (o == 1) {
                     titular = new TitularCuitService().updateTitularCuit(titular);

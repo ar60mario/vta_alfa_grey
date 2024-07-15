@@ -26,6 +26,18 @@ public class ReciboService {
         }
         return recibo;
     }
+    
+    public void deleteRecibo(Recibo recibo) throws Exception {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            new ReciboBO().deleteRecibo(recibo);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+    }
 
     public void eliminarReciboCompleto(Recibo re, Consorcio co, RcCo rcCo, 
             CuentaCorrienteCliente cc, Comprobante cmp) throws Exception {

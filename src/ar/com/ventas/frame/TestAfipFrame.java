@@ -292,12 +292,15 @@ public class TestAfipFrame extends javax.swing.JFrame {
             String cui = titular.getCuit();
             String cuit = cui.substring(0, 2) + cui.substring(3, 11) + cui.substring(12, 13);
             String nroComp;
+            System.out.println(cuit);
             String pVta = titular.getSucursal().toString();
             Integer tipoInscrip = titular.getTipoInscipcion();
+//            System.exit(0);
             if (tipoInscrip == 6) {
                 nroComp = "11";
             } else {
                 nroComp = "6";
+                
             }
             try {
                 LibraryLoader.loadJacobLibrary();
@@ -339,7 +342,7 @@ public class TestAfipFrame extends javax.swing.JFrame {
                         new Variant(cache),
                         new Variant(wsdl)
                 );
-                String tipo_cbte = "1";
+                String tipo_cbte = "11";
                 tipo_cbte = nroComp; //Factura C
                 String pto_vta = pVta; // Sucursal declarada WS
                 Variant ult = Dispatch.call(wsfev1, "CompUltimoAutorizado",
@@ -357,12 +360,10 @@ public class TestAfipFrame extends javax.swing.JFrame {
             } catch (Exception e) {
 //                JOptionPane.showMessageDialog(this, e);
 //                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "VERIFIQUE LOS CERTIFICADOS");
-                return;
+                JOptionPane.showMessageDialog(this, "VERIFIQUE LOS CERTIFICADOS_2");
             }
         } else {
             JOptionPane.showMessageDialog(this, "VERIFIQUE LOS CERTIFICADOS");
-            return;
         }
     }
 
