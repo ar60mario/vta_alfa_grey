@@ -527,7 +527,7 @@ public class NuevoAbonoFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void volver() {
-        AbmAbonosFrame mf = new AbmAbonosFrame();
+        AbmAbonosFrame mf = new AbmAbonosFrame(null, null, null, null);
         mf.setVisible(true);
         this.dispose();
     }

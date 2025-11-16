@@ -12,10 +12,6 @@ import org.hibernate.criterion.Restrictions;
 import java.util.List;
 import org.hibernate.criterion.Order;
 
-/**
- *
- * @author Mar y Mar Informatica
- */
 public class ComprobanteDAO extends GenericDAO {
 
     public List<Comprobante> getComprobantesEntrFechas(Date de, Date al) {
@@ -129,6 +125,24 @@ public class ComprobanteDAO extends GenericDAO {
         return (List<Comprobante>) criteria.list();
     }
 
+    public List<Comprobante> getComprobantesActivosReparacionParaRenovarByRubro(Rubro rubro) {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Criteria criteria = session.createCriteria(Comprobante.class);
+        criteria.add(Restrictions.eq("periodoHabilitado", false));
+        criteria.add(Restrictions.eq("cuotaSiguienteFacturada", false));
+        criteria.add(Restrictions.eq("rubro", rubro));
+        criteria.add(Restrictions.neProperty("cuotasPagadas", "cantidadCuotas"));
+//        criteria.add(Restrictions.and(Restrictions.eq("tipoEmision", 4),
+//        criteria.add(Restrictions.and(
+//                (Restrictions.eq("periodoHabilitado", false)),
+//                (Restrictions.eq("cuotaSiguienteFacturada", false)),
+//                (Restrictions.eq("rubro", rubro)),
+//                Restrictions.neProperty("cuotasPagadas", "cantidadCuotas")));
+        criteria.addOrder(Order.asc("calleNroPisoDtoCliente"));
+        criteria.addOrder(Order.asc("fecha"));
+        return (List<Comprobante>) criteria.list();
+    }
+
     public List<Comprobante> getComprobantesActivosReparacionParaRenovar2() {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Comprobante.class);
@@ -152,7 +166,7 @@ public class ComprobanteDAO extends GenericDAO {
         criteria.addOrder(Order.asc("calleNroPisoDtoCliente"));
         return (List<Comprobante>) criteria.list();
     }
-    
+
     public List<Comprobante> getComprobantesActivosReparacionCuotaSiguiente2() {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Comprobante.class);
@@ -199,6 +213,37 @@ public class ComprobanteDAO extends GenericDAO {
         criteria.add(Restrictions.eq("rubro", rubro));
         criteria.addOrder(Order.asc("calleNroPisoDtoCliente"));
         criteria.addOrder(Order.asc("fecha"));
+        criteria.addOrder(Order.asc("sucursal"));
+        criteria.addOrder(Order.asc("numero"));
+        return (List<Comprobante>) criteria.list();
+    }
+
+    public List<Comprobante> getComprobantesEntreFechasAndRubroOrdenConsoParaAsignarCuotaImporte(Date de, Date al,
+            Rubro rubro, Integer cuota, Double importe) {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Criteria criteria = session.createCriteria(Comprobante.class);
+        criteria.add(Restrictions.between("fecha", de, al));
+        criteria.add(Restrictions.eq("cuitCliente", "00-00000000-0"));
+        criteria.add(Restrictions.eq("original", true));
+        criteria.add(Restrictions.eq("cuotasPagadas", cuota));
+        criteria.add(Restrictions.eq("total", importe));
+        criteria.add(Restrictions.eq("rubro", rubro));
+        criteria.addOrder(Order.asc("calleNroPisoDtoCliente"));
+        criteria.addOrder(Order.asc("sucursal"));
+        criteria.addOrder(Order.asc("numero"));
+        return (List<Comprobante>) criteria.list();
+    }
+
+    public List<Comprobante> getComprobantesEntreFechasAndRubroOrdenConsoParaAsignarImporte(Date de, Date al, 
+            Rubro rubro, Double importe) {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Criteria criteria = session.createCriteria(Comprobante.class);
+        criteria.add(Restrictions.between("fecha", de, al));
+        criteria.add(Restrictions.eq("cuitCliente", "00-00000000-0"));
+        criteria.add(Restrictions.eq("original", true));
+        criteria.add(Restrictions.eq("total", importe));
+        criteria.add(Restrictions.eq("rubro", rubro));
+        criteria.addOrder(Order.asc("calleNroPisoDtoCliente"));
         criteria.addOrder(Order.asc("sucursal"));
         criteria.addOrder(Order.asc("numero"));
         return (List<Comprobante>) criteria.list();
@@ -393,16 +438,29 @@ public class ComprobanteDAO extends GenericDAO {
         return facturas;
     }
 
+    public List<Comprobante> getAllComprobantesMasterByRubroAndFechas(Rubro rubro, Date de, Date al) {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        List<Comprobante> facturas = null;
+        Criteria criteria = session.createCriteria(Comprobante.class);
+        criteria.add(Restrictions.between("fecha", de, al));
+        criteria.add(Restrictions.eq("original", true));
+        criteria.add(Restrictions.eq("rubro", rubro));
+        facturas = (List<Comprobante>) criteria.list();
+        return facturas;
+    }
+
     public Comprobante getComprByNroSucAndTipo(Integer numero, Integer suc, Integer tipo) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Comprobante factura = null;
-        factura = (Comprobante) session.createCriteria(Comprobante.class)
-                .add(Restrictions.eq("numero", numero))
-                .add(Restrictions.eq("sucursal", suc))
-                .add(Restrictions.eq("codigoComprobante", tipo))
-                .add(Restrictions.eq("original", true))
-                //.addOrder(Order.asc("numero"))
-                .uniqueResult();
+        factura
+                = (Comprobante) session.createCriteria(Comprobante.class
+                )
+                        .add(Restrictions.eq("numero", numero))
+                        .add(Restrictions.eq("sucursal", suc))
+                        .add(Restrictions.eq("codigoComprobante", tipo))
+                        .add(Restrictions.eq("original", true))
+                        //.addOrder(Order.asc("numero"))
+                        .uniqueResult();
 //        System.out.println(factura);
         return factura;
     }
@@ -429,7 +487,8 @@ public class ComprobanteDAO extends GenericDAO {
 //    }
     public List<Comprobante> getComprobanteByNroAndTitular(Integer numero, String cuitTitular, Long idAdmin) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
-        Criteria criteria = session.createCriteria(Comprobante.class);
+        Criteria criteria = session.createCriteria(Comprobante.class
+        );
         criteria.add(Restrictions.eq("numero", numero));
         criteria.add(Restrictions.eq("cuitTitular", cuitTitular));
         criteria.add(Restrictions.eq("codigoComprobante", 11));

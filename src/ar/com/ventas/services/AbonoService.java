@@ -13,10 +13,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-/**
- *
- * @author Mario
- */
+
 public class AbonoService {
 
     public List<Abono> getAllAbonosActivosOrdenado() throws Exception {
@@ -75,6 +72,20 @@ public class AbonoService {
         return abonos;
     }
 
+    public List<Abono> getAbonosActivosOrdenadoByRubroFumigacion(Rubro rubro) throws Exception {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        List<Abono> abonos = null;
+        try {
+            abonos = new AbonoBO().getAbonosActivosOrdenadoByRubroFumigacion(rubro);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+        return abonos;
+    }
+    
     public List<Abono> getAllAbonosInactivosOrdenadoByRubro(Rubro rubro) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();

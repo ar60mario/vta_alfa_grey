@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.entities;
 
 import java.util.Date;
 
-/**
- *
- * @author Mario
- */
+
 public class Abono {
 
     private Long id;
@@ -30,9 +22,11 @@ public class Abono {
     private Integer original;
     private TitularCuit titular;
     private Rubro rubro;
-
+    private Boolean leToca;
 
     /*
+    leToca, mes por medio etc
+    
     frecuencia
     1- todos los meses
     2- mes por medio
@@ -59,7 +53,7 @@ public class Abono {
     public Abono(Long id, Integer codigo, Date fechaInicio, Date fechaPeriodo, Boolean activo,
             Boolean renovado, Boolean pendiente, Double importe, Integer cuotas, Integer cuotaFacturada,
             Integer frecuencia, Integer tipoFacturacion, Consorcio consorcio,
-            Rubro rubro, Integer textoPeriodo, TitularCuit titular, Integer original) {
+            Rubro rubro, Integer textoPeriodo, TitularCuit titular, Integer original, Boolean leToca) {
         this.id = id;
         this.codigo = codigo;
         this.fechaInicio = fechaInicio;
@@ -77,6 +71,7 @@ public class Abono {
         this.original = original;
         this.titular = titular;
         this.textoPeriodo = textoPeriodo;
+        this.leToca = leToca;
     }
 
     public Long getId() {
@@ -215,4 +210,12 @@ public class Abono {
         this.textoPeriodo = textoPeriodo;
     }
 
+    public Boolean getLeToca() {
+        return leToca;
+    }
+
+    public void setLeToca(Boolean leToca) {
+        this.leToca = leToca;
+    }
+    
 }

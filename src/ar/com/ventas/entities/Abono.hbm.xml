@@ -20,6 +20,7 @@
         <property name="tipoFacturacion" type="integer" column="TIPO_FACTURACION"/>
         <property name="textoPeriodo" type="integer" column="TEXTO_PERIODO"/>
         <property name="original" type="integer" column="ORIGINAL"/>
+        <property name="leToca" type="boolean" column="LE_TOCA"/>
         <many-to-one name="consorcio"
                      class="ar.com.ventas.entities.Consorcio"
                      lazy="false">

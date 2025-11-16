@@ -23,6 +23,18 @@ public class ComprobanteRenglonesService {
         return renglon;
     }
     
+    public void deleteRenglon(ComprobanteRenglones renglon) throws Exception {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            new ComprobanteRenglonesBO().deleteRenglon(renglon);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+    }
+    
     public ComprobanteRenglones updateRenglon(ComprobanteRenglones renglon) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();

@@ -51,6 +51,18 @@ public class ComprobanteService {
         return comprobante;
     }
 
+    public void deleteComprobante(Comprobante comprobante) throws Exception {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            new ComprobanteBO().deleteComprobante(comprobante);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+    }
+
     public void updateListaComprobantes(List<Comprobante> comprobantes) throws Exception {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -274,7 +286,7 @@ public class ComprobanteService {
         }
         return comprobantes;
     }
-    
+
     public List<Comprobante> getComprobantesActivosReparacionCuotaSiguiente2() throws Exception {
         List<Comprobante> comprobantes = null;
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
@@ -303,14 +315,28 @@ public class ComprobanteService {
         return comprobantes;
     }
 
+    public List<Comprobante> getComprobantesActivosReparacionParaRenovarByRubro(Rubro rubro) throws Exception {
+        List<Comprobante> comprobantes = null;
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            comprobantes = new ComprobanteBO().getComprobantesActivosReparacionParaRenovarByRubro(rubro);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+
     public List<Comprobante> getComprobEntrFechasIgualImporteIgualCuotaIgualRubro(Date de, Date al,
-             Double imp, Integer cuo, Rubro ru) throws Exception {
+            Double imp, Integer cuo, Rubro ru) throws Exception {
         List<Comprobante> comprobantes = null;
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         try {
             comprobantes = new ComprobanteBO().getComprobEntrFechasIgualImporteIgualCuotaIgualRubro(de, al,
-                     imp, cuo, ru);
+                    imp, cuo, ru);
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
@@ -353,6 +379,41 @@ public class ComprobanteService {
         Transaction tx = session.beginTransaction();
         try {
             comprobantes = new ComprobanteBO().getComprobantesEntrFechasOrdenConsoParaAsignar(de, al);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+
+    public List<Comprobante> getComprobantesEntreFechasAndRubroOrdenConsoParaAsignarImporte(Date de, Date al,
+            Rubro rubro, Double importe) throws Exception {
+        List<Comprobante> comprobantes = null;
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            comprobantes = new ComprobanteBO()
+                    .getComprobantesEntreFechasAndRubroOrdenConsoParaAsignarImporte(de,
+                            al, rubro, importe);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+
+    public List<Comprobante> getComprobantesEntrFechasAndRubroOrdenConsoParaAsignarCuotaImporte(Date de, Date al,
+            Rubro rubro, Integer cuota, Double importe) throws Exception {
+        List<Comprobante> comprobantes = null;
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            comprobantes = new ComprobanteBO()
+                    .getComprobantesEntreFechasAndRubroOrdenConsoParaAsignarCuotaImporte(de,
+                   //getComprobantesEntreFechasAndRubroOrdenConsoParaAsignarCuotaImporte
+                            al, rubro, cuota, importe);
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
@@ -519,6 +580,8 @@ public class ComprobanteService {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         try {
+            System.out.println(consorcio.getDomicilio().getCalle());
+            System.out.println(rubro.getDetalle());
             comprobante = new ComprobanteBO().getComprobantesByConsorcioAndRubro(consorcio, rubro);
             tx.commit();
         } catch (Exception ex) {
@@ -562,6 +625,20 @@ public class ComprobanteService {
         Transaction tx = session.beginTransaction();
         try {
             comprobantes = new ComprobanteBO().getAllComprobantesAsignadosPorIdOriginal(numero);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+
+    public List<Comprobante> getAllComprobantesMasterByRubroAndFechas(Rubro rubro, Date de, Date al) throws Exception {
+        List<Comprobante> comprobantes = null;
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            comprobantes = new ComprobanteBO().getAllComprobantesMasterByRubroAndFechas(rubro, de, al);
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();

@@ -37,15 +37,26 @@ public class AbmAbonosCanceladosFrame extends javax.swing.JFrame {
     private List<Rubro> rubros;
     private List<Administrador> administradores;
     private List<Abono> abonos = null;
+    private Integer row;
+    private Integer rowR;
+    private Integer rowA;
     private DecimalFormat df = new DecimalFormat("#0.00");
 
     /**
      * Creates new form AbmAbonosFrame
+     * @param rowR
+     * @param rowA
+     * @param row
+     * @param abonos
      */
-    public AbmAbonosCanceladosFrame() {
+    public AbmAbonosCanceladosFrame(Integer rowR, Integer rowA, Integer row, List<Abono> abonos) {
         initComponents();
         getContentPane().setBackground(new java.awt.Color(Constantes.getR(), Constantes.getG(), Constantes.getB()));
         this.setLocationRelativeTo(null);
+        this.abonos=abonos;
+        this.rowR=rowR;
+        this.rowA=rowA;
+        this.row=row;
 //        setExtendedState(6); // this.MAXIMIZED_BOTH
         llenarCombo();
     }
@@ -285,7 +296,7 @@ public class AbmAbonosCanceladosFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AbmAbonosCanceladosFrame().setVisible(true);
+                new AbmAbonosCanceladosFrame(null, null, null, null).setVisible(true);
             }
         });
     }
@@ -354,7 +365,7 @@ public class AbmAbonosCanceladosFrame extends javax.swing.JFrame {
             return;
         }
         Abono a = abonos.get(row);
-        ModificarAbonoFrame maf = new ModificarAbonoFrame(a);
+        ModificarAbonoFrame maf = new ModificarAbonoFrame(a, rowR, rowA, row, abonos);
         maf.setVisible(true);
         this.dispose();
     }

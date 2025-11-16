@@ -494,14 +494,10 @@ public class FacturasEntreFechasFrame extends javax.swing.JFrame {
             comprobantes = new ComprobanteService().getComprobantesEntrFechasOrdenConso(de, al);
         } catch (Exception ex) {
             Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "ERROR EN COMPROBANTES");
+            return;
         }
-//        } else {
-//            try {
-//                comprobantes = new ComprobanteService().getComprobantesEntreFechasSinPdf(de, al);
-//            } catch (Exception ex) {
-//                Logger.getLogger(FacturasEntreFechasFrame.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
+
         llenarTabla();
     }
 

@@ -65,6 +65,8 @@
                       <Component id="verCpbteBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="eliminarReciboBtn" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="eliminarComprobanteBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="volverBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -103,6 +105,7 @@
                   <Component id="excelBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="verCpbteBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="eliminarReciboBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="eliminarComprobanteBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -282,6 +285,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eliminarReciboBtnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="eliminarComprobanteBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="ELIMINAR COMPROBANTE ASG"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eliminarComprobanteBtnActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

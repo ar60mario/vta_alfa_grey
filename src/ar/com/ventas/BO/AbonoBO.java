@@ -55,6 +55,14 @@ public class AbonoBO {
         }
     }
 
+    public List<Abono> getAbonosActivosOrdenadoByRubroFumigacion(Rubro rubro) throws Exception {
+        try {
+            return dao.getAbonosActivosOrdenadoByRubroFumigacion(rubro);
+        } catch (HibernateException ex) {
+            throw new Exception(ex);
+        }
+    }
+    
     public List<Abono> getAllAbonosInactivosOrdenadoByRubro(Rubro rubro) throws Exception {
         try {
             return dao.getAllAbonosInactivosOrdenadoByRubro(rubro);

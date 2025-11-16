@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.frame;
 
 import ar.com.ventas.entities.Abono;
@@ -51,7 +46,10 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
 
     private List<Consorcio> consorcios;
     private Abono abono;
-//    private List<Consorcio> consosNuevos;
+    private Rubro rubro;
+    private Date de;
+    private Date al;
+    private List<Comprobante> comprobantes;
 //    private List<Abono> abonosConsosNuevos;
     private List<ConsorcioFactura> facturas;
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -94,6 +92,8 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
         importeAnteriorTxt = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         cuotaTxt = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        administradorTxt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("ASIGNAR FACTURA A CONSORCIO");
@@ -174,6 +174,10 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
         cuotaTxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         cuotaTxt.setText("cuota");
 
+        jLabel6.setText("ADMINISTRADOR:");
+
+        administradorTxt.setText("ADMINISTRADOR");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -197,19 +201,22 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(alTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(filtroTxt)
+                                    .addComponent(administradorTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE))
                                 .addGap(75, 75, 75)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(importeAnteriorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(cuotaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -224,19 +231,23 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(alTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(importeAnteriorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(asignarBtn)
-                    .addComponent(volverBtn)
+                    .addComponent(jLabel6)
+                    .addComponent(administradorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(cuotaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(asignarBtn)
+                    .addComponent(volverBtn))
                 .addContainerGap())
         );
 
@@ -269,7 +280,9 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
             String fe = alTxt.getText();
             int largo = fe.length();
             if (largo == 10) {
-                buscar();
+                //           buscar();
+                buscarFacturas();
+                //            99
             } else {
                 if (largo > 10) {
                     JOptionPane.showMessageDialog(this, "ERROR EN LARGO DE FECHA");
@@ -322,6 +335,7 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField administradorTxt;
     private javax.swing.JTextField alTxt;
     private javax.swing.JButton asignarBtn;
     private javax.swing.JTextField cuotaTxt;
@@ -333,6 +347,7 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
     private javax.swing.JButton volverBtn;
@@ -368,11 +383,12 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
 
             facturas = new ArrayList<>();
             for (Consorcio co : consorcios) {
-                List<Comprobante> comprobantes = null;
+                List<Comprobante> comprobantes;
                 try {
                     comprobantes = new ComprobanteService().getComprobantesEntreFechasByConsorcio(co, de, al);
                 } catch (Exception ex) {
-                    Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "ERROR 388 - COMPROBANTES");
+                    return;
                 }
                 if (comprobantes != null && !comprobantes.isEmpty()) {
                     for (Comprobante cm : comprobantes) {
@@ -388,18 +404,23 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
                 }
             }
             fillTabla(facturas);
+            // 99
         }
     }
 
     private void limpiarCampos() {
         deTxt.setText("");
         alTxt.setText("");
+        UtilFrame.limpiarTabla(tabla);
         filtroTxt.setText("");
         Domicilio dm = abono.getConsorcio().getDomicilio();
         String calle = dm.getCalle() + " " + dm.getNumero();
         filtroTxt.setText(calle);
         importeAnteriorTxt.setText(df.format(abono.getImporte()));
+        rubro = abono.getRubro();
         cuotaTxt.setText(df.format(abono.getImporte() / abono.getCuotas()));
+        administradorTxt.setText(abono.getConsorcio().getAdministrador().getRazonSocial());
+
     }
 
     private void asignar() {
@@ -408,6 +429,7 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "SELECCIONE UNA FACTURA PARA ASIGNAR");
             return;
         }
+        Comprobante compr0 = facturas.get(row0).getComprobante();
         int nroAbono = 0;
         try {
             nroAbono = new AbonoService().getCodigoSiguiente();
@@ -416,16 +438,43 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
             return;
         }
         nroAbono += 1;
-        Rubro rubro = abono.getRubro();
+        rubro = abono.getRubro();
         int cuotasNuevoAbono = abono.getCuotas();
-        Consorcio cons = facturas.get(row0).getConsorcio();
-        Consorcio consoNuevo = abono.getConsorcio();//combo
-        if (asignar(consoNuevo, rubro, cons)) {
-            JOptionPane.showMessageDialog(this, "YA EXISTE FACTURA ASIGNADA");
-            return;
+        //99
+        List<Comprobante> compr2 = null;
+        try {
+            compr2 = new ComprobanteService().getComprobantesEntrFechasAndRubro(de, al, rubro);
+        } catch (Exception ex) {
+            Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Administrador admNuevo = abono.getConsorcio().getAdministrador();// es el abono a renovar
+        Consorcio consoNuevo = abono.getConsorcio();// a renovar
+        if (compr2 != null && !compr2.isEmpty()) {
+            for (Comprobante conp : compr2) {
+                //String cuit_titu = conp.getCuitTitular();
+
+                Integer codigo = conp.getCodigoCliente();
+                Consorcio consr;
+                try {
+                    consr = new ConsorcioService().getConsorcioByCodigo(codigo);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "ERROR NRO.429 LEYENDO CONSORCIO");
+                    return;
+                }
+                Administrador adm = consr.getAdministrador();//administr del original
+                System.out.println(adm.getId());
+                System.out.println(admNuevo.getId());
+//                JOptionPane.showMessageDialog(this, "verificar");
+                if (adm.getId().equals(admNuevo.getId())) {
+                    if (conp.getId_original().equals(compr0.getId())) {
+                        JOptionPane.showMessageDialog(this, "YA EXISTE FACTURA ASIGNADA");
+                        return;
+                    }
+                }
+            }
         }
         Comprobante factura = facturas.get(row0).getComprobante();
-        Administrador admin = consoNuevo.getAdministrador();
+//        Administrador admin = consoNuevo.getAdministrador();
         TitularCuit titular = null;
         try {
             titular = new TitularCuitService().getTitularActivoByCuit(factura.getCuitTitular());
@@ -434,14 +483,14 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "ERROR EN TITULAR");
             return;
         }
-        Boolean existe;
-        existe = verificar(admin, factura);
-//        System.exit(0);
-        if (!existe) {
-            System.out.println(existe);
-            JOptionPane.showMessageDialog(this, "ERROR EXISTE ADMINISTRACION");
-            return;
-        }
+//        Boolean existe;
+//        existe = verificar(adm, factura);
+////        System.exit(0);
+//        if (!existe) {
+//            System.out.println(existe);
+//            JOptionPane.showMessageDialog(this, "ERROR EXISTE ADMINISTRACION");
+//            return;
+//        }
 //        int cuotaFacturada = abono.getCuotaFacturada();
         Comprobante cmpNuevo = new Comprobante();
 //        System.out.println(consorcio.getDomicilio().getCalle() + consorcio.getDomicilio().getNumero());
@@ -473,7 +522,7 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
         cmpNuevo.setLetraComprobanteAsociado(factura.getLetraComprobanteAsociado());
         cmpNuevo.setNumero(factura.getNumero());
         cmpNuevo.setNumeroComprobanteAsociado(factura.getNumeroComprobanteAsociado());
-        cmpNuevo.setOriginal(true);
+        cmpNuevo.setOriginal(false);
         cmpNuevo.setId_original(factura.getId());
         cmpNuevo.setPagado(0.0);
         cmpNuevo.setPdfGenerado(false);
@@ -530,7 +579,11 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
         for (RenglonAbono rea : rengA) {
             RenglonAbono ran2 = new RenglonAbono();
             ran2.setAbono(abono2);
-            ran2.setImporte(rea.getImporte());
+            if (rea.getImporte() > 0.0) {
+                ran2.setImporte(factura.getTotal());
+            } else {
+                ran2.setImporte(0.0);
+            }
             ran2.setOrden(rea.getOrden());
             ran2.setTexto(rea.getTexto());
             rengA2.add(ran2);
@@ -557,10 +610,10 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
         Double saldo = consoNuevo.getSaldo();
         saldo += factura.getTotal();
         consoNuevo.setSaldo(saldo);
-        AdministradorTitularCuitComprobante atcc = new AdministradorTitularCuitComprobante();
-        atcc.setAdministrador(admin);
-        atcc.setComprobante(factura);
-        atcc.setTitular(titular);
+//        AdministradorTitularCuitComprobante atcc = new AdministradorTitularCuitComprobante();
+//        atcc.setAdministrador(adm);
+//        atcc.setComprobante(factura);
+//        atcc.setTitular(titular);
         CuentaCorrienteCliente ccc = new CuentaCorrienteCliente();
         ccc.setComprobante(cmpNuevo);
         ccc.setConsorcio(consoNuevo);
@@ -576,7 +629,7 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
         af.setComprobante(factura);
         af.setTitular(titular);
         try {
-            new AdministradorTitularCuitComprobanteService().saveFactura(atcc);
+//            new AdministradorTitularCuitComprobanteService().saveFactura(atcc);
             new ConsorcioService().updateConsorcio(consoNuevo);
             cmpNuevo = new ComprobanteService().saveComprobante(cmpNuevo);
             ccc.setComprobante(cmpNuevo);
@@ -598,8 +651,8 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
             return;
         }
         JOptionPane.showMessageDialog(this, "ASIGNACION COMPLETADA CORRECTAMENTE");
-//        volver();
-        limpiarCampos();
+        volver();
+//        limpiarCampos();
     }
 
     private Boolean verificar(Administrador admin, Comprobante factura) {
@@ -666,6 +719,52 @@ public class AsignarFactura2Frame extends javax.swing.JFrame {
                 Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
             }
             return false;
+        }
+    }
+
+    private void buscarFacturas() {
+        comprobantes = null;
+        UtilFrame.limpiarTabla(tabla);
+//        Date de;
+//        Date al;
+        try {
+            de = sdf.parse(deTxt.getText());
+            al = sdf.parse(alTxt.getText());
+        } catch (ParseException ex) {
+            Logger.getLogger(AsignarFactura2Frame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "ERROR en FECHAS");
+            return;
+        }
+        try {
+            comprobantes = new ComprobanteService().getAllComprobantesMasterByRubroAndFechas(rubro, de, al);
+            //comprobantes = new ComprobanteService().getAllComprobantesMasterByRubro(rubro);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "ERROR BUSCANDO COMPROBANTES ORIGINALES BY RUBRO");
+            return;
+        }
+        if (comprobantes != null && !comprobantes.isEmpty()) {
+            facturas = new ArrayList<>();
+            for (Comprobante cm : comprobantes) {
+                if (cm.getOriginal() != null) {
+                    if (cm.getOriginal()) {
+                        ConsorcioFactura cnf = new ConsorcioFactura();
+                        Integer codigo = cm.getCodigoCliente();
+                        Consorcio consorcio = null;
+                        try {
+                            consorcio = new ConsorcioService().getConsorcioByCodigo(codigo);
+                        } catch (Exception ex) {
+                            continue;
+                        }
+                        cnf.setComprobante(cm);
+                        cnf.setConsorcio(consorcio);
+                        facturas.add(cnf);
+                    }
+                }
+            }
+            fillTabla(facturas);
+        } else {
+            System.out.println(comprobantes);
+            JOptionPane.showMessageDialog(this, "NO 2 HAY COMPROBANTES");
         }
     }
 }

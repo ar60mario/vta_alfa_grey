@@ -242,6 +242,7 @@ public class UtilFactura {
                 } else {
                     abono.setCuotaFacturada(1);
                 }
+                abono.setFechaPeriodo(da1);
                 abono.setPendiente(false);
                 try {
                     fc = new ComprobanteService().saveComprobante(fc);
@@ -627,7 +628,8 @@ public class UtilFactura {
 
     public static String saveFacturaVinculada(Consorcio cliente, Consorcio consorcioVinculado,
             Abono abono, List<RenglonAbono> renglones) {
-
+        System.out.println(abono.getConsorcio().getDomicilio().getCalle());
+//        System.exit(0);
         DecimalFormat df = new DecimalFormat("#0.00");
         Rubro rubro = abono.getRubro();
         Double calculoCuota = abono.getImporte() / abono.getCuotas();
@@ -759,7 +761,7 @@ public class UtilFactura {
             fc.setDomicilioTitular(dmT.getCalle() + " " + dmT.getNumero());
             fc.setFecha(ultFcConsQueSeFactura.getFecha());
             String textoP = "";
-            if (rubro.getCodigo().equals(3)) {
+            if (rubro.getCodigo().equals(4)) {
                 if (abono.getTextoPeriodo().equals(0)) {
                     textoP = UtilFrame.mesAnteriorEnLetras(new Date());
                 } else {
@@ -829,6 +831,7 @@ public class UtilFactura {
                 abono.setCuotaFacturada(1);
             }
             abono.setPendiente(false);
+            abono.setFechaPeriodo(ultFcConsQueSeFactura.getFecha());
             try {
                 fc = new ComprobanteService().saveComprobante(fc);
                 for (ComprobanteRenglones ra : renglonesFc) {

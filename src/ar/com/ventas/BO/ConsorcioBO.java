@@ -1,6 +1,3 @@
-/*
- * Aqui va toda la lógica de validaciones respecto a los Administradores.
- */
 package ar.com.ventas.BO;
 
 import ar.com.ventas.DAO.ConsorcioDAO;

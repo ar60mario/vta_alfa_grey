@@ -93,6 +93,22 @@ public class AbonoDAO extends GenericDAO {
         List<Abono> abono = (List<Abono>) criteria.list();
         return abono;
     }
+    
+    public List<Abono> getAbonosActivosOrdenadoByRubroFumigacion(Rubro rubro) {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Criteria criteria = session.createCriteria(Abono.class);
+        Criteria criteria1 = criteria.createCriteria("consorcio");
+        Criteria criteria3 = criteria1.createCriteria("domicilio");
+        Criteria criteria2 = criteria.createCriteria("rubro");
+        criteria.add(Restrictions.eq("activo", true));
+//        criteria.add(Restrictions.eq("leToca", true));
+        criteria.add(Restrictions.eq("rubro", rubro));
+        criteria3.addOrder(Order.asc("calle"));
+        criteria3.addOrder(Order.asc("numero"));
+        criteria2.addOrder(Order.asc("detalle"));
+        List<Abono> abono = (List<Abono>) criteria.list();
+        return abono;
+    }
 
     public List<Abono> getAllAbonosInactivosOrdenadoByRubro(Rubro rubro) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();

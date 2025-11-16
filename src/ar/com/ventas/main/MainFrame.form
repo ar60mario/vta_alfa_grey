@@ -242,7 +242,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="seguimientoCuotasMnu">
               <Properties>
-                <Property name="text" type="java.lang.String" value="SEGUIMIENTO CUOTAS"/>
+                <Property name="text" type="java.lang.String" value="Seguimiento Cuotas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="seguimientoCuotasMnuActionPerformed"/>
@@ -250,10 +250,18 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="modificacionTextoFacturaMnu">
               <Properties>
-                <Property name="text" type="java.lang.String" value="MODIFICACION TEXTO FACTURA"/>
+                <Property name="text" type="java.lang.String" value="Modificaci&#xf3;n Texto Factura"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificacionTextoFacturaMnuActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="accionesSobreFcReparacionesMnu">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Acciones sobre Facturas Reparaciones Entre Fechas"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accionesSobreFcReparacionesMnuActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

@@ -13,10 +13,6 @@ import java.util.List;
 import java.util.logging.Logger;
 import org.hibernate.HibernateException;
 
-/**
- *
- * @author Mar y Mar Informatica
- */
 public class ComprobanteBO {
 
     private final ComprobanteDAO dao = new ComprobanteDAO();
@@ -89,7 +85,7 @@ public class ComprobanteBO {
         } catch (HibernateException ex) {
             throw new Exception(ex);
         }
-        mes -=1;
+        mes -= 1;
         List<Comprobante> comprob = new ArrayList<>();
         if (comprobantes != null && !comprobantes.isEmpty()) {
             for (Comprobante c : comprobantes) {
@@ -146,6 +142,16 @@ public class ComprobanteBO {
         return comprobantes;
     }
 
+    public List<Comprobante> getComprobantesActivosReparacionParaRenovarByRubro(Rubro rubro) throws Exception {
+        List<Comprobante> comprobantes = null;
+        try {
+            comprobantes = dao.getComprobantesActivosReparacionParaRenovarByRubro(rubro);
+        } catch (HibernateException ex) {
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+    
     public List<Comprobante> getComprobEntrFechasIgualImporteIgualCuotaIgualRubro(Date de, Date al,
             Double imp, Integer cuo, Rubro ru) throws Exception {
         List<Comprobante> comprobantes = null;
@@ -181,6 +187,29 @@ public class ComprobanteBO {
         List<Comprobante> comprobantes = null;
         try {
             comprobantes = dao.getComprobantesEntrFechasOrdenConsoParaAsignar(de, al);
+        } catch (HibernateException ex) {
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+    
+    public List<Comprobante> getComprobantesEntreFechasAndRubroOrdenConsoParaAsignarCuotaImporte(Date de, Date al,
+            Rubro rubro, Integer cuota, Double importe) throws Exception {
+        List<Comprobante> comprobantes = null;
+        try {
+            comprobantes = dao.getComprobantesEntreFechasAndRubroOrdenConsoParaAsignarCuotaImporte(de, al, rubro, cuota, importe);
+        } catch (HibernateException ex) {
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+    
+    public List<Comprobante> getComprobantesEntreFechasAndRubroOrdenConsoParaAsignarImporte(Date de, Date al, 
+            Rubro rubro, Double importe) throws Exception {
+        List<Comprobante> comprobantes = null;
+        try {
+            comprobantes = dao.getComprobantesEntreFechasAndRubroOrdenConsoParaAsignarImporte(de, al,
+                    rubro, importe);
         } catch (HibernateException ex) {
             throw new Exception(ex);
         }
@@ -468,6 +497,16 @@ public class ComprobanteBO {
         List<Comprobante> comprobantes = null;
         try {
             comprobantes = dao.getAllComprobantesAsignadosPorIdOriginal(numero);
+        } catch (HibernateException ex) {
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+
+    public List<Comprobante> getAllComprobantesMasterByRubroAndFechas(Rubro rubro, Date de, Date al) throws Exception {
+        List<Comprobante> comprobantes = null;
+        try {
+            comprobantes = dao.getAllComprobantesMasterByRubroAndFechas(rubro, de, al);
         } catch (HibernateException ex) {
             throw new Exception(ex);
         }

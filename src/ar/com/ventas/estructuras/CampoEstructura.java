@@ -27,7 +27,8 @@ import javax.swing.JTextField;
 public enum CampoEstructura {
     FECHAENTREGADO(1, "FECHA DE ENTREGA") {
         @Override
-        public void cargarCampos(JTextField fecha2Txt, RenglonTrabajo renglon, int linP, List<Persona> personas, int linO, String caracteristicas) {
+        public void cargarCampos(JTextField fecha2Txt, RenglonTrabajo renglon, int linP, 
+                List<Persona> personas, int linO, String caracteristicas) {
             Date f;
             try {
                 f = sdf.parse(fecha2Txt.getText());

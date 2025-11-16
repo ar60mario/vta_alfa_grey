@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.DAO;
 
 import ar.com.ventas.entities.Administrador;
 import ar.com.ventas.entities.Consorcio;
+import ar.com.ventas.entities.Rubro;
 import ar.com.ventas.util.HibernateUtils;
 import org.hibernate.Session;
 import org.hibernate.Criteria;
@@ -30,7 +26,7 @@ public class ConsorcioDAO extends GenericDAO {
         criteria1.addOrder(Order.asc("numero"));
         return (List<Consorcio>) criteria.list();
     }
-    
+
     public List<Consorcio> getConsorciosActivosMaster() {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Consorcio.class);
@@ -54,7 +50,7 @@ public class ConsorcioDAO extends GenericDAO {
 //        criteria1.addOrder(Order.asc("calle"));
         return (List<Consorcio>) criteria.list();
     }
-    
+
     public List<Consorcio> getAllConsorciosInactivosByAdministrador(Administrador administrador) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Consorcio.class);
@@ -71,7 +67,7 @@ public class ConsorcioDAO extends GenericDAO {
         criteria.add(Restrictions.eq("id", idC));
         return (Consorcio) criteria.uniqueResult();
     }
-    
+
     public Consorcio getConsorcioByCodigo(Integer codigo) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Consorcio.class);
@@ -107,7 +103,7 @@ public class ConsorcioDAO extends GenericDAO {
         //criteria.addOrder(Order.asc("razonSocial"));
         return (List<Consorcio>) criteria.list();
     }
-    
+
     public List<Consorcio> getAllConsorciosInactivosByFiltro(String filtro) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Consorcio.class);
@@ -116,7 +112,7 @@ public class ConsorcioDAO extends GenericDAO {
         criteria1.add(Restrictions.like("calle", "%" + filtro + "%"));
         return (List<Consorcio>) criteria.list();
     }
-    
+
     public List<Consorcio> getAllConsorciosInactivosByNumero(String numero) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         Criteria criteria = session.createCriteria(Consorcio.class);
