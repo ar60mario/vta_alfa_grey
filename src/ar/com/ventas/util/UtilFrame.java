@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.com.ventas.util;
 
 import ar.com.ventas.entities.Comprobante;
@@ -47,10 +42,6 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Mario
- */
 public class UtilFrame {
 
     private static final DecimalFormat df_qr = new DecimalFormat("00000000");
@@ -96,6 +87,12 @@ public class UtilFrame {
         return lista;
     }
 
+    public static Double redondearDouble(Double importe) {
+        String resulta = df.format(importe);
+        Double resultado = Double.valueOf(resulta.replace(",", "."));
+        return resultado;
+    }
+    
     public static String crearQr(TitularCuit titular, Consorcio cliente, Comprobante iv) {
 
         String fecha = qr_sdf.format(iv.getFecha());

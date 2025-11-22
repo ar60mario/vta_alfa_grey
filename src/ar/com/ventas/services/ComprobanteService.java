@@ -359,6 +359,20 @@ public class ComprobanteService {
         return comprobantes;
     }
 
+    public List<Comprobante> getComprobantesEntreFechasOrdrConsorcio(Date de, Date al) throws Exception {
+        List<Comprobante> comprobantes = null;
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            comprobantes = new ComprobanteBO().getComprobantesEntreFechasOrdrConsorcio(de, al);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+    
     public List<Comprobante> getComprobantesEntrFechasOrdenConsoAndRubro(Date de, Date al, Rubro rubro) throws Exception {
         List<Comprobante> comprobantes = null;
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();

@@ -40,6 +40,7 @@ import ar.com.ventas.frame.DefinirCamposEstructuraFrame;
 import ar.com.ventas.frame.FacturaReparacionSeleccionFrame;
 import ar.com.ventas.frame.FacturarAbonos2Frame;
 import ar.com.ventas.frame.FacturasByConsorcioEntreFechasFrame;
+import ar.com.ventas.frame.FacturasByPeriodoAdminTitularOrigAsignFrame;
 import ar.com.ventas.frame.FacturasEntreFechas2Frame;
 import ar.com.ventas.frame.FacturasEntreFechasFrame;
 import ar.com.ventas.frame.FacturasTerceroFrame;
@@ -223,6 +224,7 @@ public class MainFrame extends javax.swing.JFrame {
         comprobantesPorTitularMnu = new javax.swing.JMenuItem();
         asignadasAndOriginalesMnu = new javax.swing.JMenuItem();
         abonosNoConsecutivosMnu = new javax.swing.JMenuItem();
+        facturasByPeriodoByAdminTitOrigAsigMnu = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         versionMnu = new javax.swing.JMenuItem();
 
@@ -811,6 +813,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu4.add(abonosNoConsecutivosMnu);
 
+        facturasByPeriodoByAdminTitOrigAsigMnu.setText("Fc Por Período Por Administración Tit, Orig/Asig");
+        facturasByPeriodoByAdminTitOrigAsigMnu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                facturasByPeriodoByAdminTitOrigAsigMnuActionPerformed(evt);
+            }
+        });
+        jMenu4.add(facturasByPeriodoByAdminTitOrigAsigMnu);
+
         jMenuBar1.add(jMenu4);
 
         jMenu2.setText("?");
@@ -1297,6 +1307,10 @@ public class MainFrame extends javax.swing.JFrame {
         accionesSobreFcReparaciones();
     }//GEN-LAST:event_accionesSobreFcReparacionesMnuActionPerformed
 
+    private void facturasByPeriodoByAdminTitOrigAsigMnuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturasByPeriodoByAdminTitOrigAsigMnuActionPerformed
+        facturasByPeriodoAdminTitOrigAsig();
+    }//GEN-LAST:event_facturasByPeriodoByAdminTitOrigAsigMnuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1370,6 +1384,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton facturaTercerosBtn;
     private javax.swing.JButton facturarAbonosBtn;
     private javax.swing.JMenuItem facturasByConsorcioEntreFechasMnu;
+    private javax.swing.JMenuItem facturasByPeriodoByAdminTitOrigAsigMnu;
     private javax.swing.JMenuItem facturasEntreFechasMnu;
     private javax.swing.JTextField fechaTxt;
     private javax.swing.JButton go2Btn;
@@ -1893,6 +1908,12 @@ public class MainFrame extends javax.swing.JFrame {
     private void accionesSobreFcReparaciones() {
         AccionesSobreFcReparacionesFrame asfrf = new AccionesSobreFcReparacionesFrame();
         asfrf.setVisible(true);
+        this.dispose();
+    }
+
+    private void facturasByPeriodoAdminTitOrigAsig() {
+        FacturasByPeriodoAdminTitularOrigAsignFrame fbpatoaf = new FacturasByPeriodoAdminTitularOrigAsignFrame();
+        fbpatoaf.setVisible(true);
         this.dispose();
     }
 }

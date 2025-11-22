@@ -205,6 +205,14 @@ public class ComprobanteDAO extends GenericDAO {
         criteria.addOrder(Order.asc("numero"));
         return (List<Comprobante>) criteria.list();
     }
+    
+    public List<Comprobante> getComprobantesEntreFechasOrdrConsorcio(Date de, Date al) {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Criteria criteria = session.createCriteria(Comprobante.class);
+        criteria.add(Restrictions.between("fecha", de, al));
+        criteria.addOrder(Order.asc("calleNroPisoDtoCliente"));
+        return (List<Comprobante>) criteria.list();
+    }
 
     public List<Comprobante> getComprobantesEntrFechasOrdenConsoAndRubro(Date de, Date al, Rubro rubro) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();

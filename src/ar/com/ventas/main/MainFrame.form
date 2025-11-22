@@ -391,6 +391,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="abonosNoConsecutivosMnuActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="facturasByPeriodoByAdminTitOrigAsigMnu">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Fc Por Per&#xed;odo Por Administraci&#xf3;n Tit, Orig/Asig"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="facturasByPeriodoByAdminTitOrigAsigMnuActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu2">

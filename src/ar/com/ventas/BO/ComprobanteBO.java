@@ -173,6 +173,16 @@ public class ComprobanteBO {
         return comprobantes;
     }
 
+    public List<Comprobante> getComprobantesEntreFechasOrdrConsorcio(Date de, Date al) throws Exception {
+        List<Comprobante> comprobantes = null;
+        try {
+            comprobantes = dao.getComprobantesEntreFechasOrdrConsorcio(de, al);
+        } catch (HibernateException ex) {
+            throw new Exception(ex);
+        }
+        return comprobantes;
+    }
+    
     public List<Comprobante> getComprobantesEntrFechasOrdenConsoAndRubro(Date de, Date al, Rubro rubro) throws Exception {
         List<Comprobante> comprobantes = null;
         try {

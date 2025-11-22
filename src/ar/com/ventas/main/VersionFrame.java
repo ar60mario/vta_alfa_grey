@@ -6,13 +6,7 @@ public class VersionFrame extends javax.swing.JFrame {
 
     public VersionFrame() {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(Constantes.getR(), Constantes.getG(),
-                Constantes.getB()));
-//        setExtendedState(this.MAXIMIZED_BOTH);
-        this.setLocationRelativeTo(null);
-        String ver = "OCTUBRE 1 de 2025-b";
-        versionTxt.setText(ver);
-        volverBtn.requestFocus();
+        limpiarCampos();
     }
 
     
@@ -118,5 +112,15 @@ public class VersionFrame extends javax.swing.JFrame {
         MainFrame mf = new MainFrame();
         mf.setVisible(true);
         this.dispose();
+    }
+
+    private void limpiarCampos() {
+        getContentPane().setBackground(new java.awt.Color(Constantes.getR(), Constantes.getG(),
+                Constantes.getB()));
+//        setExtendedState(this.MAXIMIZED_BOTH);
+        this.setLocationRelativeTo(null);
+        String ver = "NOVIEMBRE 22 de 2025-a";
+        versionTxt.setText(ver);
+        volverBtn.requestFocus();
     }
 }
